@@ -12,7 +12,15 @@ module.exports = {
 
 	//Create User from new.ejs form all form params sent to create function
 	create: function(req,res,next){
-		User.create(req.params.all(), function userCreated(err,user){
+		var userObj = {
+			firstname: req.param('firstname'),
+			lastname: req.param('lastname'),
+			email: req.param('email'),
+			password: req.param('password'),
+			confirmation: req.param('confirmation')
+		};
+		
+		User.create(userObj, function userCreated(err,user){
 			//if there is an error return it
 			if(err){
 				console.log(err);
@@ -62,7 +70,21 @@ module.exports = {
 	},
 	//Update the User from edit page
 	update: function(req, res, next){
-		User.update(req.param('id'), req.params.all(), function userUpdated(err){
+		if(req.session.User.admin){
+			var userObj = {
+				firstname: req.param('firstname'),
+				lastname: req.param('lastname'),
+				email: req.param('email'),
+				admin: req.param('admin')
+			};
+		}else{
+			var userObj = {
+				firstname: req.param('firstname'),
+				lastname: req.param('lastname'),
+				email: req.param('email')
+			};
+		}
+		User.update(req.param('id'), userObj, function userUpdated(err){
 			if(err){
 				return res.redirect('/user/edit/' + req.param('id'));
 			}
