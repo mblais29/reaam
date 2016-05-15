@@ -1,37 +1,40 @@
 <div class="container">
 	<h3>Users</h3>
-	<table>
-		<tr>
-			<th>ID</th>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Email</th>
-			<th></th>
-			<th></th>
-			<th></th>
-		</tr>
-		
-		<% _.each(users, function(user){ %>
-		<tr data-id="<%= user.id %>" data-model="user">
-			<td><%= user.id %></td>
-			<td><%= user.firstname %></td>
-			<td><%= user.lastname %></td>
-			<td><%= user.email %></td>
-			<% if(user.admin) { %>
-				<td><span class="glyphicon glyphicon-eye-open"></span></td>
-			<% } else { %>
-				<td><span class="glyphicon glyphicon-eye-close"></span></td>
-			<% } %>
-			<td><a href="/user/show/<%= user.id %>" class="btn btn-sm btn-primary">Show</td>
-			<td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</td>
-			<td>
-				<form action="/user/destroy/<%= user.id %>" method="POST">
-					<input type="hidden" name="_method" value="delete" />
-					<input type="submit" class="btn btn-sm btn-danger" value="Delete" />
-					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-				</form>
-			</td>
-		</tr>
-		<% }) %>
+	<table class="user-table" data-filter="#filter">
+		<thead>
+			<tr id="user-header">
+				<th>ID</th>
+				<th data-sort-initial="descending" data-class="expand">First Name</th>
+				<th>Last Name</th>
+				<th data-hide="phone,tablet">Email</th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% _.each(users, function(user){ %>
+			<tr id="user-records" data-id="<%= user.id %>" data-model="user">
+				<td><%= user.id %></td>
+				<td><%= user.firstname %></td>
+				<td><%= user.lastname %></td>
+				<td><%= user.email %></td>
+				<% if(user.admin) { %>
+					<td><span class="glyphicon glyphicon-eye-open"></span></td>
+				<% } else { %>
+					<td><span class="glyphicon glyphicon-eye-close"></span></td>
+				<% } %>
+				<td class="user-actions"><a href="/user/show/<%= user.id %>" class="btn btn-sm btn-primary">Show</td>
+				<td class="user-actions"><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</td>
+				<td class="user-actions">
+					<form action="/user/destroy/<%= user.id %>" method="POST">
+						<input type="hidden" name="_method" value="delete" />
+						<input type="submit" class="btn btn-sm btn-danger" value="Delete" />
+						<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+					</form>
+				</td>
+			</tr>
+			<% }) %>
+		</tbody>
 	</table>
 </div>

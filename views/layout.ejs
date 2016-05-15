@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%=typeof title == 'undefined' ? 'New Sails App' : title%></title>
+    <title><%=typeof title == 'undefined' ? 'Real Estate & Asset Management' : title%></title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -33,12 +33,14 @@
     <link rel="stylesheet" href="/styles/bootstrap/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/styles/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/styles/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/footable/footable.bootstrap.css">
+    <link rel="stylesheet" href="/styles/footable/footable.bootstrap.min.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
   </head>
 
   <body>
-  	<div class="navbar-right">
+  	<div class="navbar-right" style="margin-right: 15px">
   		<% if(session.authenticated) { %>
   			<a class="btn btn-default navbar-btn btn-right" href="/session/destroy">Sign-out</a>
   		<% } %>
@@ -101,6 +103,9 @@
     <script src="/js/dependencies/jquery.min.js"></script>
     <script src="/js/dependencies/jquery.validate.min.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/footable/footable.js"></script>
+    <script src="/js/footable/footable.min.js"></script>
+    <script src="/js/global/map/map.js"></script>
     <script src="/js/global/signupValidate/signupValidate.js"></script>
     <!--SCRIPTS END-->
   </body>

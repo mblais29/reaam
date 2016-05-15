@@ -57,6 +57,9 @@ module.exports = {
 				users: users
 			});
 		});
+		/*$(function() {
+	      $('.user-table').footable();
+	    });*/
 	},
 	//Edit User
 	edit: function(req, res, next){
