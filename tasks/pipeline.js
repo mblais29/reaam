@@ -31,6 +31,8 @@ var jsFilesToInject = [
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/jquery.min.js',
   'js/dependencies/jquery.validate.min.js',
+  '/js/dependencies/leaflet/leaflet-src.js',
+  '/js/dependencies/leaflet/leaflet.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.

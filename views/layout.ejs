@@ -36,15 +36,20 @@
     <link rel="stylesheet" href="/styles/footable/footable.bootstrap.css">
     <link rel="stylesheet" href="/styles/footable/footable.bootstrap.min.css">
     <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/leaflet/leaflet.css">
+    <link rel="stylesheet" href="/styles/leaflet/leaflet.groupedlayercontrol.css">
     <!--STYLES END-->
   </head>
 
   <body>
-  	<div class="navbar-right" style="margin-right: 15px">
-  		<% if(session.authenticated) { %>
-  			<a class="btn btn-default navbar-btn btn-right" href="/session/destroy">Sign-out</a>
-  		<% } %>
-  	</div>
+  <% if(session.authenticated) { %>
+	  <nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
+	      <a class="navbar-brand" href="#">Project name</a>
+	        <div class="navbar-right" style="margin-right: 15px">
+	  			<a class="btn btn-default navbar-btn btn-right" href="/session/destroy">Sign-out</a>
+	  		</div>
+	  </nav>
+  <% } %>
     <%- body %>
 
 
@@ -102,7 +107,12 @@
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/js/dependencies/jquery.min.js"></script>
     <script src="/js/dependencies/jquery.validate.min.js"></script>
+    <script src="/js/dependencies/leaflet/leaflet-src.js"></script>
+    <script src="/js/dependencies/leaflet/leaflet.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/dependencies/leaflet/Google.js"></script>
+    <script src="/js/dependencies/leaflet/leaflet-google.js"></script>
+    <script src="/js/dependencies/leaflet/leaflet.groupedlayercontrol.js"></script>
     <script src="/js/footable/footable.js"></script>
     <script src="/js/footable/footable.min.js"></script>
     <script src="/js/global/map/map.js"></script>
