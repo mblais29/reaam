@@ -50,16 +50,13 @@ module.exports = {
 	//List of Users page
 	index: function(req, res, next){
 		//console.log(new Date());
-		//console.log(req.session.authenticated);
+		//console.log(req.session);
 		User.find(function foundUsers(err,users){
 			if(err) return next(err);
 			res.view({
 				users: users
 			});
 		});
-		/*$(function() {
-	      $('.user-table').footable();
-	    });*/
 	},
 	//Edit User
 	edit: function(req, res, next){

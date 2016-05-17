@@ -1,4 +1,4 @@
-<div id="wrapper">
+<div id="wrapper-login">
 	<form action="/session/create" method="POST" class="form-signin" id="login_form">
 		<!--- <h2 class="form-signin-heading">Please Sign In.....</h2> --->
 		<div id="login-header">
@@ -15,6 +15,8 @@
 		<input type="text" class="form-control login-input" placeholder="Email address" name="email"> 
 		<input type="password" class="form-control login-input" placeholder="Password" name="password">
 		<input type="submit" id="login-submit" class="btn btn-lg btn-primary btn-block" value="Sign In">
+		<a id="login-register" class="btn btn-primary btn-sm" href="/user/new">Register</a>
+		
 		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	</form>
 </div>

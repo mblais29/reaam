@@ -43,14 +43,42 @@
 
   <body>
   <% if(session.authenticated) { %>
-	  <nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
-	      <a class="navbar-brand" href="#">Project name</a>
-	        <div class="navbar-right" style="margin-right: 15px">
-	  			<a class="btn btn-default navbar-btn btn-right" href="/session/destroy">Sign-out</a>
-	  		</div>
-	  </nav>
+	  <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+            	
+                <li class="sidebar-brand">
+                    <a class="navbar-brand" href="#">Asset Management</a>
+                </li>
+                <li>
+                    <a href="/map">Map</a>
+                </li>
+  			<% if(session.User.admin) { %>
+                <li>
+                    <a href="/user">Users</a>
+                </li>
+  			<% } %>
+                <div class="navbar-left" style="margin-right: 15px">
+		  			<a class="btn btn-default navbar-btn btn-right" href="/session/destroy">Sign-out</a>
+		  		</div>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
   <% } %>
-    <%- body %>
+                        <%- body %>
+                        
+  <% if(session.authenticated) { %>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+  <% } %>
 
 
 
@@ -116,6 +144,7 @@
     <script src="/js/footable/footable.js"></script>
     <script src="/js/footable/footable.min.js"></script>
     <script src="/js/global/map/map.js"></script>
+    <script src="/js/global/nav/nav.js"></script>
     <script src="/js/global/signupValidate/signupValidate.js"></script>
     <!--SCRIPTS END-->
   </body>
