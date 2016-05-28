@@ -34,9 +34,11 @@ module.exports = {
 			//returns the user in json format
 			//res.json(user);
 			
-			res.redirect('/user/show/' + user.id);
+			//res.redirect('/user/show/' + user.id);
+			res.redirect('/session/new');
 		});
 	},
+	
 	//shows selected user
 	show: function(req, res, next){
 		User.findOne(req.param('id'), function foundUser(err,user){
@@ -47,10 +49,11 @@ module.exports = {
 			});
 		});
 	},
+	
 	//List of Users page
 	index: function(req, res, next){
 		//console.log(new Date());
-		//console.log(req.session);
+		console.log(req.session.User);
 		User.find(function foundUsers(err,users){
 			if(err) return next(err);
 			res.view({
@@ -58,6 +61,7 @@ module.exports = {
 			});
 		});
 	},
+	
 	//Edit User
 	edit: function(req, res, next){
 		User.findOne(req.param('id'), function foundUser(err,user){
@@ -68,6 +72,7 @@ module.exports = {
 			});
 		});
 	},
+	
 	//Update the User from edit page
 	update: function(req, res, next){
 		if(req.session.User.admin){
@@ -91,6 +96,68 @@ module.exports = {
 			return res.redirect('/user/show/' + req.param('id'));
 		});
 	},
+	
+	'resetpassword': function(req,res){
+		res.view();
+	},
+	
+	//Update User's Password
+	'updatepassword': function(req,res){
+		var userObj = {
+			email: req.param('email'),
+			password: req.param('password'),
+			confirmation: req.param('confirmation')
+		};
+		
+		//Finds the user by their email
+		User.findOneByEmail(userObj.email, function foundUser(err,user){
+			if(err) return next(err);
+			//If no user is found throw an error
+			if(!user){
+				var noAccountError = [{name: 'noAccount', message: 'The email address ' + req.param('email')+ ' not found'}];
+				req.session.flash = {
+					err: noAccountError
+				};
+				res.redirect('/user/resetpassword');
+				return;
+
+			}
+
+			//Encrypts the User's new password
+			require('bcrypt').compare(userObj.password, user.encryptedPassword, function(err,valid){
+				if(err){
+					console.log('Problem comparing the password with password record in the database!');
+				} else if (valid){
+					console.log('Please enter a new unique password!');
+				} else {
+					console.log('New Password does not match old password!');
+					require('bcrypt').hash(userObj.password, 10, function passwordEncrypted(err,newEncryptedPassword){
+				  		if(err) return next(err);
+						var userNewPassword = {
+							encryptedPassword: newEncryptedPassword
+						};
+
+						//console.log(userObj.email);
+						//console.log(user.id);
+						//console.log(userNewPassword);
+						
+						//Updates the User's Password with new password
+				  		User.update(user.id, userNewPassword, function userUpdatedPassword(err){
+				  			if(err){
+								var passwordUpdateError = [{name: 'passwordUpdate', message: err}];
+								req.session.flash = {
+									err: passwordUpdateError
+								};
+							}
+							return res.redirect('/session/new');
+						});
+				  	});
+				}
+			});
+			
+		});
+	},
+	
 	//Delete the User
 	destroy: function(req, res, next){
 		User.findOne(req.param('id'), function foundUser(err,user){

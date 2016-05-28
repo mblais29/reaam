@@ -54,6 +54,7 @@ module.exports = {
 				//Log in user
 				req.session.authenticated = true;
 				req.session.User = user;
+				//console.log(user);
 				
 				//if user is admin user redirects to user list page
 				if(req.session.User.admin){

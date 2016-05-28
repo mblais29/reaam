@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%=typeof title == 'undefined' ? 'Real Estate & Asset Management' : title%></title>
+    <title><%=typeof title == 'undefined' ? 'Asset Management' : title%></title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -52,6 +52,9 @@
                     <a class="navbar-brand" href="#">Asset Management</a>
                 </li>
                 <li>
+                	<a href="/user/show/<%= req.session.User.id %>"><%= req.session.User.firstname %> <%= req.session.User.lastname %></a>
+                </li>
+                <li>
                     <a href="/map">Map</a>
                 </li>
   			<% if(session.User.admin) { %>
@@ -64,6 +67,7 @@
 		  		</div>
             </ul>
         </div>
+        
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
