@@ -98,17 +98,24 @@ module.exports = {
 	},
 	
 	'resetpassword': function(req,res){
+		//Pulls the user id from the url
+		currentUserId = req.param('id');
+		res.view();
+	},
+	'emailpassword': function(req,res){
 		res.view();
 	},
 	
 	//Update User's Password
 	'updatepassword': function(req,res){
+		//Creates User Object based on inputed values
 		var userObj = {
+			id: req.param('reset-userId'),
 			email: req.param('email'),
 			password: req.param('password'),
 			confirmation: req.param('confirmation')
 		};
-		
+		//console.log(userObj);
 		//Finds the user by their email
 		User.findOneByEmail(userObj.email, function foundUser(err,user){
 			if(err) return next(err);
@@ -120,41 +127,39 @@ module.exports = {
 				};
 				res.redirect('/user/resetpassword');
 				return;
-
+			}else if(userObj.email == user.email && userObj.id == user.id){
+				//console.log(userObj.email + ' = ' + user.email);
+				//console.log(userObj.id + ' = ' + user.id);
+				//Encrypts the User's new password
+				require('bcrypt').compare(userObj.password, user.encryptedPassword, function(err,valid){
+					if(err){
+						console.log('Problem comparing the password with password record in the database!');
+					} else if (valid){
+						console.log('Please enter a new unique password!');
+					} else {
+						console.log('New Password does not match old password!');
+						require('bcrypt').hash(userObj.password, 10, function passwordEncrypted(err,newEncryptedPassword){
+					  		if(err) return next(err);
+							var userNewPassword = {
+								encryptedPassword: newEncryptedPassword
+							};
+	
+							//Updates the User's Password with new password
+					  		User.update(user.id, userNewPassword, function userUpdatedPassword(err){
+					  			if(err){
+									var passwordUpdateError = [{name: 'passwordUpdate', message: err}];
+									req.session.flash = {
+										err: passwordUpdateError
+									};
+								}
+								return res.redirect('/session/new');
+							});
+					  	});
+					}
+				});	
+			}else{
+				console.log('User id and email do not match!');
 			}
-
-			//Encrypts the User's new password
-			require('bcrypt').compare(userObj.password, user.encryptedPassword, function(err,valid){
-				if(err){
-					console.log('Problem comparing the password with password record in the database!');
-				} else if (valid){
-					console.log('Please enter a new unique password!');
-				} else {
-					console.log('New Password does not match old password!');
-					require('bcrypt').hash(userObj.password, 10, function passwordEncrypted(err,newEncryptedPassword){
-				  		if(err) return next(err);
-						var userNewPassword = {
-							encryptedPassword: newEncryptedPassword
-						};
-
-						//console.log(userObj.email);
-						//console.log(user.id);
-						//console.log(userNewPassword);
-						
-						//Updates the User's Password with new password
-				  		User.update(user.id, userNewPassword, function userUpdatedPassword(err){
-				  			if(err){
-								var passwordUpdateError = [{name: 'passwordUpdate', message: err}];
-								req.session.flash = {
-									err: passwordUpdateError
-								};
-							}
-							return res.redirect('/session/new');
-						});
-				  	});
-				}
-			});
-			
 		});
 	},
 	
