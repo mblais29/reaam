@@ -144,7 +144,7 @@ module.exports = {
 								encryptedPassword: newEncryptedPassword
 							};
 	
-							//Updates the User's Password with new password
+							//Updates the User's Password in the database with the new password
 					  		User.update(user.id, userNewPassword, function userUpdatedPassword(err){
 					  			if(err){
 									var passwordUpdateError = [{name: 'passwordUpdate', message: err}];

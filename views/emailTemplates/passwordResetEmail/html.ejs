@@ -12,10 +12,11 @@
 <table class="body-wrap" bgcolor="#f6f6f6">
   <tr>
     <td class="container" bgcolor="#FFFFFF">
-
+	  
       <!-- content -->
       <div class="content">
-		<a href="http://localhost:1337/user/resetpassword?id=<%= userId %>" id="password-link">Reset Password</a>
+     	<!-- Reads the root url <%= protocol %>://<%= host %>:<%= port %> -->
+		<a href="<%= protocol %>://<%= host %>:<%= port %>/user/resetpassword?id=<%= userId %>" id="password-link">Click Link to Reset Password</a>
       </div>
       <!-- /content -->
       

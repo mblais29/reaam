@@ -24,11 +24,14 @@ module.exports = {
 
 			}
 			console.log(user);
-
+			console.log(req.protocol + '://' + req.host + ':' + req.port);
 			// sails.hooks.email.send(template, data, options, cb) if email is found continue
 			sails.hooks.email.send(
 			  "passwordResetEmail",
 			  {
+			  	protocol: req.protocol,
+			  	host: req.host,
+			  	port: req.port,
 			    recipientName: user.firstname + ' ' + user.lastname,
 			    senderName: user.firstname,
 			    senderEmail: user.email,
@@ -37,7 +40,7 @@ module.exports = {
 			  {
 			    from: "Admin <admin@mblais.com>",
 			    to: user.email,
-			    subject: "SailsJS Email Test"
+			    subject: "Password Reset Email"
 			  },
 			  function(err) {console.log(err || "Email is sent");}
 			);		
