@@ -44,40 +44,42 @@
   <body>
   <% if(session.authenticated) { %>
 	  <div id="wrapper">
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-            	
-                <li class="sidebar-brand">
-                    <a class="navbar-brand" href="#">Asset Management</a>
-                </li>
-                <li>
-                	<a href="/user/show/<%= req.session.User.id %>"><%= req.session.User.firstname %> <%= req.session.User.lastname %></a>
-                </li>
-                <li>
-                    <a href="/map">Map</a>
-                </li>
-  			<% if(session.User.admin) { %>
-                <li>
-                    <a href="/user">Users</a>
-                </li>
-  			<% } %>
-                <div class="navbar-left" style="margin-right: 15px">
-		  			<a class="btn btn-default navbar-btn btn-right" href="/session/destroy">Sign-out</a>
-		  		</div>
-            </ul>
-        </div>
+        <nav id="nav" class="navbar navbar-inverse navbar-static-top">
+		  <div class="container-fluid">
+		    <div class="navbar-header navbar-static-top">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>                        
+		      </button>
+		      <div id="nav-brand" class="navbar-brand">
+		      	<img id="nav-brand-logo" src="/images/mblais.png" width="25" height="25" alt="Loading..." />
+		      	<a id="nav-brand-name" href="#">Asset Management</a>
+		      </div>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+		      <ul class="nav navbar-nav">
+		        <li class="active"><a href="/user/show/<%= req.session.User.id %>"><%= req.session.User.firstname %> <%= req.session.User.lastname %></a></li>
+		        <li><a href="/map" id="map-link" onclick="addMap()">Map</a></li>
+			<% if(session.User.admin) { %>
+		        <li><a href="/user">Users</a></li>
+			<% } %>
+		      </ul>
+		      <ul id="nav-logout"class="nav navbar-nav navbar-right">
+		        <li><a href="/session/destroy"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
         
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
+        <div id="page-content-wrapper">        
   <% } %>
                         <%- body %>
                         
   <% if(session.authenticated) { %>
-            </div>
         </div>
         <!-- /#page-content-wrapper -->
     </div>
