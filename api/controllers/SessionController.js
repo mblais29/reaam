@@ -58,7 +58,7 @@ module.exports = {
 				
 				//if user is admin user redirects to user list page
 				if(req.session.User.admin){
-					res.redirect('/user');
+					res.redirect('/map');
 					return;
 				}
 				//Redirect to their profile page

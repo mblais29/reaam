@@ -58,11 +58,11 @@
 		      </div>
 		    </div>
 		    <div class="collapse navbar-collapse" id="myNavbar">
-		      <ul class="nav navbar-nav">
-		        <li class="active"><a href="/user/show/<%= req.session.User.id %>"><%= req.session.User.firstname %> <%= req.session.User.lastname %></a></li>
-		        <li><a href="/map" id="map-link" onclick="addMap()">Map</a></li>
+		      <ul id="navbar-views" class="nav navbar-nav">
+		        <li class="<% if (title === 'Show') { %>active<% } %>"><a href="/user/show/<%= req.session.User.id %>"><%= req.session.User.firstname %> <%= req.session.User.lastname %></a></li>
+		        <li class="<% if (title === 'Map') { %>active<% } %>"><a href="/map" id="map-link">Map</a></li>
 			<% if(session.User.admin) { %>
-		        <li><a href="/user">Users</a></li>
+		        <li class="<% if (title === 'Users') { %>active<% } %>"><a href="/user">Users</a></li>
 			<% } %>
 		      </ul>
 		      <ul id="nav-logout"class="nav navbar-nav navbar-right">
@@ -71,13 +71,12 @@
 		    </div>
 		  </div>
 		</nav>
-        
-        <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
         <div id="page-content-wrapper">        
   <% } %>
-                        <%- body %>
+  					
+        	<%- body %>
                         
   <% if(session.authenticated) { %>
         </div>

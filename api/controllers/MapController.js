@@ -7,10 +7,11 @@
 
 module.exports = {
 	'index': function(req,res){
-		//console.log(req.session.authenticated);
 		//if session is authenticated go to map else redirect to login page
 		if(req.session.authenticated){
-			res.view();
+			res.view({
+				title: 'Map'
+			});
 			return;
 		}else{
 			res.redirect('/session/new');

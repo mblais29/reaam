@@ -45,7 +45,8 @@ module.exports = {
 			if(err) return next(err);
 			if(!user) return next();
 			res.view({
-				user: user
+				user: user,
+				title: 'Show'
 			});
 		});
 	},
@@ -57,7 +58,8 @@ module.exports = {
 		User.find(function foundUsers(err,users){
 			if(err) return next(err);
 			res.view({
-				users: users
+				users: users,
+				title: 'Users'
 			});
 		});
 	},
