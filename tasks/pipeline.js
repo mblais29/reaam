@@ -17,7 +17,9 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  'styles/**/*.css'
+	'styles/bootstrap/bootstrap-theme.css',
+	'styles/bootstrap/bootstrap.min.css',
+  	'styles/**/*.css'
 ];
 
 
@@ -31,8 +33,10 @@ var jsFilesToInject = [
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/jquery.min.js',
   'js/dependencies/jquery.validate.min.js',
+  '/js/dependencies/bootstrap/bootstrap.min.js',
   '/js/dependencies/leaflet/leaflet-src.js',
   '/js/dependencies/leaflet/leaflet.js',
+  '/js/dependencies/footable/footable.min.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
