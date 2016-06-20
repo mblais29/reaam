@@ -37,7 +37,7 @@ module.exports.policies = {
   	show: 'notAdmin',
   	edit: 'notAdmin',
   	update: 'notAdmin',
-  	'*': 'admin'
+  	'*': 'authenticated'
   }
 
   /***************************************************************************
