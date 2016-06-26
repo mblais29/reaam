@@ -35,7 +35,12 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
-  '/email' : 'EmailController.sendEmail'
+  
+  '/email' : 'EmailController.sendEmail',
+  
+  '/upload-file':{
+    view: 'uploadfile'  // view 'uploadfile' in views directory will loaded automatically
+  },
 
   /***************************************************************************
   *                                                                          *
