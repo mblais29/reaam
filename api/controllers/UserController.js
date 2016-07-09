@@ -52,6 +52,28 @@ module.exports = {
 		});
 	},
 	
+	//Stream user profile image using skipper-gridfs
+	profileImg: function (req, res) {
+	    var profileImgAdapter = require('skipper-gridfs')({
+	    	//reaam.user is the database.file[bucket]
+            uri: 'mongodb://localhost:27017/reaam.user'
+        });
+
+		User.findOne(req.param('id'), function foundUser(err,user){
+			//console.log(user.profileimage);
+			var storedProfileImg = user.profileimage;
+			
+			profileImgAdapter.read(storedProfileImg, function(error , file) {
+		        if(error) {
+		            res.json(error);
+		        } else {
+		            res.contentType('image/png');
+		            res.send(new Buffer(file));
+		        }
+		    });
+		});
+    },
+	
 	//List of Users page
 	index: function(req, res, next){
 		//console.log(new Date());
@@ -108,7 +130,6 @@ module.exports = {
 	'emailpassword': function(req,res){
 		res.view();
 	},
-	
 	//Update User's Password
 	'updatepassword': function(req,res){
 		//Creates User Object based on inputed values

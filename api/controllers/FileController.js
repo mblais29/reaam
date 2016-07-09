@@ -12,31 +12,26 @@ module.exports = {
 	    //	Call to /upload via GET is error
 	
 	    var uploadFile = req.file('uploadFile');
-	    console.log(req.param('title'));
-	    
-	     uploadFile.upload({
+
+	    uploadFile.upload({
 	      adapter: require('skipper-gridfs'),
-	      uri: 'mongodb://localhost:27017/reaam.fs'
+	      uri: 'mongodb://localhost:27017/reaam.user'
 	    }, function (err, filesUploaded) {
 	      if (err) return res.negotiate(err);
-	      
-	      return res.ok({
-		    files: filesUploaded,
-		    textParams: req.params.all()
-		  });
-	      //console.log(filesUploaded);
-	      //return res.ok();
+	      //console.log(filesUploaded[0].extra);
+	      var userId = req.session.User.id;
+	      var userObj = {
+	      		//Adds the encrypted filename to user.profileimage field record for user being edited
+				profileimage: filesUploaded[0].extra.fd 
+			};
+
+	      	User.update(userId, userObj, function userUpdated(err){
+				if(err){
+					res.json(err);
+				}
+			});  
+	      return res.redirect('/user/show/' + req.param('id'));
 	    });
-	
-	   /* uploadFile.upload(function onUploadComplete(err, files) {
-	        //	Files will be uploaded to .tmp/uploads
-	
-	        if (err) return res.serverError(err);
-	        //	IF ERROR Return and send 500 error with error
-	
-	        console.log(files);
-	        res.json({ status: 200, file: files });
-	   }); */
 	}
 };
 

@@ -27,6 +27,9 @@ module.exports = {
 		type: 'boolean',
 		defaultsTo: false
 	},
+	profileimage: {
+		type: 'string'
+	},
 	encryptedPassword: {
 		type: 'string'
 	},
