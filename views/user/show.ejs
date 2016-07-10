@@ -1,11 +1,11 @@
 <div class="users" >
-	<h1><%- user.firstname %> <%- user.lastname %></h1>
 	<!-- If no profile image then show default image else show profile image stored in database -->
 	<% if(!user.profileimage){ %>
 		<img id="imageProfile" src="/images/no-profile.png" height="150" width="150"><br/>
 	<% }else{ %>
 		<img id="imageProfile" src="/user/profileImg/<%- user.id %>" height="150" width="150"><br/>
 	<% } %>
+	<h1><%- user.firstname %> <%- user.lastname %></h1>
 	<% if(user.admin){ %>
 		<span class="glyphicon glyphicon-eye-open" style="font-size: 20px;"> Administrator</span> 
 	<% }else{ %>

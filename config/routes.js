@@ -39,7 +39,7 @@ module.exports.routes = {
   '/email' : 'EmailController.sendEmail',
   
   '/upload-file':{
-    view: 'uploadfile'  // view 'uploadfile' in views directory will loaded automatically
+    view: 'uploadprofileimg'  // view 'uploadfile' in views directory will loaded automatically
   },
 
   /***************************************************************************

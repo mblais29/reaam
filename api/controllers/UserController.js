@@ -31,11 +31,6 @@ module.exports = {
 				//If error returns user to sign-up page
 				return res.redirect('/user/new');
 			};
-			//After user is created redirect to show the action
-			//returns the user in json format
-			//res.json(user);
-			
-			//res.redirect('/user/show/' + user.id);
 			res.redirect('/session/new');
 		});
 	},
@@ -127,9 +122,11 @@ module.exports = {
 		currentUserId = req.param('id');
 		res.view();
 	},
+	
 	'emailpassword': function(req,res){
 		res.view();
 	},
+	
 	//Update User's Password
 	'updatepassword': function(req,res){
 		//Creates User Object based on inputed values
