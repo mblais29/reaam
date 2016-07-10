@@ -31,6 +31,7 @@ module.exports.policies = {
   user: {
   	'new': 'flash',
   	create: 'flash',
+  	profileImg: 'flash',
   	emailpassword: 'flash',
   	resetpassword: 'flash',
   	updatepassword: 'flash',

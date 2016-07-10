@@ -8,7 +8,7 @@
 		
 		<!-- Displays the Upload Profile Image Button only if the current user is authenticated and they are uploading an image to their own profile -->
 		<% if(session.authenticated && session.User.id == user.id) { %>
-			<a href="/upload-file" name="uploadProfileImg" class="btn btn-sm btn-info" />Upload Profile Image</a>
+			<a href="/upload-file" id="uploadProfileImg" name="uploadProfileImg" class="btn btn-sm btn-info" />Upload Profile Image</a>
 		<% } %>
 		
 		<!-- Displays the Admin Checkbox only if the logged in user is an Admin user -->

@@ -77,7 +77,7 @@ module.exports = {
 	//List of Users page
 	index: function(req, res, next){
 		//console.log(new Date());
-		console.log(req.session.User);
+		//console.log(req.session.User);
 		User.find(function foundUsers(err,users){
 			if(err) return next(err);
 			res.view({
