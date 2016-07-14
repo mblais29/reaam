@@ -41,7 +41,7 @@ module.exports.session = {
   * session store that can be shared across multiple Sails.js servers        *
   ***************************************************************************/
 
-  // adapter: 'redis',
+  adapter: 'connect-mongo',
 
   /***************************************************************************
   *                                                                          *
@@ -82,10 +82,11 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // username: '',
-  // password: '',
-  // auto_reconnect: false,
-  // ssl: false,
-  // stringify: true
+  // Note: user, pass and port are optional
+  url: 'mongodb://REAAM:123@localhost:27017/reaam',
+  collection: 'sessions',
+  auto_reconnect: false,
+  ssl: false,
+  stringify: true
 
 };
