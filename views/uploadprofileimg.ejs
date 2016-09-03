@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>Leaflet Mobile Map</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link href='https://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+	<div class="upload-user-profile" >
+		<!-- enctype="multipart/form-data" -->
+		<form id="uploadForm" enctype="multipart/form-data" action="/uploadprofileimg/upload" method="post" style="margin-left: 10px">
+		      	<h2 style="text-align: center">Upload Profile Image...</h2>
+		      	<input type="hidden" name="id" value="<%= req.session.User.id %>" /><br/>
+				
+				<!-- Select Profile Image File Button -->
+				<div class="input-group" style="width: 40%; margin: 0 auto;">
+				  <span class="input-group-btn">
+				    <span class="btn btn-info" onclick="$(this).parent().find('input[type=file]').click();">Browse</span>
+				    <input name="uploadFile" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file">
+				  </span>
+				  <span class="form-control"></span>
+				</div><br/>
+		
+		    	<input type="submit" value="submit" class="btn btn-primary" style="display: block; margin: 0 auto"/>
+		    	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		</form>
+		</div>
+	</body>
+</html>

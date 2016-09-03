@@ -19,6 +19,7 @@
 var cssFilesToInject = [
 	'styles/bootstrap/bootstrap-theme.css',
 	'styles/bootstrap/bootstrap.min.css',
+	'styles/font-awesome/css/font-awesome.min.css',
   	'styles/**/*.css'
 ];
 
@@ -37,6 +38,9 @@ var jsFilesToInject = [
   '/js/dependencies/leaflet/leaflet-src.js',
   '/js/dependencies/leaflet/leaflet.js',
   '/js/dependencies/footable/footable.min.js',
+  '/js/dependencies/footable/footable.min.js',
+  '/js/dependencies/bootstrap/bootstrap-filestyle.min.js',
+
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.

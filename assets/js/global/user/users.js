@@ -12,6 +12,13 @@ function showIt2() {
 }
 setTimeout("showIt2()", 1000); // after 1 second
 
+//Upload Profile Image Button Style
+$('#BSbtninfo').filestyle({
+	buttonName : 'btn-info',
+	buttonText : 'Select a Profile Image'
+});
+
+
 
 
 

@@ -57,8 +57,9 @@
 * settings override the general CORS settings in your config/cors.js file.  *
 *                                                                           *
 ****************************************************************************/
-
-// module.exports.csrf = {
-//    grantTokenViaAjax: true,
-//    origin: ''
-// }
+/*
+module.exports.csrf = {
+   grantTokenViaAjax: true,
+   origin: 'http://localhost:1337'
+};
+*/
