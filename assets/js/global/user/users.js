@@ -18,6 +18,15 @@ $('#BSbtninfo').filestyle({
 	buttonText : 'Select a Profile Image'
 });
 
+//Delay displaying the user profile upload to allow file input to load first
+function displayFileInput() {
+  $('#loading').css('display', 'none');
+  $('#loading').css('opacity', '0');
+  $('.upload-user-profile').css('display', 'block');
+  $('.upload-user-profile').css('opacity', '1');
+
+}
+setTimeout("displayFileInput()", 1000); // after 1 second
 
 
 
