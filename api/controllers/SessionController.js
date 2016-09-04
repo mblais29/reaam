@@ -13,7 +13,13 @@ module.exports = {
 		req.session.cookie.expires = newDateObj;
 		req.session.authenticated = true;
 		console.log(req.session);*/
-		res.view('session/new');
+
+		if(req.session.authenticated){
+			res.redirect('/map');
+		}else{
+			res.view('session/new');
+		}
+		
 	},
 	create: function(req,res,next){
 		//checks to see if the user has entered a username and password
