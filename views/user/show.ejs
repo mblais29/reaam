@@ -8,7 +8,7 @@
 		<div class="show-users" >
 			<!-- If no profile image then show default image else show profile image stored in database -->
 			<% if(!user.profileimage){ %>
-				<img id="imageProfile" src="/images/no-profile.png"><br/>
+				<img id="imageProfile" src="/images/no-profile.png" height="300" width="300"><br/>
 			<% }else{ %>
 				<img id="imageProfile" src="/user/profileImg/<%- user.id %>" height="300" width="300"><br/>
 			<% } %>
