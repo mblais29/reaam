@@ -4,7 +4,6 @@
 	var navBarMargin = 52;
 	
 $(window).on('load',function(){
-	
 	/****************************************
 	ADJUST MAP BASED ON WINDOW HEIGHT
 	****************************************/
@@ -17,24 +16,52 @@ $(window).on('load',function(){
 	/****************************************
 	ADDING GOOGLE MAP LAYERS
 	****************************************/
-	var map = new L.Map('map', {center: new L.LatLng(54.0000, -125.0000), zoom: 6});
-	      var googleLayerHybrid = new L.Google('HYBRID');  // Possible types: SATELLITE, ROADMAP, HYBRID
-		  var googleLayerSatellite = new L.Google('SATELLITE');
-		  var googleLayerStreet = new L.Google('ROADMAP');
-		  var googleLayerTerrain = new L.Google('TERRAIN');
-		  //var esriMapTopo = L.esri.basemapLayer("Topographic");
-		  //var esriMapImagery = L.esri.basemapLayer("Imagery");	  
-		  map.addLayer(googleLayerHybrid);
+	var map = L.map('map', {center: new L.LatLng(54.0000, -125.0000), zoom: 6});
+		//var map = new L.Map('map', {center: new L.LatLng(54.0000, -125.0000), zoom: 6});
+	      // var googleLayerHybrid = new L.Google('HYBRID');  // Possible types: SATELLITE, ROADMAP, HYBRID
+		  // var googleLayerSatellite = new L.Google('SATELLITE');
+		  // var googleLayerStreet = new L.Google('ROADMAP');
+		  // var googleLayerTerrain = new L.Google('TERRAIN');
+		  var esriMapTopo = L.esri.basemapLayer("Topographic");
+		  var esriMapImagery = L.esri.basemapLayer("Imagery");
+        mapLink = 
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        var osm = L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; ' + mapLink + ' Contributors',
+            maxZoom: 18,
+            }).addTo(map);;
+		map.addLayer(osm);
 		  
 	/****************************************
 	BASEMAP AND LAYER CONTROL FOR LEGEND
 	****************************************/
 	
-	var baseLayers = {'Google - Street':googleLayerStreet, 'Google - Hybrid':googleLayerHybrid, 'Google - Satellite':googleLayerSatellite, 'Google - Terrain':googleLayerTerrain /*'ESRI - Imagery':esriMapImagery, 'ESRI - Topo':esriMapTopo*/};
+	var baseLayers = {'Open Street':osm, 'ESRI - Imagery':esriMapImagery, 'ESRI - Topo':esriMapTopo};
 	
 	L.control.groupedLayers(baseLayers).addTo(map);
 	
+	// Initialise the FeatureGroup to store editable layers 
+	
+	var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        var drawControl = new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems
+            }
+        });
+        map.addControl(drawControl);
+
+        map.on('draw:created', function (e) {
+            var type = e.layerType,
+                layer = e.layer;
+            drawnItems.addLayer(layer);
+        });
+
+	      
 });
+
 
 /****************************************
 	GLOBAL FUNCTIONS

@@ -16,7 +16,7 @@ module.exports = {
 		}else{
 			res.redirect('/session/new');
 			return;
-		}	
+		}
 	}
 };
 
