@@ -43,22 +43,42 @@ $(window).on('load',function(){
 	
 	// Initialise the FeatureGroup to store editable layers 
 	
-	var drawnItems = new L.FeatureGroup();
-        map.addLayer(drawnItems);
-
-        var drawControl = new L.Control.Draw({
-            edit: {
-                featureGroup: drawnItems
-            }
-        });
-        map.addControl(drawControl);
-
-        map.on('draw:created', function (e) {
-            var type = e.layerType,
-                layer = e.layer;
-            drawnItems.addLayer(layer);
-        });
-
+	// Other layers - draw, measure layers etc.
+	var drawnItems = new L.FeatureGroup(); // for drawn items
+	var osm = new L.FeatureGroup(); // for measurements
+	
+	// Draw control
+	var drawControl = new L.Control.Draw({
+		draw: { position: 'topleft', 
+		polygon: { 
+			title: 'Draw a polygon!',
+			metric: false,  
+			allowIntersection: false, 
+			drawError: { color: '#662d91', timeout: 1000 }, 
+			shapeOptions: { color: '#662d91' }, 
+			showArea: true 
+			}, 
+			polyline: { metric: false, shapeOptions: { color: '#662d91' } }, 
+			circle: { metric: false, shapeOptions: { color: '#662d91' } } 
+		}, 
+		edit: {
+	        featureGroup: drawnItems,
+	        remove: true
+	    }
+	});
+	map.addControl(drawControl);
+	map.addLayer(drawnItems);
+	map.addLayer(osm);
+	map.on('draw:created', function (e) { 
+		var type = e.layerType, 
+		layer = e.layer;  
+		if (type === 'marker') {
+			var latLon = layer.getLatLng();
+			//toFixed(3) allows only three decimal places
+			layer.bindPopup('<strong>Latitude:</strong> ' + latLon.lat.toFixed(3) + "<br/><strong>Longitude:</strong> " + latLon.lng.toFixed(3));
+		}
+		drawnItems.addLayer(layer);
+	});
 	      
 });
 

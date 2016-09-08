@@ -44,6 +44,8 @@ var jsFilesToInject = [
   'js/dependencies/footable/footable.min.js',
   'js/dependencies/bootstrap/bootstrap-filestyle.min.js',
   'js/dependencies/leaflet/dist/leaflet.draw.js',
+  'js/dependencies/leaflet/dist/leaflet.draw-src.js',
+  
   
 
 
