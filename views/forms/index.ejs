@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<title>Leaflet Mobile Map</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container-fluid forms">
+			<div id="formflds-panel" class="panel panel-default vcenter">
+			  	<div class="panel-heading formflds-panel-header"></div>
+			  	<div class="panel-body" id="formflds-panel-body" >
+			  		<form action="#" enctype="multipart/form-data" method="post" id="file-form">
+			    		FORM FIELDS
+						
+				    	<input type="submit" value="Submit" class="btn btn-primary" style="display: block; margin: 0 auto"/>
+			    	</form>
+			    </div> 	
+			</div>
+	  	
+	  	
+	  	
+	  	
+	  	
+			<h3 id="form-title">Forms</h3>		
+			<!--- Adds a ajax loader if page is taking time to load --->
+			<div id="form-loading" class="col-lg-12 text-center vcenter">
+			  <img id="loading-image" src="images/mblais.png" width="100" height="100" alt="Loading..." /><br/>
+			  <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+			</div>
+			<table id="form-table" class="table table-striped">
+				<thead>
+					<tr>
+						<!--- Must have data-type="html" on all data-breakpoints="all" or <ahref=""> table data in Footable Plugin --->
+						<th data-type="html" data-breakpoints="all" data-title="ID">ID</th>
+						<th>Name</th>
+						<th><button type="button" class="btn btn-info" onclick="$(location).attr('href', 'http://localhost:1337/forms/new')">Add</button></th>
+						<th data-type="html" data-breakpoints="all" data-title="Collection">Collection</th>
+						<th data-type="html" data-breakpoints="all" data-title="Description">Description</th>
+						<th data-type="html" data-breakpoints="all" data-title="Security">Security</th>
+						<th data-type="html" data-breakpoints="all" data-title="Add Fields"></th>
+					</tr>
+				</thead>
+				<tbody>
+				  <% _.each(forms, function(forms){ %>
+					<tr data-expanded="false" id="form-records" data-id="<%= forms.id %>" data-model="forms">
+						<td><%= forms.id %></td>
+						<td><%= forms.formName %></td>
+						<td></td>
+						<td><%= forms.collection %></td>
+						<td><%= forms.description %></td>
+						<td><%= forms.security %></td>
+
+						<td><button class="btn btn-sm btn-primary forms-add-fields" onclick="formPanelRequest('add', '<%= forms.id %>')">Add Fields</button></td>
+					</tr>
+				   <% }) %>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html> 

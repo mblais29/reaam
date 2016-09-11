@@ -73,6 +73,12 @@
 			<% if(session.User.admin) { %>
 		        <li class="<% if (title === 'Users') { %>active<% } %>"><a href="/user">Users</a></li>
 			<% } %>
+			<% if(session.User.admin) { %>
+		        <li class="<% if (title === 'Forms') { %>active<% } %>"><a href="/forms">Forms</a></li>
+			<% } %>
+			<% if(session.User.admin) { %>
+		        <li class="<% if (title === 'Security') { %>active<% } %>"><a href="/security">Security</a></li>
+			<% } %>
 		      </ul>
 		      <ul id="nav-logout"class="nav navbar-nav navbar-right">
 		        <li><a href="/session/destroy"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
@@ -171,6 +177,7 @@
     <script src="/js/dependencies/leaflet/src/ESRI/Services/Service.js"></script>
     <script src="/js/dependencies/leaflet/src/ESRI/Tasks/Task.js"></script>
     <script src="/js/dependencies/leaflet/src/ESRI/Util.js"></script>
+    <script src="/js/global/forms/forms.js"></script>
     <script src="/js/global/map/map.js"></script>
     <script src="/js/global/nav/nav.js"></script>
     <script src="/js/global/user/users.js"></script>

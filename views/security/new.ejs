@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<title>Leaflet Mobile Map</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	</head>
+	<body> 	
+		<form action="/security/create" method="post" id="sec-form">
+			<% if(flash && flash.err) { %>
+				<ul class="alert alert-success">
+					<% Object.keys(flash.err).forEach(function(error) { %>
+						<li><%- JSON.stringify(flash.err[error]) %></li>
+					<% }) %>
+				</ul>
+			<% } %>
+			<div class="form-group">
+			  <label for="sec-name">Security Name:</label>
+			  <input type="text" class="form-control" id="sec-name" name="sec-name">
+			</div>
+			<div class="form-group">
+			  <label for="sec-id">Security ID:</label>
+			  <input type="text" class="form-control" id="sec-id" name="sec-id">
+			</div>
+			<div class="form-group">
+			  <label for="sec-description">Description:</label>
+			  <textarea class="form-control" rows="5" id="sec-description" name="sec-description"></textarea>
+			</div>
+			<input type="submit" value="Submit" class="btn btn-primary" style="display: block; margin: 0 auto"/>
+			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		</form>
+	</body>
+</html>

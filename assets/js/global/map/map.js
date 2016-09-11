@@ -132,7 +132,7 @@ function styleAddFileButton(){
 
 function draggablePanel() {
     $("#upload-panel").draggable({
-	      handle: ".panel-heading"
+	      handle: ".upload-panel-header"
 	  });
     
 };
