@@ -27,6 +27,7 @@ function formPanelRequest(request, id){
 			draggableFormsPanel();
 			$('#formflds-panel').fadeIn('slow');
 			$('#file-form').css('display', 'block');
+			$('#formid').val(id);
 			break;
 	}
 }

@@ -6,21 +6,20 @@
 	</head>
 	<body>
 		<div class="container-fluid forms">
+			<!--- Form Fields Panel --->
 			<div id="formflds-panel" class="panel panel-default vcenter">
 			  	<div class="panel-heading formflds-panel-header"></div>
 			  	<div class="panel-body" id="formflds-panel-body" >
 			  		<form action="#" enctype="multipart/form-data" method="post" id="file-form">
-			    		FORM FIELDS
-						
-				    	<input type="submit" value="Submit" class="btn btn-primary" style="display: block; margin: 0 auto"/>
-			    	</form>
-			    </div> 	
+						<div class="form-group">
+							<label for="formid">Form ID:</label>
+							<input type="text" class="form-control" id="formid" readonly>
+						</div>
+						<input type="submit" value="Submit" class="btn btn-primary" style="display: block; margin: 0 auto"/>
+					</form>
+			  	</div> 	
 			</div>
-	  	
-	  	
-	  	
-	  	
-	  	
+
 			<h3 id="form-title">Forms</h3>		
 			<!--- Adds a ajax loader if page is taking time to load --->
 			<div id="form-loading" class="col-lg-12 text-center vcenter">
