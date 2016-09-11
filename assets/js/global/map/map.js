@@ -45,21 +45,20 @@ $(window).on('load',function(){
 	
 	// Other layers - draw, measure layers etc.
 	var drawnItems = new L.FeatureGroup(); // for drawn items
-	var osm = new L.FeatureGroup(); // for measurements
 	
 	// Draw control
 	var drawControl = new L.Control.Draw({
 		draw: { position: 'topleft', 
 		polygon: { 
 			title: 'Draw a polygon!',
-			metric: false,  
+			metric: true,  
 			allowIntersection: false, 
 			drawError: { color: '#662d91', timeout: 1000 }, 
 			shapeOptions: { color: '#662d91' }, 
 			showArea: true 
 			}, 
-			polyline: { metric: false, shapeOptions: { color: '#662d91' } }, 
-			circle: { metric: false, shapeOptions: { color: '#662d91' } } 
+			polyline: { metric: true, shapeOptions: { color: '#662d91' } }, 
+			circle: { metric: true, shapeOptions: { color: '#662d91' } } 
 		}, 
 		edit: {
 	        featureGroup: drawnItems,
@@ -68,20 +67,21 @@ $(window).on('load',function(){
 	});
 	map.addControl(drawControl);
 	map.addLayer(drawnItems);
-	map.addLayer(osm);
+
 	map.on('draw:created', function (e) { 
 		var type = e.layerType, 
 		layer = e.layer;  
 		if (type === 'marker') {
 			var latLon = layer.getLatLng();
 			//toFixed(3) allows only three decimal places
-			layer.bindPopup('<strong>Latitude:</strong> ' + latLon.lat.toFixed(3) + "<br/><strong>Longitude:</strong> " + latLon.lng.toFixed(3));
+			//</br>/*<strong>Latitude:</strong> ' + latLon.lat.toFixed(3) + '<br/><strong>Longitude:</strong> ' + latLon.lng.toFixed(3)
+			//layer.bindPopup('<button type="button" class="btn btn-info doc-button" onclick="buttonRequest($(this).val());" value="upload">Upload</button>');
+			layer.bindPopup('<button type="button" class="btn btn-info add-button" onclick="buttonRequest($(this).val());" value="add">Enter Information</button>');
 		}
 		drawnItems.addLayer(layer);
 	});
-	      
+	styleAddFileButton();
 });
-
 
 /****************************************
 	GLOBAL FUNCTIONS
@@ -92,3 +92,47 @@ function resize(){
 	$('#map').css("height", ($(window).height() - navBarMargin));
 	$('#map').css("width", ($(window).width()));    
 }
+
+function buttonRequest(request){
+	switch(request) {
+		case 'add':
+			console.log('add');
+			$('.upload-panel-header').text('Add Marker');
+			$('.upload-panel-header').append('<span class="pull-right close-upload-panel" data-effect="slideUp"><i class="fa fa-times"></i></span>');
+			removePanel();
+			draggablePanel();
+			$('#upload-panel').fadeIn('slow');
+			$('#addMarker-form').css('display', 'block');
+			break;
+		case 'upload':
+			console.log('upload');
+			$('#upload-panel').fadeIn('slow');
+			break;
+		case 'view':
+			console.log('view');
+			break;
+	}
+}
+
+function removePanel(){
+	$('.close-upload-panel').on('click',function(){
+		var effect = $(this).data('effect');
+	    $(this).closest('.panel')[effect]();
+	});
+}
+
+function styleAddFileButton(){
+	//Upload Files Button Style
+	$('#Filebtninfo').filestyle({
+		size: 'sm',
+		buttonName : 'btn-info',
+		buttonText : 'File'
+	});
+}
+
+function draggablePanel() {
+    $("#upload-panel").draggable({
+	      handle: ".panel-heading"
+	  });
+    
+};

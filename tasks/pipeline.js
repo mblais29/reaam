@@ -22,6 +22,10 @@ var cssFilesToInject = [
 	'styles/font-awesome/css/font-awesome.min.css',
 	'js/dependencies/leaflet/leaflet.css',
 	'js/dependencies/leaflet/dist/leaflet.draw.css',
+	'styles/jquery-ui.min.css',
+	'styles/jquery-ui.structure.min.css',
+	'styles/jquery-ui.theme.css',
+	
   	'styles/**/*.css'
 ];
 
@@ -45,6 +49,7 @@ var jsFilesToInject = [
   'js/dependencies/bootstrap/bootstrap-filestyle.min.js',
   'js/dependencies/leaflet/dist/leaflet.draw.js',
   'js/dependencies/leaflet/dist/leaflet.draw-src.js',
+  'js/dependencies/leaflet/jquery-ui.min.js',
   
   
 
