@@ -3,6 +3,7 @@
 *****************************/
 
 $('#form-table').footable();
+$('#formflds-table').footable();
 
 //Delay displaying the user table to allow footable to load
 function formPage() {
@@ -26,8 +27,18 @@ function formPanelRequest(request, id){
 			removeFormsPanel();
 			draggableFormsPanel();
 			$('#formflds-panel').fadeIn('slow');
-			$('#file-form').css('display', 'block');
+			$('#formflds-table').css('display', 'none');
+			$('#formflds-form').css('display', 'block');
 			$('#formid').val(id);
+			break;
+		case 'show':
+			$('.formflds-panel-header').text('Show Form Fields');
+			$('.formflds-panel-header').append('<span class="pull-right close-formflds-panel" data-effect="slideUp"><i class="fa fa-times"></i></span>');
+			removeFormsPanel();
+			draggableFormsPanel();
+			$('#formflds-panel').fadeIn('slow');
+			$('#formflds-form').css('display', 'none');
+			$('#formflds-table').css('display', 'block');
 			break;
 	}
 }
