@@ -74,12 +74,22 @@ $(window).on('load',function(){
 		if (type === 'marker') {
 			var latLon = layer.getLatLng();
 			//toFixed(3) allows only three decimal places
-			//</br>/*<strong>Latitude:</strong> ' + latLon.lat.toFixed(3) + '<br/><strong>Longitude:</strong> ' + latLon.lng.toFixed(3)
+			layer.bindPopup('<strong>Latitude:</strong> ' + latLon.lat.toFixed(3) + '<br/><strong>Longitude:</strong> ' + latLon.lng.toFixed(3));
 			//layer.bindPopup('<button type="button" class="btn btn-info doc-button" onclick="buttonRequest($(this).val());" value="upload">Upload</button>');
-			layer.bindPopup('<button type="button" class="btn btn-info add-button" onclick="buttonRequest($(this).val());" value="add">Enter Information</button>');
+			//layer.bindPopup('<button type="button" class="btn btn-info add-button" onclick="buttonRequest($(this).val());" value="add">Enter Information</button>');
 		}
 		drawnItems.addLayer(layer);
 	});
+	
+	map.on('draw:edited', function (e) {
+        var layers = e.layers;
+        layers.eachLayer(function (layer) {
+            if (layer instanceof L.Marker){
+                var latLon = layer.getLatLng();
+                layer.bindPopup('<strong>Latitude:</strong> ' + latLon.lat.toFixed(3) + "<br/><strong>Longitude:</strong> " + latLon.lng.toFixed(3));
+            }
+        });
+    });
 	styleAddFileButton();
 });
 
@@ -91,27 +101,6 @@ $(window).on('load',function(){
 function resize(){
 	$('#map').css("height", ($(window).height() - navBarMargin));
 	$('#map').css("width", ($(window).width()));    
-}
-
-function buttonRequest(request){
-	switch(request) {
-		case 'add':
-			console.log('add');
-			$('.upload-panel-header').text('Add Marker');
-			$('.upload-panel-header').append('<span class="pull-right close-upload-panel" data-effect="slideUp"><i class="fa fa-times"></i></span>');
-			removePanel();
-			draggablePanel();
-			$('#upload-panel').fadeIn('slow');
-			$('#addMarker-form').css('display', 'block');
-			break;
-		case 'upload':
-			console.log('upload');
-			$('#upload-panel').fadeIn('slow');
-			break;
-		case 'view':
-			console.log('view');
-			break;
-	}
 }
 
 function removePanel(){
