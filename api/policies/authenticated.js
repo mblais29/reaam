@@ -9,7 +9,6 @@ module.exports = function(req, res, ok) {
 
   	//User is allowed if they are logged in and an admin user, proceed to controller
   	if(req.session.User && req.session.User.admin){
-  		console.log(req.session.User);
   		return ok();
   	}
   	

@@ -6,6 +6,13 @@
 	</head>
 	<body>
 		<div class="edit-users">
+			<% if(flash && flash.err) { %>
+				<ul class="alert alert-success">
+					<% Object.keys(flash.err).forEach(function(error) { %>
+						<li><%- JSON.stringify(flash.err[error]) %></li>
+					<% }) %>
+				</ul>
+			<% } %>
 			<form action="/user/update/<%= user.id %>" method="POST" class="form-signin">
 				<h2>Editing User...</h2>
 				

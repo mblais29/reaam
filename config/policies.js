@@ -32,12 +32,13 @@ module.exports.policies = {
   	index: 'authenticated',
   	'new': 'flash',
   	create: 'flash',
+  	update: 'flash',
   	profileImg: 'flash',
   	emailpassword: 'flash',
   	resetpassword: 'flash',
   	updatepassword: 'flash',
-  	show: 'currentUser',
-  	edit: 'currentUser',
+  	show: ['currentUser','flash'],
+  	edit: ['currentUser','flash'],
   	update: 'currentUser'
   },
   forms: {

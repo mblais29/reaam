@@ -113,7 +113,11 @@ module.exports = {
 		//console.log(req.param('admin'));
 		User.update(req.param('id'), userObj, function userUpdated(err){
 			if(err){
-				return res.json(err);//res.redirect('/user/edit/' + req.param('id'));
+				req.session.flash = {
+				err: err
+				};
+			res.redirect('/user/edit/' + req.param('id'));
+			return;
 			}
 			return res.redirect('/user/show/' + req.param('id'));
 		});

@@ -20,8 +20,8 @@ module.exports = {
 	},
 	create: function(req,res,next){
 		var formObj = {
-			formname: req.param('form-name'),
-			securitygroup: req.param('form-security')
+			formname: req.param('formName'),
+			securitygroup: req.param('formSecurity')
 		};
 		
 		Forms.create(formObj, function formCreated(err,form){
@@ -29,7 +29,6 @@ module.exports = {
 				console.log(err);
 			};
 			console.log('Created Form ' + req.param('form-name') + ' Successfully');
-			//res.json(form);
 		});
 		
 		res.redirect('/forms');
