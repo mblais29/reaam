@@ -110,18 +110,3 @@ function removePanel(){
 	});
 }
 
-function styleAddFileButton(){
-	//Upload Files Button Style
-	$('#Filebtninfo').filestyle({
-		size: 'sm',
-		buttonName : 'btn-info',
-		buttonText : 'File'
-	});
-}
-
-function draggablePanel() {
-    $("#upload-panel").draggable({
-	      handle: ".upload-panel-header"
-	  });
-    
-};

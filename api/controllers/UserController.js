@@ -95,23 +95,25 @@ module.exports = {
 	
 	//Update the User from edit page
 	update: function(req, res, next){
+		var userObj = {};
 		if(req.session.User.admin){
-			var userObj = {
+			 userObj = {
 				firstname: req.param('firstname'),
 				lastname: req.param('lastname'),
 				email: req.param('email'),
 				admin: req.param('admin')
 			};
 		}else{
-			var userObj = {
+			userObj = {
 				firstname: req.param('firstname'),
 				lastname: req.param('lastname'),
 				email: req.param('email')
 			};
 		}
+		//console.log(req.param('admin'));
 		User.update(req.param('id'), userObj, function userUpdated(err){
 			if(err){
-				return res.redirect('/user/edit/' + req.param('id'));
+				return res.json(err);//res.redirect('/user/edit/' + req.param('id'));
 			}
 			return res.redirect('/user/show/' + req.param('id'));
 		});

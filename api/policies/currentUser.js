@@ -6,11 +6,10 @@
  * @help        :: http://sailsjs.org/#!/documentation/concepts/Policies
  */
 module.exports = function(req, res, ok) {
-
+//Checks to see if the current user logged in is updating their own profile, the session user id must match the requested user id
   	var sessionUserMatchesId = req.session.User.id === req.param('id');
   	var isAdmin = req.session.User.admin;
-  	
-  	//Triggers when the requested id does not match the user's id and is not an admin
+
   	if(!(sessionUserMatchesId || isAdmin)){
   		var noRightsError = [{name: 'noRights', message: 'You must be an admin.'}];
   		req.session.flash = {

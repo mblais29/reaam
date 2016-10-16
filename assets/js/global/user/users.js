@@ -4,20 +4,6 @@
 
 $('#user-table').footable();
 
-//Delay displaying the user table to allow footable to load
-function userPage() {
-  $('#user-loading').css('display', 'none');
-  $('#user-loading').css('opacity', '0');
-
-  $('#user-title').css('display', 'block');
-  $('#user-title').css('opacity', '1');
-  $('#user-table').css('display', 'table');
-  $('#user-table').css('opacity', '1');
-
-
-}
-setTimeout("userPage()", 1000); // after 1 second
-
 /*****************************
 	LOADING USER UPLOAD PROFILE PAGE 
 *****************************/
@@ -47,6 +33,11 @@ $(window).on('resize', function(){
   }
 });
 
+$('#adminCheckbox').on('click', function(){
+	//console.log($(this).is(':checked'));
+	// Checks to see if the user is an admin or not and adjusts the hidden checkbox value accordingly
+	$('#hiddenAdminCheckbox').attr('value', $(this).is(':checked'));
+});
  
 //Upload Profile Image Button Style
 $('#BSbtninfo').filestyle({
@@ -64,6 +55,8 @@ function displayFileInput() {
 
 }
 setTimeout("displayFileInput()", 1000); // after 1 second 
+
+
 
 
 

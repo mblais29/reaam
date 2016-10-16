@@ -1,61 +1,18 @@
-#form-table, #form-title {
-  font-family: 'Open Sans', sans-serif;
-  display: none;
-  opacity: 0;
-}
-
-form#form-form {
-  width: 60%;
-  height: 60vh;
+div#form-add {
+  display:none;
+  width: 50%;
+  z-index: 10;
+  position:absolute;
+  top: 40%;
+  right: 0;
+  left: 0;
   margin: 0 auto;
-  text-align: center;
-  position: relative;
-  -webkit-transform: translateY(15%);
-  -ms-transform: translateY(15%);
-  transform: translateY(15%);
 }
 
-div#formflds-panel{
-  display: none;
-  width: 60%;
-  margin: 0 auto;
-  top: 20%;
-  max-height: 400px;
-  overflow-y: scroll;
+button#formAdd {
+  float: right
 }
 
-#formflds-panel::-webkit-scrollbar { 
-    display: none; 
-}
-
-form#formflds-form, #formflds-table {
-  display: none;
-  width: 100%
-}
-
-
-.panel-default {
-  border-color: #46b8da;
-  > div.formflds-panel-header {
-    background-image: none;
-    color: #fff;
-    background-color: #5bc0de;
-    border-color: #46b8da;
-    cursor: move;
-  }
-}
-
-span.close-formflds-panel {
-    background: rgba(0, 0, 0, 0.15);
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    position: absolute;
-    top: 3px;
-    right: 3px;
-}
-
-span.close-formflds-panel:hover {
-  background: rgba(0, 0, 0, 0.3);
+#table {
+  display:none;
 }

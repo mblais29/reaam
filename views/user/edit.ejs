@@ -22,13 +22,13 @@
 				<% if(session.authenticated && session.User.admin) { %>
 					<% if(user.admin) { %>
 						<div class="checkbox">
-							<input type="hidden" name="admin" value="unchecked" />
-							<label class="checkbox"><input type="checkbox" name="admin" checked> Administrator</label>
+							<input type="hidden" id="hiddenAdminCheckbox" name="admin" value="true" />
+							<label class="checkbox"><input type="checkbox" id="adminCheckbox" checked> Administrator</label>
 						</div>
 					<% }else{ %>
 						<div class="checkbox">
-							<input type="hidden" name="admin" value="unchecked" />
-						  	<label><input type="checkbox" name="admin"> Administrator</label>
+							<input type="hidden" id="hiddenAdminCheckbox" name="admin" value="false" />
+						  	<label><input type="checkbox" id="adminCheckbox" > Administrator</label>
 						</div>
 					<% } %>
 				<% } %>	

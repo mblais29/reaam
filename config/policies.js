@@ -29,16 +29,19 @@ module.exports.policies = {
   '*': 'flash',
   
   user: {
+  	index: 'authenticated',
   	'new': 'flash',
   	create: 'flash',
   	profileImg: 'flash',
   	emailpassword: 'flash',
   	resetpassword: 'flash',
   	updatepassword: 'flash',
-  	show: 'notAdmin',
-  	edit: 'notAdmin',
-  	update: 'notAdmin',
-  	'*': 'authenticated'
+  	show: 'currentUser',
+  	edit: 'currentUser',
+  	update: 'currentUser'
+  },
+  forms: {
+	'*': 'authenticated'
   }
 
   /***************************************************************************
