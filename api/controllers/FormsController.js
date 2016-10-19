@@ -34,13 +34,10 @@ module.exports = {
 		res.redirect('/forms');
 	},
 	'add': function(req,res,next){
-		Model.findOne('primary_key').populate('forms').exec(function make_changes(err, model){
-			  //Make changes to the model, including adding/removing things from its collection(s)
-			  model.save(function saved(err, same_model) {
-			    //Push updates
-			    Model.publishUpdate(model.id);
-			  });
-			});
+		Forms.findOne(1).exec(function (err, form) {
+			res.json(form);
+			
+		 });
 	}
 };
 

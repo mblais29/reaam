@@ -1,36 +1,38 @@
 /**
- * Forms.js
+ * Formfields.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
 module.exports = {
-  autoPK: false,
+autoPK: false,
   attributes: {
-	formid: {
+	formfieldid: {
 		type: 'integer',
 		primaryKey: true,
     	autoIncrement: true
 	},
-	formname: {
+	formid: {
+		type: 'integer',
+		required: true
+	},
+	formfieldname: {
 		type: 'string',
 		required: true
 	},
-	securitygroup: {
+	formfieldtype: {
 		type: 'string',
-		required: true
-	},
-	formfields: {
-		type: 'array'
+    	enum: ['string', 'text', 'integer', 'float', 'date', 'datetime', 'boolean', 'binary', 'array', 'json', 'mediumtext', 'longtext', 'objectid'],
+    	defaultsTo: 'string'
 	}
   },
- //Before create create an autoincremented formid using the sequence model
+  //Before create create an autoincremented formid using the sequence model
   beforeCreate : function (values, cb) {
         // add seq number, use
-        FormSequence.next("order", function(err, num) {
+        FormfieldSequence.next("order", function(err, num) {
             if (err) return cb(err);
-            values.formid = num;
+            values.formfieldid = num;
             cb();
         });
     }
