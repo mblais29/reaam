@@ -14,8 +14,7 @@ autoPK: false,
     	autoIncrement: true
 	},
 	formid: {
-		type: 'integer',
-		required: true
+		model:'Forms'
 	},
 	formfieldname: {
 		type: 'string',

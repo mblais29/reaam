@@ -6,12 +6,14 @@ $(window).on('load',function(){
 	});
 	$('#formClose').on('click', function(){
 		$('#form-add').slideUp();
+		$('#formName').val("");
 	});
 	$( "#formfieldedit" ).draggable();
 
 	$('#formfieldClose').on('click', function(){
 		$('#formfieldedit').slideUp();
 		$("#btn-formfieldtype").text('Select Type');
+		$('#formfieldname').val("");
 	});
 	
 });

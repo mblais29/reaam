@@ -18,6 +18,11 @@ module.exports = {
 			};
 			console.log('Created Formfield ' + req.param('formfieldname') + ' Successfully');
 		});
+		
+		Forms.find().populate("formfields")
+		    .exec(function(err, response) {
+		        console.log(response);
+		    });
 	}
 };
 

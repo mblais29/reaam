@@ -22,7 +22,8 @@ module.exports = {
 		required: true
 	},
 	formfields: {
-		type: 'array'
+		collection: 'Formfields',
+        via: 'formid'
 	}
   },
  //Before create create an autoincremented formid using the sequence model
