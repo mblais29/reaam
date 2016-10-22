@@ -1,7 +1,13 @@
 $(window).on('load',function(){
+	$( "#formfield-edit" ).draggable();
 	$('#formfieldclosebutton').on('click', function(){
 		$('#formfield-edit').slideUp();
 	});
+	$("#formfield-dropdown").on('click', 'li a', function(){
+      $("#btn-formfield-type").text($(this).text());
+      $("#btn-formfield-type").val($(this).text());
+      $("#formfield-type-hidden").val($(this).text());
+   });
 });
 
 function getformfieldsrecords(formfieldid){
@@ -11,15 +17,16 @@ function getformfieldsrecords(formfieldid){
       	$('#formfieldid').val(data.formfieldid);
       	$('#formID').val(data.formid);
       	$('#formfieldName').val(data.formfieldname);
-      	$('#formfieldtype').val(data.formfieldtype);
+      	$('#btn-formfield-type').text(data.formfieldtype);
       	$('#formfield-edit').show();
+      },
+      done: function(data){
       	
       },
       error: function(err) {
          console.log(err);
       }
     });
-
-	
 }
+
 

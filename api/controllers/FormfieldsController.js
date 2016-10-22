@@ -30,14 +30,46 @@ module.exports = {
 			console.log('Created Formfield ' + req.param('formfieldname') + ' Successfully');
 		});
 		//Populates the forms.formfields collection with all formfields associated to that form
-		Forms.find(formObj.formid).populate("formfields")
+		/*Forms.find(formObj.formid).populate("formfields")
 		    .exec(function(err, response) {
 		        console.log(response);
-		    });
+		    });*/
+		res.redirect('/forms');
 	},
 	edit: function(req,res,next){
 		Formfields.findOne(req.param('formfieldid')).exec(function (err, formfield) {
 			return res.ok(formfield);
+		});
+	},
+	//Update the Form Field from edit page
+	update: function(req, res, next){
+		var formFieldObj = {};
+			 formFieldObj = {
+				formfieldid: req.param('formfieldid'),
+				formfieldname: req.param('formfieldName'),
+				formfieldtype: req.param('formfield-type-hidden')
+			};
+		//console.log(formFieldObj);
+		Formfields.update(req.param('formfieldid'), formFieldObj, function formfieldsUpdated(err){
+			if(err){
+				req.session.flash = {
+				err: err
+				};
+			res.redirect('/formfields');
+			return;
+			}
+			return res.redirect('/formfields');
+		}); 
+	},
+	//Delete the User
+	destroy: function(req, res, next){
+		Formfields.findOne(req.param('formfieldid'), function foundFormfield(err,formfield){
+			if(err) return next(err);
+			if(!formfield) return next('Form Field doesn\'t exist...');
+			Formfields.destroy(req.param('formfieldid'), function formfieldDestroyed(err){
+				if(err) return next(err);
+			});
+			res.redirect('/formfields');
 		});
 	}
 };

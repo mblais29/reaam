@@ -33,11 +33,10 @@ module.exports = {
 		
 		res.redirect('/forms');
 	},
-	'add': function(req,res,next){
-		Forms.findOne(1).exec(function (err, form) {
-			res.json(form);
-			
-		 });
-	}
+	edit: function(req,res,next){
+		Forms.findOne(req.param('formid')).exec(function (err, form) {
+			return res.ok(form);
+		});
+	},
 };
 
