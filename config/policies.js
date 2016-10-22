@@ -43,6 +43,9 @@ module.exports.policies = {
   },
   forms: {
 	'*': 'authenticated'
+  },
+  formfields: {
+	'*': 'authenticated'
   }
 
   /***************************************************************************

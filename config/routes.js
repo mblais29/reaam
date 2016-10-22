@@ -42,7 +42,6 @@ module.exports.routes = {
     view: 'upload/uploadprofileimg',
   
   }
-
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

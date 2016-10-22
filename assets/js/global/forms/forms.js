@@ -8,10 +8,10 @@ $(window).on('load',function(){
 		$('#form-add').slideUp();
 		$('#formName').val("");
 	});
-	$( "#formfieldedit" ).draggable();
+	$( "#formfieldadd" ).draggable();
 
 	$('#formfieldClose').on('click', function(){
-		$('#formfieldedit').slideUp();
+		$('#formfieldadd').slideUp();
 		$("#btn-formfieldtype").text('Select Type');
 		$('#formfieldname').val("");
 	});
@@ -20,7 +20,7 @@ $(window).on('load',function(){
 
 function getFormfieldValue(formid){
 	$('#form').val(formid);
-	$('#formfieldedit').show();
+	$('#formfieldadd').show();
 }
 
 $(function(){
