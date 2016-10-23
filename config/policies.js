@@ -42,7 +42,8 @@ module.exports.policies = {
   	update: 'currentUser'
   },
   forms: {
-	'*': 'authenticated'
+	'*': 'authenticated',
+	index: 'flash'
   },
   formfields: {
 	'*': 'authenticated',

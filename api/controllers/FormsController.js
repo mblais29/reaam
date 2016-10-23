@@ -38,5 +38,31 @@ module.exports = {
 			return res.ok(form);
 		});
 	},
+	//Delete the Form
+	destroy: function(req, res, next){
+		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, response) {
+			//res.json(response[0].formfields);
+			var fields = response[0].formfields;
+			if(fields.length){
+				var formFieldsError = [{name: 'formFields', message: 'Must delete the form fields first before deleting the form...'}];
+				req.session.flash = {
+					err: formFieldsError
+				};
+				res.redirect('/forms');
+				return;
+			}else{
+				Forms.findOne(req.param('formid'), function foundForm(err,form){
+					if(err) return next(err);
+					if(!form) return next('Form doesn\'t exist...');
+					Forms.destroy(req.param('formid'), function formDestroyed(err){
+						req.session.flash = {
+							err: err
+						};
+					});
+					res.redirect('/forms');
+				});
+			}
+    	});
+	}
 };
 

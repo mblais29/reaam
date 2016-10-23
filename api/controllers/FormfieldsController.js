@@ -61,7 +61,7 @@ module.exports = {
 			return res.redirect('/formfields');
 		}); 
 	},
-	//Delete the User
+	//Delete the Form Field
 	destroy: function(req, res, next){
 		Formfields.findOne(req.param('formfieldid'), function foundFormfield(err,formfield){
 			if(err) return next(err);
