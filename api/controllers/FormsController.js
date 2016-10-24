@@ -38,13 +38,33 @@ module.exports = {
 			return res.ok(form);
 		});
 	},
+	//Update the Form from edit page
+	update: function(req, res, next){
+		var formObj = {};
+			 formObj = {
+				formid: req.param('form-id'),
+				formname: req.param('formname'),
+				securitygroup: req.param('formsecurity')
+			};
+		//console.log(formObj);
+		Forms.update(req.param('form-id'), formObj, function formsUpdated(err){
+			if(err){
+				req.session.flash = {
+				err: err
+				};
+			res.redirect('/forms');
+			return;
+			}
+			return res.redirect('/forms');
+		}); 
+	},
 	//Delete the Form
 	destroy: function(req, res, next){
 		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, response) {
 			//res.json(response[0].formfields);
 			var fields = response[0].formfields;
 			if(fields.length){
-				var formFieldsError = [{name: 'formFields', message: 'Must delete the form fields first before deleting the form...'}];
+				var formFieldsError = [{name: 'formFieldsError', message: 'Must delete the form fields first before deleting the form...'}];
 				req.session.flash = {
 					err: formFieldsError
 				};
