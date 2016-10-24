@@ -4,9 +4,14 @@ $(window).on('load',function(){
 	$( "#formfieldadd" ).draggable();
 	$( "#form-edit" ).draggable();
 	
+	$('#formPreviewClose').on('click', function(){
+		$('#form-preview').slideUp();
+	});
+	
 	$('#formAdd').on('click', function(){
 		$('#form-add').show();
 	});
+	
 	$('#formClose').on('click', function(){
 		$('#form-add').slideUp();
 		$('#formName').val("");
@@ -54,3 +59,20 @@ function getFormValue(formid){
       }
     });
 };
+
+function insertFormData(formid){
+	$('#form-preview').show();
+	$.ajax('/forms/populate?formid=' + formid,{
+      success: function(data) {
+      	console.log(data);
+      	
+      },
+      done: function(data){
+      	
+      },
+      error: function(err) {
+         console.log(err);
+      }
+    });
+}
+

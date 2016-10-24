@@ -83,6 +83,12 @@ module.exports = {
 				});
 			}
     	});
+	},
+	'populate': function(req, res, next){
+		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, response) {
+			//Must return res.ok() to send the data to the ajax call
+			return res.ok(response);
+		});
 	}
 };
 

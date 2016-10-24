@@ -19,6 +19,22 @@
 			  <img id="loading-image" src="images/mblais.png" width="100" height="100" alt="Loading..." /><br/>
 			  <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
 			</div>
+			<div id="form-preview" class="panel panel-default">
+			  <div class="panel-heading">Preview Form</div>
+			  <div class="panel-body">
+			  	<div class="form-group"> 
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <button type="button" id="formPreviewClose" class="btn btn-default pull-right">Close</button>
+			  		  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+				    </div>
+				  </div>
+			  </div>
+			  </div>
+			 </div>
+			
+			
+			
+			
 			<div id="form-add" class="panel panel-default">
 			  <div class="panel-heading">Create Form</div>
 			  <div class="panel-body">
@@ -127,6 +143,7 @@
 						<th>Name</th>
 						<th data-type="html" data-breakpoints="all" data-title="Form ID">Form ID</th>
 						<th data-type="html" data-breakpoints="all" data-title="Security">Security</th>
+						<th data-type="html" data-breakpoints="all" data-title="Preview Form"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Add Fields"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Edit Form"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Delete Form"></th>
@@ -139,6 +156,7 @@
 						<td><%= form.formname %></td>
 						<td><%= form.formid %></td>
 						<td><%= form.securitygroup %></td>
+						<td><button id="formpreview<%= form.formid %>" class="btn btn-sm btn-primary" onclick="insertFormData(<%= form.formid %>)" value="<%= form.formid %>">Preview</button></td>
 						<td><button id="formfieldAdd<%= form.formid %>" class="btn btn-sm btn-primary" onclick="getFormfieldValue(<%= form.formid %>)" value="<%= form.formid %>">Add</button></td>
 						<td><button id="formfieldEdit<%= form.formid %>" class="btn btn-sm btn-warning" onclick="getFormValue(<%= form.formid %>)" value="<%= form.formid %>">Edit</button></td>
 						<td>
