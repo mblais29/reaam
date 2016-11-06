@@ -23,9 +23,11 @@
 			  <div class="panel-heading">Preview Form</div>
 			  <div class="panel-body">
 			  	<div class="form-group"> 
-				    <div class="col-sm-offset-2 col-sm-10">
-				      <button type="button" id="formPreviewClose" class="btn btn-default pull-right">Close</button>
-			  		  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+				    <div class="col-sm-12">
+				    	<form class="form-horizontal" id="formPreview">
+			  		  	</form>
+			  		  	<button type="button" id="formPreviewClose" class="btn btn-default pull-right">Close</button>
+			  		  	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 				    </div>
 				  </div>
 			  </div>
