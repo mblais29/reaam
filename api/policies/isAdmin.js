@@ -7,16 +7,16 @@
  */
 module.exports = function(req, res, ok) {
 
-	if(!req.session.User){
-		var requireError = [{name: 'requireAdminError', message: 'You must be logged in!'}];
+	if(!req.session.User.admin){
+		var requireError = [{name: 'requireAdminError', message: 'You must be an admin!'}];
   		req.session.flash = {
   			err: requireError
   		};
-  		res.redirect('/session/new');
+  		res.redirect('/error');
 		return;
 	}
 	//User is allowed if they are logged in and an admin user, proceed to controller
-  	else if(req.session.User){
+  	else if(req.session.User && req.session.User.admin){
   		return ok();
   	};
   	

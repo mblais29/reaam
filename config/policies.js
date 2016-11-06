@@ -26,29 +26,35 @@ module.exports.policies = {
   * passes all controllers through flash policy                                                                      *
   ***************************************************************************/
 
-  '*': 'flash',
+ error: {
+  	index: 'flash'
+  },
   
+  session: {
+  	'new': ['flash'],
+  },
+
   user: {
-  	index: 'authenticated',
-  	'new': 'flash',
+  	index: ['isAdmin','authenticated'],
+  	'new': ['flash', 'authenticated'],
   	create: 'flash',
-  	update: 'flash',
-  	profileImg: 'flash',
+  	update: ['flash', 'authenticated'],
+  	profileImg: ['flash', 'authenticated'],
   	emailpassword: 'flash',
   	resetpassword: 'flash',
   	updatepassword: 'flash',
-  	show: ['currentUser','flash'],
-  	edit: ['currentUser','flash'],
-  	update: 'currentUser'
+  	show: ['currentUser','flash', 'authenticated'],
+  	edit: ['currentUser','flash', 'authenticated'],
+  	update: ['currentUser', 'authenticated'],
   },
+
   forms: {
-	'*': 'authenticated',
-	index: 'flash'
+	index: ['flash', 'isAdmin', 'authenticated']
+	
   },
   formfields: {
-	'*': 'authenticated',
-	index: 'flash',
-	update: 'flash'
+	index: ['flash', 'isAdmin', 'authenticated'],
+	update: ['flash', 'isAdmin', 'authenticated']
   }
 
   /***************************************************************************
