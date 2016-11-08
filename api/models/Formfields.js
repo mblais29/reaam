@@ -22,7 +22,7 @@ autoPK: false,
 	},
 	formfieldtype: {
 		type: 'string',
-    	enum: ['string', 'text', 'integer', 'float', 'date', 'datetime', 'boolean', 'binary', 'array', 'json', 'mediumtext', 'longtext', 'objectid'],
+    	enum: ['string', 'text', 'integer', 'float', 'date', 'datetime', 'boolean', 'json', 'mediumtext', 'longtext', 'objectid'],
     	defaultsTo: 'string'
 	}
   },

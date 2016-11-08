@@ -1,13 +1,30 @@
+html {
+  -ms-overflow-style: none;
+  
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
 div#form-add, div#formfieldadd, div#form-edit, div#form-preview {
   display:none;
   width: 50%;
+  max-height: 500px;
   z-index: 10;
   position:absolute;
-  top: 40%;
+  top: 20%;
   right: 0;
   left: 0;
   margin: 0 auto;
+  overflow-y: auto;
+  -ms-overflow-style: none;
 }
+
+div#form-add::-webkit-scrollbar, div#formfieldadd::-webkit-scrollbar, div#form-edit::-webkit-scrollbar, div#form-preview::-webkit-scrollbar { 
+    display: none; 
+}
+
 
 button#formAdd {
   float: right

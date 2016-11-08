@@ -25,7 +25,7 @@ var cssFilesToInject = [
 	'styles/jquery-ui.min.css',
 	'styles/jquery-ui.structure.min.css',
 	'styles/jquery-ui.theme.css',
-	
+	'styles/bootstrap/bootstrap-datetimepicker.min.css',
   	'styles/**/*.css'
 ];
 
@@ -50,6 +50,8 @@ var jsFilesToInject = [
   'js/dependencies/leaflet/dist/leaflet.draw.js',
   'js/dependencies/leaflet/dist/leaflet.draw-src.js',
   'js/dependencies/leaflet/jquery-ui.min.js',
+  'js/dependencies/bootstrap/bootstrap-datetimepicker.min.js',
+  'js/dependencies/bootstrap/bootstrap-datetimepicker.uk.js',
   
   
 
