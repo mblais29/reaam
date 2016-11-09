@@ -21,9 +21,8 @@ module.exports = {
 		  maxBytes: 100000000, //100mb
 		  }, function (err, filesUploaded) {
 		  if (err) return res.negotiate(err);
-		  	var userId = req.session.User.id;
-
-		  	
+		  var userId = req.session.User.id;
+	
 		  var userObj = {
 			//Adds the encrypted filename to user.profileimage field record for user being edited
 			  profileimage: filesUploaded[0].extra.fd 
