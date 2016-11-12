@@ -21,7 +21,8 @@ module.exports = {
 		var formObj = {
 			formid: req.param('form'),
 			formfieldname: req.param('formfieldname'),
-			formfieldtype: req.param('formfieldtypehidden')
+			formfieldtype: req.param('formfieldtypehidden'),
+			fileupload: req.param('file-upload-hidden')
 		};
 		Formfields.create(formObj, function formfieldCreated(err,formfield){
 			if(err){
@@ -29,11 +30,6 @@ module.exports = {
 			};
 			console.log('Created Formfield ' + req.param('formfieldname') + ' Successfully');
 		});
-		//Populates the forms.formfields collection with all formfields associated to that form
-		/*Forms.find(formObj.formid).populate("formfields")
-		    .exec(function(err, response) {
-		        console.log(response);
-		    });*/
 		res.redirect('/forms');
 	},
 	edit: function(req,res,next){

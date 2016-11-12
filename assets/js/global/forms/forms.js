@@ -35,6 +35,18 @@ $(window).on('load',function(){
       $("#btn-formfieldtype").text($(this).text());
       $("#btn-formfieldtype").val($(this).text());
       $("#formfieldtypehidden").val($(this).text());
+      /* If the user selects type string show option to create document upload */
+      if($("#formfieldtypehidden").val() === 'string'){
+      	$('#fileUploadCheckbox').show();
+      }else{
+      	$('#fileUploadCheckbox').hide();
+      }
+
+      $('#file-upload').on('click', function(){
+		/* When checkbox is clicked update hidden input value */ 
+      	$('#file-upload-hidden').val($(this).prop('checked'));
+      });
+      
     });
     
 	
@@ -95,9 +107,16 @@ function generateForm(data){
 	    			var inputType = "";
 	    			switch (formfieldObject.formfieldtype) {
 					    case 'string':
-					        inputType = "text";
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">');
+					    	/* If the form field fileupload set to true then create a file input box */
+					    	if(formfieldObject.fileupload === true){
+					    		inputType = "file";
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">');
+					    	}else{
+					    		inputType = "text";
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">');
+					    	}
 					        break;
 					    case 'text':
 					        inputType = "text";
@@ -176,11 +195,6 @@ function generateForm(data){
 					    case 'longtext':
 					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
 			    			$('#formfieldid' + formfieldObject.formfieldid).append('<textarea class="form-control" rows="5" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '"></textarea>');
-					        break;
-					    case 'objectid':
-					        inputType = "file";
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">');
 					        break;
 					};
 				}
