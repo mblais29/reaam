@@ -54,7 +54,9 @@ module.exports.policies = {
   },
   formfields: {
 	index: ['flash', 'isAdmin', 'authenticated'],
-	update: ['flash', 'isAdmin', 'authenticated']
+	update: ['flash', 'isAdmin', 'authenticated'],
+	'getFormfieldsTypeEnum': ['flash', 'isAdmin', 'authenticated'],
+	'insert': ['flash', 'authenticated'],
   }
 
   /***************************************************************************

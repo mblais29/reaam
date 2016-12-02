@@ -48,8 +48,8 @@ $(window).on('load',function(){
       });
       
     });
-    
-	
+
+
 });
 
 function getFormfieldValue(formid){
@@ -112,6 +112,13 @@ function generateForm(data){
 					    		inputType = "file";
 					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
 			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">');
+
+								$('#' + formfieldObject.formfieldname + formfieldObject.formfieldid).filestyle({
+									size: 'sm',
+									buttonName : 'btn-info',
+									buttonText : 'Upload'
+								});
+			    				
 					    	}else{
 					    		inputType = "text";
 					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');

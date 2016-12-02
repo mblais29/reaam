@@ -17,6 +17,10 @@ module.exports = {
 		type: 'string',
 		required: true
 	},
+	collectionname: {
+		type: 'string',
+		required: true
+	},
 	securitygroup: {
 		type: 'string',
 		required: true

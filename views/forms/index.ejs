@@ -24,10 +24,16 @@
 			  <div class="panel-body">
 			  	<div class="form-group"> 
 				    <div class="col-sm-12">
-				    	<form class="form-horizontal" id="formPreview">
+				    	<form class="form-horizontal" id="formPreview" action="/formfields/insert">
+				    		<div class="form-group"> 
+							    <div class="col-sm-offset-2 col-sm-10">
+							      <button type="submit" class="btn btn-default pull-right">Submit</button>
+							      <button type="button" id="formClose" class="btn btn-default pull-right">Close</button>
+						  		  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+							    </div>
+							</div>
 			  		  	</form>
-			  		  	<button type="button" id="formPreviewClose" class="btn btn-default pull-right">Close</button>
-			  		  	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			  		  	
 				    </div>
 				  </div>
 			  </div>
@@ -41,6 +47,12 @@
 				    <label class="control-label col-sm-2" for="formName">Name:</label>
 				    <div class="col-sm-10">
 				      <input type="text" class="form-control" id="formName" name="formName" placeholder="Enter form name...">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label col-sm-2" for="formCollectionName">Collection:</label>
+				    <div class="col-sm-10"> 
+				      <input type="text" class="form-control" id="formCollectionName" name="formCollectionName" placeholder="Enter collection name...">
 				    </div>
 				  </div>
 				  <div class="form-group">

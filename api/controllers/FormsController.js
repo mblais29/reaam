@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var Waterline = require('waterline');
+
 module.exports = {
 	//List of Users page
 	index: function(req, res, next){
@@ -21,6 +23,7 @@ module.exports = {
 	create: function(req,res,next){
 		var formObj = {
 			formname: req.param('formName'),
+			collectionname: req.param('formCollectionName'),
 			securitygroup: req.param('formSecurity')
 		};
 		
@@ -31,6 +34,39 @@ module.exports = {
 			console.log('Created Form ' + req.param('form-name') + ' Successfully');
 		});
 		
+		var orm = new Waterline();
+
+		var config = {
+		    // Setup Adapters
+		    // Creates named adapters that have have been required
+		    adapters: {
+		        'default': 'mongo',
+		        mongo: require('sails-mongo')
+		    },
+		
+		    // Build Connections Config
+		    // Setup connections using the named adapter configs
+		    connections: {
+		        'default': {
+		            adapter: 'mongo',
+		            url: 'mongodb://localhost:27017/reaam'
+		        }
+		    }
+		};
+		
+		var newModel = Waterline.Collection.extend({
+		    identity: formObj.collectionname,
+		    connection: 'default',
+
+		});
+		orm.loadCollection(newModel);
+		
+		orm.initialize(config, function(err, data) {
+		    if (err) {
+		        throw err;
+		    }
+		});
+
 		res.redirect('/forms');
 	},
 	edit: function(req,res,next){
@@ -89,6 +125,10 @@ module.exports = {
 			//Must return res.ok() to send the data to the ajax call
 			return res.ok(response);
 		});
+	},
+	'getFormfieldsTypeEnum': function(req, res, next){
+		
+		return res.json(Formfields.attributes.formfieldtype.enum);
 	}
 };
 
