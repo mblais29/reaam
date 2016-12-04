@@ -21,7 +21,7 @@ module.exports = {
 		        delete obj[k];
 		    }
 		}
-		return output;
-	}
+		return obj;
+	},
 
 };
