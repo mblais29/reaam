@@ -132,13 +132,7 @@ module.exports = {
 			    //console.log("entry saved");
 			});
 		});
-		
-		
-
-
-
-		
-		
+		res.redirect('/forms');
 	},
 	//Delete the Form Field
 	destroy: function(req, res, next){

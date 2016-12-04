@@ -62,7 +62,7 @@
 		  </div>
 		</div>
 		<div class="container-fluid users">
-			<table id="table" class="table table-striped" data-sorting="true">
+			<table id="table" class="table table-striped" data-sorting="true" data-filtering="true">
 				<thead>
 					<tr>
 						<!--- Must have data-type="html" on all data-breakpoints="all" or <ahref=""> table data in Footable Plugin --->
@@ -70,8 +70,8 @@
 						<th>Form ID</th>
 						<th data-type="html" data-breakpoints="all" data-title="Form Field ID">Form Field ID</th>
 						<th data-type="html" data-breakpoints="all" data-title="Type">Type</th>
-						<th data-type="html" data-breakpoints="all" data-title="Edit Field"></th>
-						<th data-type="html" data-breakpoints="all" data-title="Delete Field"></th>
+						<th data-type="html" data-breakpoints="all" data-title="Edit Field" data-filterable="false"></th>
+						<th data-type="html" data-breakpoints="all" data-title="Delete Field" data-filterable="false"></th>
 					</tr>
 				</thead>
 				<tbody>
