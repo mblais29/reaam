@@ -12,7 +12,7 @@
 			  <img id="loading-image" src="images/mblais.png" width="100" height="100" alt="Loading..." /><br/>
 			  <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
 			</div>
-			<table id="table" class="table table-striped">
+			<table id="table" class="table table-striped" data-sorting="true" data-filtering="true">
 				<thead>
 					<tr>
 						<!--- Must have data-type="html" on all data-breakpoints="all" or <ahref=""> table data in Footable Plugin --->
@@ -21,9 +21,9 @@
 						<th>Last Name</th>
 						<th data-type="html" data-breakpoints="all" data-title="Email">Email</th>
 						<th data-type="html" data-breakpoints="all" data-title="Admin User"></th>
-						<th data-type="html" data-breakpoints="all" data-title="Show User"></th>
-						<th data-type="html" data-breakpoints="all" data-title="Edit User"></th>
-						<th data-type="html" data-breakpoints="all" data-title="Delete User"></th>
+						<th data-type="html" data-breakpoints="all" data-title="Show User" data-filterable="false"></th>
+						<th data-type="html" data-breakpoints="all" data-title="Edit User" data-filterable="false"></th>
+						<th data-type="html" data-breakpoints="all" data-title="Delete User" data-filterable="false"></th>
 					</tr>
 				</thead>
 				<tbody>
