@@ -32,7 +32,7 @@ module.exports = {
 			console.log('Created Formfield ' + req.param('formfieldname') + ' Successfully');
 		});
 		
-		var orm = new Waterline();
+		/*var orm = new Waterline();
 
 		var config = {
 		    // Setup Adapters
@@ -73,7 +73,7 @@ module.exports = {
 			    }
 			});
 			
-		});
+		});*/
 
 		res.redirect('/forms');
 	},
@@ -104,7 +104,41 @@ module.exports = {
 		}); 
 	},
 	'insert': function(req, res, next){
-		res.json(req.params.all());
+		//res.json(req.param('collection'));
+		var record = req.allParams();
+		
+		/* Deletes the _csrf and collection records from the array */
+		delete record._csrf; 
+		delete record.collection;
+		
+		/* Converts the key to lowercase before saving to database */
+		var lowercaseRecord = ObjectServices.convertLowercase(record);
+		
+		/* Replaces and spaces with "_" before saving to database */
+		var finalRecord = ObjectServices.removeSpace(lowercaseRecord);
+		
+		var MongoClient = require('mongodb').MongoClient;
+ 		
+		var myCollection;
+		var db = MongoClient.connect(sails.config.conf.url, function(err, db) {
+		    if(err)
+		        throw err;
+		    //console.log("Connected to the MongoDB !");
+		    myCollection = db.collection(req.param('collection'));
+		    myCollection.insert(lowercaseRecord, function(err, result) {
+			    if(err)
+			        throw err;
+			 
+			    //console.log("entry saved");
+			});
+		});
+		
+		
+
+
+
+		
+		
 	},
 	//Delete the Form Field
 	destroy: function(req, res, next){
