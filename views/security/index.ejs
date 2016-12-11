@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>Security Page</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container-fluid users">
+			<% if(flash && flash.err) { %>
+				<ul class="alert alert-success">
+					<% Object.keys(flash.err).forEach(function(error) { %>
+						<li><%- JSON.stringify(flash.err[error]) %></li>
+					<% }) %>
+				</ul>
+			<% } %>
+			<h3 id="table-title">Security Groups</h3>
+			<div id="sec-add" class="panel panel-default">
+			  <div class="panel-heading">Create Security Group</div>
+			  <div class="panel-body">
+			  	<form class="form-horizontal" id="secCreate" action="/security/create">
+				  <div class="form-group">
+				    <label class="control-label col-sm-2" for="secName">Name:</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" id="secName" name="secName" placeholder="Enter Security Group Name...">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label col-sm-2" for="secId">Security ID:</label>
+				    <div class="col-sm-10"> 
+				      <input type="text" class="form-control" id="secId" name="secId" placeholder="Enter Security ID...">
+				    </div>
+				  </div>
+				  <div class="form-group"> 
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <button type="submit" class="btn btn-default pull-right">Submit</button>
+				      <button type="button" id="secAddClose" class="btn btn-default pull-right" onclick="closeSecAddPanel()">Close</button>
+			  		  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+				    </div>
+				  </div>
+				</form>
+			  </div>
+			</div>
+			<table id="table-sec" class="table table-striped" data-sorting="true" data-filtering="true">
+				<thead>
+					<tr>
+						<th>Security Group Name</th>
+						<th data-type="html" data-breakpoints="all" data-title="Security_ID">Security ID</th>
+						<th data-filterable="false" data-sortable="false"><button class="btn btn-sm btn-primary pull-right" id="securityAdd" >Add</button></th>	
+					</tr>
+				</thead>
+				<tbody>
+				  <% _.each(security, function(security){ %>
+					<tr data-expanded="false" id="sec-records" data-id="<%= security.secid %>" data-model="security">
+						<td><%= security.secname %></td>
+						<td><%= security.secid %></td>
+						<td><button id="secEdit<%= security.secid %>" class="btn btn-sm btn-warning" onclick="#" value="<%= security.secid %>">Edit</button></td>	
+						<td>
+							<form action="/security/destroy?secid=<%= security.secid %>" method="POST">
+								<input type="hidden" name="_method" value="delete" />
+								<input type="submit" class="btn btn-sm btn-danger" value="Delete" />
+								<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+							</form>
+						</td>
+					</tr>
+				   <% }) %>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html> 

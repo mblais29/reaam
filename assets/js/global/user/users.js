@@ -1,10 +1,4 @@
 /*****************************
-	LOADING USER PAGE 
-*****************************/
-
-$('#user-table').footable();
-
-/*****************************
 	LOADING USER UPLOAD PROFILE PAGE 
 *****************************/
 /* When screen loads check document size and adjust button accordingly */

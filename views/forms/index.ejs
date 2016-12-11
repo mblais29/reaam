@@ -13,31 +13,7 @@
 					<% }) %>
 				</ul>
 			<% } %>
-			<h3 id="table-title">Forms</h3>		
-			<!--- Adds a ajax loader if page is taking time to load --->
-			<div id="loading" class="col-lg-12 text-center vcenter">
-			  <img id="loading-image" src="images/mblais.png" width="100" height="100" alt="Loading..." /><br/>
-			  <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
-			</div>
-			<div id="form-preview" class="panel panel-default">
-			  <div class="panel-heading">Preview Form</div>
-			  <div class="panel-body">
-			  	<div class="form-group"> 
-				    <div class="col-sm-12">
-				    	<form class="form-horizontal" id="formPreview" action="/formfields/insert">
-				    		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-			  		  	</form>
-			  		  	<div class="form-group"> 
-						    <div class="col-sm-offset-2 col-sm-10">
-						      <button type="submit" class="btn btn-default pull-right" onclick="submitFormPreview()">Submit</button>
-						      <button type="button" id="formPreviewClose" class="btn btn-default pull-right">Close</button>
-						    </div>
-						</div>
-				    </div>
-				  </div>
-			  </div>
-			  </div>
-			</div>
+			<h3 id="table-title">Forms</h3>
 			<div id="form-add" class="panel panel-default">
 			  <div class="panel-heading">Create Form</div>
 			  <div class="panel-body">
@@ -63,11 +39,30 @@
 				  <div class="form-group"> 
 				    <div class="col-sm-offset-2 col-sm-10">
 				      <button type="submit" class="btn btn-default pull-right">Submit</button>
-				      <button type="button" id="formAddClose" class="btn btn-default pull-right">Close</button>
+				      <button type="button" id="formAddClose" class="btn btn-default pull-right" onclick="closeFormAddPanel()">Close</button>
 			  		  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
 				    </div>
 				  </div>
 				</form>
+			  </div>
+			</div>
+			<div id="form-preview" class="panel panel-default">
+			  <div class="panel-heading">Preview Form</div>
+			  <div class="panel-body">
+			  	<div class="form-group"> 
+				    <div class="col-sm-12">
+				    	<form class="form-horizontal" id="formPreview" action="/formfields/insert">
+				    		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			  		  	</form>
+			  		  	<div class="form-group"> 
+						    <div class="col-sm-offset-2 col-sm-10">
+						      <button type="submit" class="btn btn-default pull-right" onclick="submitFormPreview()">Submit</button>
+						      <button type="button" id="formPreviewClose" class="btn btn-default pull-right">Close</button>
+						    </div>
+						</div>
+				    </div>
+				  </div>
+			  </div>
 			  </div>
 			</div>
 			<div id="form-edit" class="panel panel-default">
@@ -151,7 +146,7 @@
 				</form>
 			  </div>
 			</div>
-			<table id="table" class="table table-striped" data-sorting="true" data-filtering="true">
+			<table id="table-form" class="table table-striped" data-sorting="true" data-filtering="true">
 				<thead>
 					<tr>
 						<!--- Must have data-type="html" on all data-breakpoints="all" or <ahref=""> table data in Footable Plugin --->
@@ -162,7 +157,7 @@
 						<th data-type="html" data-breakpoints="all" data-title="Add Fields" data-filterable="false"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Edit Form" data-filterable="false"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Delete Form" data-filterable="false"></th>
-						<th data-filterable="false"><button id="formAdd" class="btn btn-sm btn-primary">Add</button></th>	
+						<th data-filterable="false" data-sortable="false"><button id="formAdd" class="btn btn-sm btn-primary">Add</button></th>	
 					</tr>
 				</thead>
 				<tbody>

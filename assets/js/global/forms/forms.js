@@ -1,5 +1,4 @@
 $(window).on('load',function(){
-	$('#table').footable();
 	$( "#form-add" ).draggable();
 	$( "#formfieldadd" ).draggable();
 	$( "#form-edit" ).draggable();
@@ -13,11 +12,6 @@ $(window).on('load',function(){
 	
 	$('#formAdd').on('click', function(){
 		$('#form-add').show();
-	});
-	
-	$('#formAddClose').on('click', function(){
-		$('#form-add').slideUp();
-		$('#formName').val("");
 	});
 	
 	$('#formEditClose').on('click', function(){
@@ -51,6 +45,12 @@ $(window).on('load',function(){
 
 
 });
+
+function closeFormAddPanel(){
+	$('#form-add').slideUp();
+	$('input[type=text]').rules('remove'); 
+	$('#formCreate input').val("");
+}
 
 function forceLower(strInput){
 	strInput.value = strInput.value.toLowerCase();
