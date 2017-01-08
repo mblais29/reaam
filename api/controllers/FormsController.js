@@ -125,10 +125,6 @@ module.exports = {
 			//Must return res.ok() to send the data to the ajax call
 			return res.ok(response);
 		});
-	},
-	'getFormfieldsTypeEnum': function(req, res, next){
-		
-		return res.json(Formfields.attributes.formfieldtype.enum);
 	}
 };
 

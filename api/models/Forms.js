@@ -22,8 +22,8 @@ module.exports = {
 		required: true
 	},
 	securitygroup: {
-		type: 'string',
-		required: true
+		collection: 'Security',
+        via: 'secid'
 	},
 	formfields: {
 		collection: 'Formfields',

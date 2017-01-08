@@ -14,7 +14,8 @@
 				</ul>
 			<% } %>
 			<% if (messages && messages['error'].length > 0) { %>
-			  <div class="alert alert-danger">
+			  <div class="alert alert-danger securityMessage">
+			  <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
 			  <% messages['error'].forEach(function(message) { %>
 			    <%= message %>
 			    <br>
@@ -23,7 +24,8 @@
 			  <br>
 			<% } %>
 			<% if (messages && messages['warning'].length > 0) { %>
-			  <div class="alert alert-warning">
+			  <div class="alert alert-warning securityMessage">
+			  <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
 			  <% messages['warning'].forEach(function(message) { %>
 			    <%= message %>
 			    <br>
@@ -32,7 +34,8 @@
 			  <br>
 			<% } %>
 			<% if (messages && messages['success'].length > 0) { %>
-			  <div class="alert alert-success">
+			  <div class="alert alert-success securityMessage">
+			  <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
 			  <% messages['success'].forEach(function(message) { %>
 			    <%= message %>
 			    <br>
@@ -46,14 +49,14 @@
 			  <div class="panel-body">
 			  	<form class="form-horizontal" id="secCreate" action="/security/create">
 				  <div class="form-group">
-				    <label class="control-label col-sm-2" for="secName">Name:</label>
-				    <div class="col-sm-10">
+				    <label class="control-label col-sm-3" for="secName">Name:</label>
+				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="secName" name="secName" placeholder="Enter Security Group Name...">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label class="control-label col-sm-2" for="secId">Security ID:</label>
-				    <div class="col-sm-10"> 
+				    <label class="control-label col-sm-3" for="secId">Security ID:</label>
+				    <div class="col-sm-9"> 
 				      <input type="text" class="form-control" id="secId" name="secId" placeholder="Enter Security ID...">
 				    </div>
 				  </div>
@@ -99,6 +102,7 @@
 						<th>Security Group Name</th>
 						<th data-type="html" data-breakpoints="all" data-title="Security ID">Security ID</th>
 						<th data-type="html" data-breakpoints="all" data-title="Edit Security" data-filterable="false"></th>
+						<th data-type="html" data-breakpoints="all" data-title="Delete Security Group" data-filterable="false"></th>
 						<th data-filterable="false" data-sortable="false"><button class="btn btn-sm btn-primary pull-right" id="securityAdd" >Add</button></th>	
 					</tr>
 				</thead>

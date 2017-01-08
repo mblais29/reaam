@@ -1,3 +1,11 @@
+$(window).on('load',function(){
+	$("#addsecgroup").on('click', 'li a', function(){
+      $("#btn-formfield-type").text($(this).text());
+      $("#btn-formfield-type").val($(this).text());
+      $("#formfield-type-hidden").val($(this).text());
+   });
+});
+
 function closeSecAddPanel(){
 	$('#sec-add').slideUp();
 	$('#secCreate input').val("");

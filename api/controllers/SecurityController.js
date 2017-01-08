@@ -28,10 +28,11 @@ module.exports = {
 				err: err
 				};
 			};
-			AlertService.success('success', 'You have created' + req.param('secName') + ' Security Group!');
+
+			AlertService.success(req, 'You have created the ' + req.param('secName') + ' Security Group!');
 
 			res.redirect('/security');
-			console.log('Created Security Group ' + req.param('secName') + ' Successfully');
+			//console.log('Created Security Group ' + req.param('secName') + ' Successfully');
 		});
 	},
 	edit: function(req,res,next){
@@ -58,5 +59,28 @@ module.exports = {
 			return res.redirect('/security');
 		}); 
 	},
+	//Delete a Security Group
+	destroy: function(req, res, next){
+		Security.findOne(req.param('secid'), function foundUser(err,secGroup){
+			if(err) return next(err);
+			if(!secGroup) return next('Security Group doesn\'t exist...');
+			Security.destroy(req.param('secid'), function secGroupDestroyed(err){
+				if(err) return next(err);
+			});
+
+			AlertService.warning(req, 'You have deleted the ' + secGroup.secname + ' Security Group!');
+			res.redirect('/security');
+		});
+	},
+	'getSecgroupEnum': function(req, res, next){
+		Security.find().exec(function(err, data) {
+            if (err) return next(err);
+            data.forEach(function(records) {
+            	console.log(records.secname);
+            });
+            
+        });
+        
+	}
 };
 
