@@ -62,7 +62,7 @@ module.exports.policies = {
 	index: ['flash', 'isAdmin', 'authenticated']
   },
   security: {
-	index: ['flash', 'isAdmin', 'authenticated']
+	index: ['flash', 'isAdmin', 'authenticated', 'flashAlert']
   }
 
   /***************************************************************************

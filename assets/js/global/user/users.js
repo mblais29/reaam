@@ -3,6 +3,7 @@
 *****************************/
 /* When screen loads check document size and adjust button accordingly */
 $(document).ready(function () {
+  $('#loading').css('display', 'none');
   var win = $(this); //this = window
   if (win.width() <= 640) { 
   	$('#user-profile-button').css("width", "80%");
