@@ -75,10 +75,7 @@ module.exports = {
 	'getSecgroupEnum': function(req, res, next){
 		Security.find().exec(function(err, data) {
             if (err) return next(err);
-            data.forEach(function(records) {
-            	console.log(records.secname);
-            });
-            
+            return res.ok(data);
         });
         
 	}

@@ -10,10 +10,6 @@ $(window).on('load',function(){
 		$('#formPreview').empty();
 	});
 	
-	$('#formAdd').on('click', function(){
-		$('#form-add').show();
-	});
-	
 	$('#formEditClose').on('click', function(){
 		$('#form-edit').slideUp();
 		$('#formname').val("");
@@ -43,8 +39,11 @@ $(window).on('load',function(){
       
     });
 
-
 });
+
+function testAlert(){
+	alert('clicked');
+}
 
 function closeFormAddPanel(){
 	$('#form-add').slideUp();
