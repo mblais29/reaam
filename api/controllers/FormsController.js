@@ -24,14 +24,15 @@ module.exports = {
 		var formObj = {
 			formname: req.param('formName'),
 			collectionname: req.param('formCollectionName'),
-			securitygroup: req.param('formSecurity')
+			securitygroup: req.param('secgrouphidden')
 		};
 		
 		Forms.create(formObj, function formCreated(err,form){
 			if(err){
 				console.log(err);
 			};
-			console.log('Created Form ' + req.param('form-name') + ' Successfully');
+			
+			console.log('Created Form ' + req.param('formName') + ' Successfully');
 		});
 		
 		var orm = new Waterline();
@@ -66,7 +67,7 @@ module.exports = {
 		        throw err;
 		    }
 		});
-
+		
 		res.redirect('/forms');
 	},
 	edit: function(req,res,next){
@@ -125,6 +126,15 @@ module.exports = {
 			//Must return res.ok() to send the data to the ajax call
 			return res.ok(response);
 		});
-	}
+	},
+	'getSecGroup': function(req, res, next){
+		Forms.find().where({formid: req.param('formid')}).populate('securitygroup').exec(function (err, form) {
+			//console.log(records[0].securitygroup[0].secname);
+			//var newRecords = form[0].securitygroup[0].secname;
+			console.log(form);
+			return res.view({forms: form });
+			//return res.ok({form: form});
+		});
+	},
 };
 

@@ -38,17 +38,29 @@ $(window).on('load',function(){
       });
       
     });
+    
+    $("#addsecgroup").on('click', 'li a', function(){
+    	$("#btn-secgroup").text($(this).text());
+    	$("#btn-secgroup").val($(this).text());
+
+		/* Removes the [] around the security.secid */
+    	var str = $("#btn-secgroup").val();
+    	var regex = /\[(.*?)\]/g;
+    	var newStr = str.match(regex);
+    	var secId = newStr[0].replace(/[\[\]']+/g, '');
+		$("#secgrouphidden").val(secId);
+    });
 
 });
 
-function testAlert(){
-	alert('clicked');
-}
-
+/* FUNCTIONS */
 function closeFormAddPanel(){
 	$('#form-add').slideUp();
 	$('input[type=text]').rules('remove'); 
 	$('#formCreate input').val("");
+	$("#btn-secgroup").text('Select Type');
+	$("#btn-secgroup").val('Select Type');
+	$("#secgrouphidden").val('');
 }
 
 function forceLower(strInput){

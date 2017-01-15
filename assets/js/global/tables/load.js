@@ -15,13 +15,15 @@ function createButtonAddEvent(){
 			case 'formAdd': {
 				$.get('/security/getSecgroupEnum')
 					.done(function(data) {
-						for (i = 0; i < data.length; i++) { 
-						    $('#secGroupDropdown').append('<li><a href="#">' + data[i].secname + '</a></li>');
+						if ( $('#secGroupDropdown').children().length === 0 ) {
+							for (i = 0; i < data.length; i++) { 
+							    $('#secGroupDropdown').append('<li><a href="#">' + '[' + data[i].secid + '] ' + data[i].secname + '</a></li>');
+							}
 						}
 	  				}).error(function(err){
 	  					alert(err);
 	  				});
-					break;
+			break;
 			}
 		}
 	});

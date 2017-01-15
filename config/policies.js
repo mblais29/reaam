@@ -49,7 +49,8 @@ module.exports.policies = {
   },
 
   forms: {
-	index: ['flash', 'isAdmin', 'authenticated']
+	index: ['flash', 'isAdmin', 'authenticated'],
+	'getSecGroup': ['flash', 'isAdmin', 'authenticated']
 	
   },
   formfields: {
