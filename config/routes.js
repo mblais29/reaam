@@ -40,6 +40,10 @@ module.exports.routes = {
   
   '/upload-file':{
     view: 'upload/uploadprofileimg',
+  },
+  '/getSecGroups':{
+  	controller: 'FormsController',
+    action: 'getSecGroup'
   }
   /***************************************************************************
   *                                                                          *

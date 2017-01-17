@@ -7,11 +7,11 @@ window.onload = function() {
         addButtonId = $('table thead tr th button').attr('id');
 };
 
-function createButtonAddEvent(){
-	$('#' + addButtonId).on('click', function(){
+function createButtonAddEvent(id){
+	$('#' + id).on('click', function(){
 		var showAddRecordPanel = $('div.panel-default').attr('id');
 		$('#' + $('div.panel-default').attr('id')).show();
-		switch(addButtonId){
+		switch(id){
 			case 'formAdd': {
 				$.get('/security/getSecgroupEnum')
 					.done(function(data) {

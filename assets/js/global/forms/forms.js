@@ -50,10 +50,22 @@ $(window).on('load',function(){
     	var secId = newStr[0].replace(/[\[\]']+/g, '');
 		$("#secgrouphidden").val(secId);
     });
+    /* Forms Edit Page changes hidden input value on click */
+    $("#editsecgroup").on('click', 'li a', function(){
+    	$("#btn-seceditgroup").text($(this).text());
+    	$("#btn-seceditgroup").val($(this).text());
 
+		/* Removes the [] around the security.secid */
+    	var str = $("#btn-seceditgroup").val();
+    	var regex = /\[(.*?)\]/g;
+    	var newStr = str.match(regex);
+    	var secId = newStr[0].replace(/[\[\]']+/g, '');
+		$("#seceditgrouphidden").val(secId);
+    });
 });
 
 /* FUNCTIONS */
+
 function closeFormAddPanel(){
 	$('#form-add').slideUp();
 	$('input[type=text]').rules('remove'); 
@@ -80,11 +92,10 @@ function getFormValue(formid){
 	$('#form-edit').show();
 	$.ajax('/forms/edit?formid=' + formid,{
       success: function(data) {
-      	//console.log(data);
       	$('#form-id').val(data.formid);
       	$('#formname').val(data.formname);
-      	$('#formsecurity').val(data.securitygroup);
-      	$('#formfield-edit').show();
+      //	$('#formsecurity').val(data.securitygroup);
+      getFormSec(data.formid);
       },
       done: function(data){
       	
@@ -94,6 +105,35 @@ function getFormValue(formid){
       }
     });
 };
+
+function getFormSec(id, sec){
+	$.get('/forms/getSecGroup?formid=' + id )
+		.done(function(data){
+			var formSecGroup = data[0].securitygroup[0].secid;
+			addSecurityDropdown(formSecGroup);
+		});
+}
+
+function addSecurityDropdown(formSecGroup){
+	$.get('/security/getSecgroupEnum')
+		.done(function(data) {
+			if ( $('#seceditGroupDropdown').children().length === 0 ) {
+				for (i = 0; i < data.length; i++) { 
+			    	$('#seceditGroupDropdown').append('<li><a href="#">' + '[' + data[i].secid + '] ' + data[i].secname + '</a></li>');
+				}
+			};
+			for (i = 0; i < data.length; i++) { 
+				if(formSecGroup === data[i].secid){
+					$("#btn-seceditgroup").text('[' + data[i].secid + '] ' + data[i].secname);
+					$("#btn-seceditgroup").val('[' + data[i].secid + '] ' + data[i].secname);
+					$("#seceditgrouphidden").val(data[i].secid);
+				};
+			};
+			$('#formfield-edit').show();
+		}).error(function(err){
+			alert(err);
+		});
+}
 
 function insertFormData(formid){
 	$('#form-preview').show();

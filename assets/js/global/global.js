@@ -12,7 +12,7 @@ function loadPage() {
   };
   if (document.getElementsByClassName("edit-users")) {
 	  $('div.edit-users').css('visibility', 'visible');
-  }
+  };
  
   
   $('#'+ tableId).css('display', 'table');
@@ -20,7 +20,6 @@ function loadPage() {
   $('#table-title').css('display', 'block');
   $('#table-title').css('opacity', '1');
   $('#' + tableId).footable();
-  createButtonAddEvent();
 
 }
 setTimeout("loadPage()", 1000); // after 1 second

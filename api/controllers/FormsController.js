@@ -10,12 +10,12 @@ var Waterline = require('waterline');
 module.exports = {
 	//List of Users page
 	index: function(req, res, next){
-		//console.log(new Date());
-		//console.log(req.session.User);
-		Forms.find(function foundForms(err,forms){
+		/* Add populateAll to get all the foreign keys for the form model */
+		Forms.find().populateAll().exec(function foundForms(err,data){
 			if(err) return next(err);
+
 			res.view({
-				forms: forms,
+				forms: data,
 				title: 'Forms'
 			});
 		});
@@ -75,15 +75,14 @@ module.exports = {
 			return res.ok(form);
 		});
 	},
-	//Update the Form from edit page
 	update: function(req, res, next){
 		var formObj = {};
 			 formObj = {
 				formid: req.param('form-id'),
 				formname: req.param('formname'),
-				securitygroup: req.param('formsecurity')
+				securitygroup: req.param('seceditgrouphidden')
 			};
-		//console.log(formObj);
+
 		Forms.update(req.param('form-id'), formObj, function formsUpdated(err){
 			if(err){
 				req.session.flash = {
@@ -98,7 +97,6 @@ module.exports = {
 	//Delete the Form
 	destroy: function(req, res, next){
 		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, response) {
-			//res.json(response[0].formfields);
 			var fields = response[0].formfields;
 			if(fields.length){
 				var formFieldsError = [{name: 'formFieldsError', message: 'Must delete the form fields first before deleting the form...'}];
@@ -123,17 +121,16 @@ module.exports = {
 	},
 	'populate': function(req, res, next){
 		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, response) {
+			if(err) return next(err);
 			//Must return res.ok() to send the data to the ajax call
 			return res.ok(response);
 		});
 	},
-	'getSecGroup': function(req, res, next){
-		Forms.find().where({formid: req.param('formid')}).populate('securitygroup').exec(function (err, form) {
-			//console.log(records[0].securitygroup[0].secname);
-			//var newRecords = form[0].securitygroup[0].secname;
-			console.log(form);
-			return res.view({forms: form });
-			//return res.ok({form: form});
+	'getSecGroup': function(req, res){
+		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, records) {
+			if(err) return next(err);
+			//Must return res.ok() to send the data to the ajax call
+			return res.ok(records);
 		});
 	},
 };

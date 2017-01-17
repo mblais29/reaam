@@ -91,9 +91,18 @@
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label class="control-label col-sm-2" for="formsecurity">Security:</label>
-				    <div class="col-sm-10"> 
-				      <input type="text" class="form-control" id="formsecurity" name="formsecurity" >
+				    <label class="control-label col-sm-2" for="seceditgroup">Security:</label>
+				    <div class="col-sm-10">
+				    	<div class="dropdown" id="editsecgroup">
+						  <button id="btn-seceditgroup" name="btn-seceditgroup" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Select Type
+						    <span class="caret"></span>
+						  </button>
+						  <input type="hidden" id="seceditgrouphidden" name="seceditgrouphidden" >
+						  <ul id="seceditGroupDropdown" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						  
+						  </ul>
+						</div>
 				    </div>
 				  </div>
 				  <div class="form-group"> 
@@ -166,7 +175,7 @@
 						<th data-type="html" data-breakpoints="all" data-title="Add Fields" data-filterable="false"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Edit Form" data-filterable="false"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Delete Form" data-filterable="false"></th>
-						<th data-filterable="false" data-sortable="false"><button id="formAdd" class="btn btn-sm btn-primary">Add</button></th>	
+						<th data-filterable="false" data-sortable="false"><button id="formAdd" onclick="createButtonAddEvent(this.id)" class="btn btn-sm btn-primary">Add</button></th>	
 					</tr>
 				</thead>
 				<tbody>
@@ -174,13 +183,7 @@
 					<tr data-expanded="false" id="form-records" data-id="<%= form.formid %>" data-model="forms">
 						<td><%= form.formname %></td>
 						<td><%= form.formid %></td>
-						<td>
-							<form action="/forms/getSecGroup?formid=<%= form.formid %>" method="POST">
-							
-								 <%= JSON.stringify(forms) %>
-		
-							</form>
-						</td>
+						<td><%= form.securitygroup[0].secname %></td>
 						<td><button id="formpreview<%= form.formid %>" class="btn btn-sm btn-success" onclick="insertFormData(<%= form.formid %>)" value="<%= form.formid %>">Preview</button></td>
 						<td><button id="formfieldAdd<%= form.formid %>" class="btn btn-sm btn-primary" onclick="getFormfieldValue(<%= form.formid %>)" value="<%= form.formid %>">Add</button></td>
 						<td><button id="formfieldEdit<%= form.formid %>" class="btn btn-sm btn-warning" onclick="getFormValue(<%= form.formid %>)" value="<%= form.formid %>">Edit</button></td>
