@@ -1,4 +1,8 @@
 $(window).on('load',function(){
+	$('#securityAdd').on('click', function(){
+		$('#sec-add').show();
+	});
+	
 	$("#addsecgroup").on('click', 'li a', function(){
       $("#btn-formfield-type").text($(this).text());
       $("#btn-formfield-type").val($(this).text());
