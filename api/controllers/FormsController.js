@@ -66,9 +66,10 @@ module.exports = {
 		    if (err) {
 		        throw err;
 		    }
+		    res.redirect('/forms');
 		});
 		
-		res.redirect('/forms');
+		
 	},
 	edit: function(req,res,next){
 		Forms.findOne(req.param('formid')).exec(function (err, form) {
