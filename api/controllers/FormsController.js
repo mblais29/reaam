@@ -39,7 +39,7 @@ module.exports = {
 
 		var config = {
 		    // Setup Adapters
-		    // Creates named adapters that have have been required
+		    // Creates named adapters that have been required
 		    adapters: {
 		        'default': 'mongo',
 		        mongo: require('sails-mongo')
@@ -60,13 +60,16 @@ module.exports = {
 		    connection: 'default',
 
 		});
+		
 		orm.loadCollection(newModel);
 		
 		orm.initialize(config, function(err, data) {
-		    if (err) {
+		   if (err) {
 		        throw err;
 		    }
 		    res.redirect('/forms');
+		 //Must have orm.teardown() to close the connection then when adding a new collection I do not get the Connection is already registered error.
+		    orm.teardown();
 		});
 		
 		
