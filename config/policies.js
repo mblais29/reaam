@@ -36,7 +36,7 @@ module.exports.policies = {
 
   user: {
   	index: ['isAdmin','authenticated'],
-  	'new': ['flash', 'authenticated'],
+  	'new': ['flash'],
   	create: 'flash',
   	update: ['flash', 'authenticated'],
   	profileImg: ['flash', 'authenticated'],
@@ -50,7 +50,8 @@ module.exports.policies = {
 
   forms: {
 	index: ['flash', 'isAdmin', 'authenticated'],
-	'getSecGroup': ['flash', 'isAdmin', 'authenticated']
+	'getSecGroup': ['flash', 'isAdmin', 'authenticated'],
+	'myForms': ['flash', 'authenticated']
 	
   },
   formfields: {

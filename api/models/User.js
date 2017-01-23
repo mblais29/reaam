@@ -27,6 +27,10 @@ module.exports = {
 		type: 'boolean',
 		defaultsTo: false
 	},
+	securitygroups: {
+		collection: 'Security',
+        via: 'secid'
+	},
 	profileimage: {
 		type: 'string'
 	},
@@ -46,7 +50,6 @@ module.exports = {
   },
   //check and uncheck user admin form
   beforeValidation: function(values, next){
-  	console.log(values);
   	if(typeof values.admin !== 'undefined'){
   		if(values.admin === 'unchecked'){
   			values.admin = false;

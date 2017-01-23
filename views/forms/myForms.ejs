@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>My Forms</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container-fluid">
+			<% if(flash && flash.err) { %>
+				<ul class="alert alert-success">
+					<% Object.keys(flash.err).forEach(function(error) { %>
+						<li><%- JSON.stringify(flash.err[error]) %></li>
+					<% }) %>
+				</ul>
+			<% } %>
+			<h3 id="table-title">My Forms</h3>
+			<table id="table-form" class="table table-striped" data-sorting="true" data-filtering="true">
+				<thead>
+					<tr>
+						<!--- Must have data-type="html" on all data-breakpoints="all" or <ahref=""> table data in Footable Plugin --->
+						<th>Name</th>
+						<th>Form ID</th>
+						<th data-type="html" data-breakpoints="all" data-title="Preview Form" data-filterable="false"></th>
+					</tr>
+				</thead>
+				<tbody>
+				  <% _.each(forms, function(form){ %>
+					<tr data-expanded="false" id="form-records" data-id="<%= form.formid %>" data-model="forms">
+						<td><%= form.formname %></td>
+						<td><%= form.formid %></td>
+						<td><button id="openform<%= form.formid %>" class="btn btn-sm btn-success" onclick="#" value="<%= form.formid %>">Open</button></td>
+					</tr>
+				   <% }) %>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html> 

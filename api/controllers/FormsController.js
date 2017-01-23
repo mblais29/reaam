@@ -31,7 +31,6 @@ module.exports = {
 			if(err){
 				console.log(err);
 			};
-			
 			console.log('Created Form ' + req.param('formName') + ' Successfully');
 		});
 		
@@ -58,7 +57,6 @@ module.exports = {
 		var newModel = Waterline.Collection.extend({
 		    identity: formObj.collectionname,
 		    connection: 'default',
-
 		});
 		
 		orm.loadCollection(newModel);
@@ -71,8 +69,6 @@ module.exports = {
 		 //Must have orm.teardown() to close the connection then when adding a new collection I do not get the Connection is already registered error.
 		    orm.teardown();
 		});
-		
-		
 	},
 	edit: function(req,res,next){
 		Forms.findOne(req.param('formid')).exec(function (err, form) {
@@ -137,5 +133,15 @@ module.exports = {
 			return res.ok(records);
 		});
 	},
+	'myForms': function(req, res){
+		Forms.find().populateAll().exec(function foundForms(err,data){
+			if(err) return next(err);
+			res.view({
+				forms: data,
+				title: 'myForms'
+			});
+		});
+	},
+	
 };
 
