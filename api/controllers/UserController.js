@@ -37,7 +37,7 @@ module.exports = {
 	
 	//shows selected user
 	show: function(req, res, next){
-		User.findOne(req.param('id'), function foundUser(err,user){
+		User.findOne(req.param('id')).populateAll().exec(function foundUser(err,user){
 			if(err) return next(err);
 			if(!user) return next();
 			res.view({
@@ -73,7 +73,7 @@ module.exports = {
 	index: function(req, res, next){
 		//console.log(new Date());
 		//console.log(req.session.User);
-		User.find(function foundUsers(err,users){
+		User.find().populateAll().exec(function foundUsers(err,users){
 			if(err) return next(err);
 			res.view({
 				users: users,
@@ -84,9 +84,10 @@ module.exports = {
 	
 	//Edit User
 	edit: function(req, res, next){
-		User.findOne(req.param('id'), function foundUser(err,user){
+		User.findOne(req.param('id')).populateAll().exec(function foundUser(err,user){
 			if(err) return next(err);
 			if(!user) return next('User doesn\'t exist...');
+			console.log(user);
 			res.view({
 				user: user
 			});

@@ -29,7 +29,8 @@ module.exports = {
 	},
 	securitygroups: {
 		collection: 'Security',
-        via: 'secid'
+        via: 'secid',
+        defaultsTo : 'GUEST'
 	},
 	profileimage: {
 		type: 'string'

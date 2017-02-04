@@ -56,4 +56,3 @@ setTimeout("displayFileInput()", 1000); // after 1 second
 
 
 
-

@@ -62,6 +62,7 @@ $(window).on('load',function(){
     	var secId = newStr[0].replace(/[\[\]']+/g, '');
 		$("#seceditgrouphidden").val(secId);
     });
+    
 });
 
 /* FUNCTIONS */

@@ -15,10 +15,16 @@
 			<% } %>
 			<form action="/user/update/<%= user.id %>" method="POST" class="form-signin">
 				<h2>Editing User...</h2>
+				<label class="control-label col-sm-2" for="firstname">First Name:</label>
+					<input value="<%= user.firstname %>" name="firstname" type="text" class="form-control" /><br/>
+				<label class="control-label col-sm-2" for="lastname">Last Name:</label>
+					<input value="<%= user.lastname %>" name="lastname" type="text" class="form-control" /><br/>
 				
-				<input value="<%= user.firstname %>" name="firstname" type="text" class="form-control" /><br/>
-				<input value="<%= user.lastname %>" name="lastname" type="text" class="form-control" /><br/>
-				<input value="<%= user.email %>" name="email" type="text" class="form-control" /><br/>
+				<!-- Loops through each security group assigned to the user -->
+				<% _.each(user.securitygroups, function(user){ %>
+				<label class="control-label col-sm-2" for="sec-groups<%= user.secid %>">Security Group:</label>
+					<input value="<%= user.secname %>" name="sec-groups<%= user.secid %>" type="text" class="form-control" readonly /><br/>
+				<% }) %>
 				
 				<!-- Displays the Upload Profile Image Button only if the current user is authenticated and they are uploading an image to their own profile -->
 				<% if(session.authenticated && session.User.id == user.id) { %>
