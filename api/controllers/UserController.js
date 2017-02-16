@@ -71,10 +71,9 @@ module.exports = {
 	
 	//List of Users page
 	index: function(req, res, next){
-		//console.log(new Date());
-		//console.log(req.session.User);
 		User.find().populateAll().exec(function foundUsers(err,users){
 			if(err) return next(err);
+			console.log(users);
 			res.view({
 				users: users,
 				title: 'Users'
@@ -87,7 +86,6 @@ module.exports = {
 		User.findOne(req.param('id')).populateAll().exec(function foundUser(err,user){
 			if(err) return next(err);
 			if(!user) return next('User doesn\'t exist...');
-			console.log(user);
 			res.view({
 				user: user
 			});
@@ -188,6 +186,53 @@ module.exports = {
 			}else{
 				console.log('User id and email do not match!');
 			}
+		});
+	},
+	//Adds User security
+	'addUserSecGroup': function(req, res, next){
+		User.findOne(req.param('id')).populate('securitygroups').exec(function (err, user){
+
+			if(err){
+				req.session.flash = {
+					err: err
+				};
+				res.redirect('/user/edit/' + req.param('id'));
+				return;
+			}
+
+			Security.findOne({secid:req.param('userAddSecGroup')}).exec(function (err, sec){
+
+				if(err){
+					req.session.flash = {
+						err: err
+					};
+					res.redirect('/user/edit/' + req.param('id'));
+					return;
+				}
+				//Adds new Security Group to the database
+			    user.securitygroups.add(sec.secid);
+			    user.save(function(err){
+			      if(err){
+					req.session.flash = {
+						err: err
+					};
+					res.redirect('/user/edit/' + req.param('id'));
+					return;
+				  }
+			      return res.ok();
+			    });
+			    AlertService.success(req, 'You have added the ' + sec.secname + ' Security Group to ' + user.firstname + ' ' + user.lastname +'!');
+			    return res.redirect('/user/show/' + req.param('id'));
+			  });
+			});
+	},
+	//Deletes the User Security Group
+	'deleteSecGroup': function(req, res, next){
+		User.findOne(req.param('id')).populate('securitygroups').exec(function(err,usersec){
+		  usersec.securitygroups.remove(req.param('secgroup'));
+		  usersec.save();
+		  AlertService.success(req, 'You have successfully deleted the security group!');
+		  return res.redirect('/user/show/' + req.param('id'));
 		});
 	},
 	

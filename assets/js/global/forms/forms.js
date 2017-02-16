@@ -50,6 +50,7 @@ $(window).on('load',function(){
     	var secId = newStr[0].replace(/[\[\]']+/g, '');
 		$("#secgrouphidden").val(secId);
     });
+    
     /* Forms Edit Page changes hidden input value on click */
     $("#editsecgroup").on('click', 'li a', function(){
     	$("#btn-seceditgroup").text($(this).text());

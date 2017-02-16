@@ -43,8 +43,8 @@ module.exports.policies = {
   	emailpassword: 'flash',
   	resetpassword: 'flash',
   	updatepassword: 'flash',
-  	show: ['currentUser','flash', 'authenticated'],
-  	edit: ['currentUser','flash', 'authenticated'],
+  	show: ['currentUser','flash', 'flashAlert', 'authenticated'],
+  	edit: ['currentUser','flash', 'flashAlert', 'authenticated'],
   	update: ['currentUser', 'authenticated'],
   },
 

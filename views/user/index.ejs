@@ -16,7 +16,7 @@
 						<th>Last Name</th>
 						<th data-type="html" data-breakpoints="all" data-title="Email"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Admin User"></th>
-						<th data-type="html" data-breakpoints="all" data-title="Security Groups"></th>
+						<th data-type="html" data-breakpoints="all" data-title="Security"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Show User" data-filterable="false"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Edit User" data-filterable="false"></th>
 						<th data-type="html" data-breakpoints="all" data-title="Delete User" data-filterable="false"></th>
@@ -35,9 +35,13 @@
 							<td><span class="glyphicon glyphicon-eye-close"></span>  Not Administrator</td>
 						<% } %>
 						<td>
-							<% _.each(user.securitygroups, function(usersec){ %>
-								<%= usersec.secname %>, 
-							<% }) %>
+						<% for(var i=0; i < user.securitygroups.length; i++) {%>
+							<%	if (i == user.securitygroups.length-1) {%>
+								<%= user.securitygroups[i].secname %>
+							<% }else{ %>
+								<%= user.securitygroups[i].secname %>,
+							<% } %>
+						<% } %>
 						</td>
 						<td><a href="/user/show/<%= user.id %>" class="btn btn-sm btn-primary">Show</a></td>
 						<td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a></td>
