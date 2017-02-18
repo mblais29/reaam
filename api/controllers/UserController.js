@@ -228,11 +228,9 @@ module.exports = {
 	},
 	//Deletes the User Security Group
 	'deleteSecGroup': function(req, res, next){
-		User.findOne(req.param('id')).populate('securitygroups').exec(function(err,usersec){
+		User.findOne(req.param('id')).populate('securitygroups').exec(function removeSecGroup(err, usersec){
 		  usersec.securitygroups.remove(req.param('secgroup'));
 		  usersec.save();
-		  AlertService.success(req, 'You have successfully deleted the security group!');
-		  return res.redirect('/user/show/' + req.param('id'));
 		});
 	},
 	

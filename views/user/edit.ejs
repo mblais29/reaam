@@ -80,12 +80,11 @@
 					<input value="<%= user.lastname %>" name="lastname" type="text" class="form-control" /><br/>
 				
 				<!-- Loops through each security group assigned to the user -->
-				<% _.each(user.securitygroups, function(user){ %>
+				<% _.each(user.securitygroups, function(usersec){ %>
 					<label class="control-label" for="sec-groups<%= user.secid %>">Security Group:</label>
 					<div class="input-group">
-						<input id="userSecurity" value="<%= user.secname %>" name="sec-groups<%= user.secid %>" type="text" class="form-control" readonly />
-
-						<span class="input-group-addon btn-danger removesec" id="removeUserSecurity_<%= user.secid %>" value="<%= user.secid %>">
+						<input id="userSecurity" value="<%= usersec.secname %>" name="sec-groups<%= usersec.secid %>" type="text" class="form-control" readonly />
+						<span class="input-group-addon btn-danger removesec" id="removeUserSecurity_<%= usersec.secid %>" value="{'secid':'<%= usersec.secid %>', 'secname':'<%= usersec.secname %>', 'id':'<%= user.id %>', 'csrf':'<%= _csrf %>'}">
 			                <i class="fa fa-times" aria-hidden="true"></i>
 			            </span>
 					</div><br/>
@@ -117,7 +116,7 @@
 				<% } %>	
 				
 				<input type="submit" value="Submit" class="btn btn-lg btn-primary btn-block" />
-				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+				<input id="test" type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form>
 		</div>
 	</body>

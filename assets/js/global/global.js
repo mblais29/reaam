@@ -23,3 +23,14 @@ function loadPage() {
 
 }
 setTimeout("loadPage()", 1000); // after 1 second
+
+//Pulls parameters from url ex: $.urlParam('id') can use it anywhere
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return null;
+    }
+    else{
+       return results[1] || 0;
+    }
+};

@@ -37,8 +37,11 @@ $(document).ready(function () {
   
   $(".removesec").click(function(){
 
-	    console.log($(this).attr('value'));
-	
+	    var value = $(this).attr('value');
+	    var newValue = value.replace(/'/g, '"');
+		var JSONvalue = JSON.parse(newValue);
+		console.log(JSON.parse(newValue)); //NEED TO ADD THE FUNCTION TO DELETE THE USER GROUP BELOW
+		removeUserSecGroup(JSONvalue);
   });
   
 });
@@ -91,6 +94,13 @@ function addSecurityDropdown(){
 		}).error(function(err){
 			alert(err);
 		});
+}
+
+function removeUserSecGroup(data){
+	if(confirm('Are you sure you want to delete the ' + data.secname + '?')){
+		$.post('/user/deleteSecGroup?id=' + data.id + '&secgroup=' + data.secid + '&_csrf=' + data.csrf);
+		window.location.reload();  
+	}
 }
 
 
