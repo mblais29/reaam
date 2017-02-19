@@ -8,6 +8,7 @@
 var Waterline = require('waterline');
 
 module.exports = {
+	
 	//List of Users page
 	index: function(req, res, next){
 		/* Add populateAll to get all the foreign keys for the form model */
@@ -20,6 +21,7 @@ module.exports = {
 			});
 		});
 	},
+	
 	create: function(req,res,next){
 		var formObj = {
 			formname: req.param('formName'),
@@ -70,11 +72,13 @@ module.exports = {
 		    orm.teardown();
 		});
 	},
+	
 	edit: function(req,res,next){
 		Forms.findOne(req.param('formid')).exec(function (err, form) {
 			return res.ok(form);
 		});
 	},
+	
 	update: function(req, res, next){
 		var formObj = {};
 			 formObj = {
@@ -94,6 +98,7 @@ module.exports = {
 			return res.redirect('/forms');
 		}); 
 	},
+	
 	//Delete the Form
 	destroy: function(req, res, next){
 		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, response) {
@@ -119,6 +124,7 @@ module.exports = {
 			}
     	});
 	},
+	
 	'populate': function(req, res, next){
 		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, response) {
 			if(err) return next(err);
@@ -126,6 +132,7 @@ module.exports = {
 			return res.ok(response);
 		});
 	},
+	
 	'getSecGroup': function(req, res){
 		Forms.find().where({formid: req.param('formid')}).populateAll().exec(function (err, records) {
 			if(err) return next(err);
@@ -133,13 +140,32 @@ module.exports = {
 			return res.ok(records);
 		});
 	},
+	
 	'myForms': function(req, res){
-		Forms.find().populateAll().exec(function foundForms(err,data){
-			if(err) return next(err);
-			res.view({
-				forms: data,
-				title: 'myForms'
+		var userSecGroups = [];
+		//Searches for current user and checks the security groups assigned to them
+		User.findOneByEmail(req.session.User.email).populateAll().exec(function foundUser(err,user){
+			for(var i = 0; i<user.securitygroups.length; i++){
+				userSecGroups.push(user.securitygroups[i].secid);
+			}
+
+			Forms.find().populateAll().exec(function foundForms(err,data){
+				//Lists only forms user has access too
+				var formList = [];
+				var formSecGroup = "";
+				for(var i = 0; i < data.length; i++){
+					formSecGroup = data[i].securitygroup[0].secid;
+
+					if(ArrayCheckService.checkArray(userSecGroups, formSecGroup) === true){
+						formList.push(data[i]);
+					};
+				}
+				res.view({
+					forms: formList,
+					title: 'myForms'
+				});
 			});
+			
 		});
 	},
 	

@@ -10,6 +10,8 @@ $(window).on('load',function(){
    });
 });
 
+/* FUNCTIONS */
+
 function closeSecAddPanel(){
 	$('#sec-add').slideUp();
 	$('#secCreate input').val("");

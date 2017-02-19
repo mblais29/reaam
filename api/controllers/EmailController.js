@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+	
 	sendEmail: function(req, res) {
 		var userObj = {
 			email: req.param('email')
@@ -50,7 +51,6 @@ module.exports = {
 			return;
 			
 		});
-		
 	}
 };
 

@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+	
 	//List of Security Groups page
 	index: function(req, res, next){
 		Security.find(function foundSecurity(err,security){
@@ -16,6 +17,7 @@ module.exports = {
 			});
 		});
 	},
+	
 	create: function(req,res,next){
 		var secObj = {
 			secname: req.param('secName'),
@@ -35,11 +37,13 @@ module.exports = {
 			//console.log('Created Security Group ' + req.param('secName') + ' Successfully');
 		});
 	},
+	
 	edit: function(req,res,next){
 		Security.findOne(req.param('secid')).exec(function (err, securityGroup) {
 			return res.ok(securityGroup);
 		});
 	},
+	
 	//Update the Security Group
 	update: function(req, res, next){
 		var secObj = {};
@@ -59,6 +63,7 @@ module.exports = {
 			return res.redirect('/security');
 		}); 
 	},
+	
 	//Delete a Security Group
 	destroy: function(req, res, next){
 		Security.findOne(req.param('secid'), function foundUser(err,secGroup){
@@ -72,6 +77,7 @@ module.exports = {
 			res.redirect('/security');
 		});
 	},
+	
 	'getSecgroupEnum': function(req, res, next){
 		Security.find().exec(function(err, data) {
             if (err) return next(err);

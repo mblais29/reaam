@@ -10,6 +10,8 @@ $(window).on('load',function(){
    });
 });
 
+/* FUNCTIONS */
+
 function getformfieldsrecords(formfieldid){
 	$.ajax('/formfields/edit?formfieldid=' + formfieldid,{
       success: function(data) {

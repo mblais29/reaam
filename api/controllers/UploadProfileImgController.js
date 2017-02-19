@@ -8,6 +8,7 @@
 var gm = require('gm');
 
 module.exports = {
+	
 	upload: function(req, res) {
 
 		if (req.method === 'GET')
@@ -34,7 +35,6 @@ module.exports = {
 			});  
 		  return res.redirect('/user/show/' + req.param('id'));
 		}); 
-
 	}
 };
 

@@ -7,6 +7,7 @@
 
 var bcrypt = require('bcrypt');
 module.exports = {
+	
 	'new': function(req,res){
 		/*var oldDateObj = new Date();
 		var newDateObj = new Date(oldDateObj.getTime() + 60000);
@@ -21,6 +22,7 @@ module.exports = {
 		}
 		
 	},
+	
 	create: function(req,res,next){
 		//checks to see if the user has entered a username and password
 		if(!req.param('email') || !req.param('password')){
@@ -32,7 +34,8 @@ module.exports = {
 			return;
 		}
 		//Finds the user by their email
-		User.findOneByEmail(req.param('email'), function foundUser(err,user){
+		User.findOneByEmail(req.param('email')).exec(function foundUser(err,user){
+
 			if(err) return next(err);
 			//If no user is found throw an error
 			if(!user){

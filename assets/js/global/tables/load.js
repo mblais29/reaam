@@ -7,6 +7,7 @@ window.onload = function() {
         addButtonId = $('table thead tr th button').attr('id');
 };
 
+/* FUNCTIONS */
 
 function createButtonAddEvent(id){
 		var showAddRecordPanel = $('div.panel-default').attr('id');

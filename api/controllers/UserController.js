@@ -73,7 +73,7 @@ module.exports = {
 	index: function(req, res, next){
 		User.find().populateAll().exec(function foundUsers(err,users){
 			if(err) return next(err);
-			console.log(users);
+
 			res.view({
 				users: users,
 				title: 'Users'

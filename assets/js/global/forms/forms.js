@@ -96,8 +96,7 @@ function getFormValue(formid){
       success: function(data) {
       	$('#form-id').val(data.formid);
       	$('#formname').val(data.formname);
-      //	$('#formsecurity').val(data.securitygroup);
-      getFormSec(data.formid);
+      	getFormSec(data.formid);
       },
       done: function(data){
       	
@@ -112,28 +111,24 @@ function getFormSec(id, sec){
 	$.get('/forms/getSecGroup?formid=' + id )
 		.done(function(data){
 			var formSecGroup = data[0].securitygroup[0].secid;
-			addSecurityDropdown(formSecGroup);
-		});
-}
-
-function addSecurityDropdown(formSecGroup){
-	$.get('/security/getSecgroupEnum')
-		.done(function(data) {
-			if ( $('#seceditGroupDropdown').children().length === 0 ) {
-				for (i = 0; i < data.length; i++) { 
-			    	$('#seceditGroupDropdown').append('<li><a href="#">' + '[' + data[i].secid + '] ' + data[i].secname + '</a></li>');
-				}
-			};
-			for (i = 0; i < data.length; i++) { 
-				if(formSecGroup === data[i].secid){
-					$("#btn-seceditgroup").text('[' + data[i].secid + '] ' + data[i].secname);
-					$("#btn-seceditgroup").val('[' + data[i].secid + '] ' + data[i].secname);
-					$("#seceditgrouphidden").val(data[i].secid);
-				};
-			};
-			$('#formfield-edit').show();
-		}).error(function(err){
-			alert(err);
+			$.get('/security/getSecgroupEnum')
+				.done(function(data) {
+					if ( $('#seceditGroupDropdown').children().length === 0 ) {
+						for (i = 0; i < data.length; i++) { 
+					    	$('#seceditGroupDropdown').append('<li><a href="#">' + '[' + data[i].secid + '] ' + data[i].secname + '</a></li>');
+						}
+					};
+					for (i = 0; i < data.length; i++) { 
+						if(formSecGroup === data[i].secid){
+							$("#btn-seceditgroup").text('[' + data[i].secid + '] ' + data[i].secname);
+							$("#btn-seceditgroup").val('[' + data[i].secid + '] ' + data[i].secname);
+							$("#seceditgrouphidden").val(data[i].secid);
+						};
+					};
+					$('#formfield-edit').show();
+				}).error(function(err){
+					alert(err);
+				});
 		});
 }
 

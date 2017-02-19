@@ -59,6 +59,8 @@ $(window).on('resize', function(){
   }
 });
 
+/* EVENT HANDLERS */
+
 $('#adminCheckbox').on('click', function(){
 	//console.log($(this).is(':checked'));
 	// Checks to see if the user is an admin or not and adjusts the hidden checkbox value accordingly
@@ -71,6 +73,8 @@ $('#BSbtninfo').filestyle({
 	buttonName : 'btn-info',
 	buttonText : 'Select a Profile Image'
 });
+
+/* FUNCTIONS */
 
 //Delay displaying the user profile upload to allow file input to load first
 function displayFileInput() {

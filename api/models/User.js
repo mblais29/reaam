@@ -46,7 +46,6 @@ module.exports = {
 		delete obj.encryptedPassword;
 		delete obj._csrf;
 		return obj;
-		
 	}
   },
   //check and uncheck user admin form
@@ -60,7 +59,6 @@ module.exports = {
   	}
   	next();
   },
-  
   beforeCreate: function(values, next){
   	//Checks to see that the password and password confirmation match
   	if(!values.password || values.password != values.confirmation){

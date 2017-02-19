@@ -7,6 +7,7 @@
 var Waterline = require('waterline');
 
 module.exports = {
+	
 	index: function(req, res, next){
 		//console.log(new Date());
 		//console.log(req.session.User);
@@ -18,6 +19,7 @@ module.exports = {
 			});
 		});
 	},
+	
 	create: function(req,res,next){
 		var formObj = {
 			formid: req.param('form'),
@@ -40,6 +42,7 @@ module.exports = {
 			return res.ok(formfield);
 		});
 	},
+	
 	//Update the Form Field from edit page
 	update: function(req, res, next){
 		var formFieldObj = {};
@@ -60,6 +63,7 @@ module.exports = {
 			return res.redirect('/formfields');
 		}); 
 	},
+	
 	'insert': function(req, res, next){
 
 		var record = req.allParams();
@@ -91,6 +95,7 @@ module.exports = {
 		});
 		res.redirect('/forms');
 	},
+	
 	//Delete the Form Field
 	destroy: function(req, res, next){
 		Formfields.findOne(req.param('formfieldid'), function foundFormfield(err,formfield){
