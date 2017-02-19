@@ -10,6 +10,14 @@ $(window).on('load',function(){
 		$('#formPreview').empty();
 	});
 	
+	$('#myformClose').on('click', function(){
+		$('#myform-selected').slideUp();
+		//Removes all children elements within form
+		$('#formSelected').empty();
+	});
+	
+	
+	
 	$('#formEditClose').on('click', function(){
 		$('#form-edit').slideUp();
 		$('#formname').val("");
@@ -85,6 +93,10 @@ function submitFormPreview(){
 	$('#formPreview').submit();
 };
 
+function submitMyForm(){
+	$('#formSelected').submit();
+};
+
 function getFormfieldValue(formid){
 	$('#form').val(formid);
 	$('#formfieldadd').show();
@@ -132,11 +144,27 @@ function getFormSec(id, sec){
 		});
 }
 
-function insertFormData(formid){
+function insertPreviewFormData(formid){
 	$('#form-preview').show();
 	$.ajax('/forms/populate?formid=' + formid,{
       success: function(data) {
       	//console.log(data);
+      	generatePreviewForm(data);
+      },
+      done: function(data){
+      	
+      },
+      error: function(err) {
+         console.log(err);
+      }
+    });
+}
+
+function insertSelectedFormData(formid){
+	$('#myform-selected').show();
+	$.ajax('/forms/populate?formid=' + formid,{
+      success: function(data) {
+      	$('#myform-title').append('<span>' + data[0].formname + '</span>');
       	generateForm(data);
       },
       done: function(data){
@@ -148,7 +176,7 @@ function insertFormData(formid){
     });
 }
 
-function generateForm(data){
+function generatePreviewForm(data){
 	$('#formPreview').append('<div class="form-group" id="collection"></div>');
 	$('#collection').append('<input type="hidden" name="collection" value="' + data[0].collectionname + '" />');
 	for (var i = 0; i < data.length; i++){
@@ -270,3 +298,124 @@ function generateForm(data){
 	}
 }
 
+function generateForm(data){
+	$('#formSelected').append('<div class="form-group" id="collection"></div>');
+	$('#collection').append('<input type="hidden" name="collection" value="' + data[0].collectionname + '" />');
+	for (var i = 0; i < data.length; i++){
+		var obj = data[i];
+	    for (var key in obj){
+	    	//console.log('Key: ' + key);
+	    	//console.log('Key Value: ' + obj[key]);
+	    	if(key === 'formfields'){
+	    		for (var i = 0; i < obj[key].length; i++){
+	    			var formfieldObject = obj[key][i];
+	    			/* If name has a space replace with '_' */
+	    			var inputName = formfieldObject.formfieldname.replace(/\s/g, '_');
+	    			
+	    			$('#formSelected').append('<div class="form-group" id="' + 'formfieldid' + formfieldObject.formfieldid + '"></div>');
+	    			var inputType = "";
+	    			switch (formfieldObject.formfieldtype) {
+					    case 'string':
+					    	/* If input string is file show the file upload else just create a text input */
+					    	if(formfieldObject.fileupload === true){
+					    		inputType = "file";
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+
+								$('#' + formfieldObject.formfieldname + formfieldObject.formfieldid).filestyle({
+									size: 'sm',
+									buttonName : 'btn-info',
+									buttonText : 'Upload'
+								});
+			    				
+					    	}else{
+					    		inputType = "text";
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					    	}
+					        break;
+					    case 'text':
+					        inputType = "text";
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+							break;
+					    case 'integer':
+					        inputType = "number";
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					        break;
+					    case 'float':
+					        inputType = "number";
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					        break;
+					    case 'date':
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="' + inputName + formfieldObject.formfieldid + '" data-link-format="yyyy-mm-dd" style="width:100%"><input class="form-control" size="16" type="text" value="" readonly><span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<input type="hidden" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + '" value="" />');
+					        $('.form_date').datetimepicker({
+						        weekStart: 1,
+						        todayBtn:  1,
+								autoclose: 1,
+								todayHighlight: 1,
+								startView: 2,
+								minView: 2,
+								pickerPosition: "bottom-left",
+								forceParse: 0
+						    });
+					        break;
+					    case 'datetime':
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<div class="input-group date form_datetime col-md-5" data-date="" data-link-field="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" data-date-format="dd MM yyyy - HH:ii p" style="width:100%"><input class="form-control" size="16" type="text" value="" readonly><span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<input type="hidden" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '" value="" />');
+					        $('.form_datetime').datetimepicker({
+						        weekStart: 1,
+						        todayBtn:  1,
+								autoclose: 1,
+								todayHighlight: 1,
+								startView: 2,
+								forceParse: 0,
+						        showMeridian: 1,
+								pickerPosition: "bottom-left"
+						    });
+					        break;
+					    case 'boolean':
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="formfield_boolean">' + formfieldObject.formfieldname + ':</label><div class="dropdown" id="formfield_boolean"><button id="boolean" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Yes or No  <span class="caret"></span></button>');
+					        $('#formfield_boolean').append('<input type="hidden" id="formfield_boolean_val" name="formfield_boolean_val" ><ul class="dropdown-menu"><li><a href="#">Yes</a></li><li><a href="#">No</a></li></ul></div>');
+					        $("#formfield_boolean").on('click', 'li a', function(){
+						    $("#boolean").text($(this).text());
+						    if($(this).text() === 'Yes'){
+						    	$("#formfield_boolean_val").val('true');
+						    	$("#boolean").removeClass('btn-primary');
+						    	$("#boolean").removeClass('btn-danger');
+						    	$("#boolean").addClass('btn-success');
+						    }else{
+						    	$("#formfield_boolean_val").val('false');
+						    	$("#boolean").removeClass('btn-primary');
+						    	$("#boolean").removeClass('btn-success');
+						    	$("#boolean").addClass('btn-danger');
+						    }
+						      //console.log($("#boolean").text());
+						      //console.log($("#formfield_boolean_val").val());
+						    });
+					        break;
+					    case 'json':
+					        inputType = "text";
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					        break;
+					    case 'mediumtext':
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<textarea class="form-control" rows="5" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '"></textarea>');
+					        break;
+					    case 'longtext':
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<textarea class="form-control" rows="5" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '"></textarea>');
+					        break;
+					};
+				}
+	    	}
+	    	
+	    }
+	}
+}
