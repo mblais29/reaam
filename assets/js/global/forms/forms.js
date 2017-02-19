@@ -320,7 +320,7 @@ function generateForm(data){
 					    	if(formfieldObject.fileupload === true){
 					    		inputType = "file";
 					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '">');
 
 								$('#' + formfieldObject.formfieldname + formfieldObject.formfieldid).filestyle({
 									size: 'sm',

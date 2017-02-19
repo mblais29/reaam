@@ -15,7 +15,7 @@ module.exports = {
 			return res.json({ 'status': 'GET not allowed' });
 
 		var uploadFile = req.file('uploadFile');
-		
+
 		uploadFile.upload({
 		  adapter: require('skipper-gridfs'),
 		  uri: 'mongodb://localhost:27017/reaam.user',

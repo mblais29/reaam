@@ -67,33 +67,52 @@ module.exports = {
 	'insert': function(req, res, next){
 
 		var record = req.allParams();
-
+		
 		/* Deletes the _csrf and collection records from the array */
-		delete record._csrf; 
-		delete record.collection;
+		 delete record._csrf; 
+		 delete record.collection;
 
-		/* Converts the key to lowercase before saving to database */
-		var lowercaseRecord = ObjectServices.convertLowercase(record);
+		 /* Converts the key to lowercase before saving to database */
+		 var lowercaseRecord = ObjectServices.convertLowercase(record);
+ 
+		 /* Replaces and spaces with "_" before saving to database */
+		 var finalRecord = ObjectServices.removeSpace(lowercaseRecord);
 
-		/* Replaces and spaces with "_" before saving to database */
-		var finalRecord = ObjectServices.removeSpace(lowercaseRecord);
+		 var MongoClient = require('mongodb').MongoClient;
+		 var myCollection;
+		 var insertedId;
+		 var docNameEncrypt;
+		 
+		 MongoClient.connect(sails.config.conf.url, function(err, db) {
+		     if(err)
+		         throw err;
+		         
+		     myCollection = db.collection(req.param('collection'));
+		     myCollection.insert(finalRecord, function(err, result) {
+			     if(err)
+			         throw err;
 
-		var MongoClient = require('mongodb').MongoClient;
- 		
-		var myCollection;
-		var db = MongoClient.connect(sails.config.conf.url, function(err, db) {
-		    if(err)
-		        throw err;
-		    //console.log("Connected to the MongoDB !");
-		    myCollection = db.collection(req.param('collection'));
-		    myCollection.insert(finalRecord, function(err, result) {
-			    if(err)
-			        throw err;
-			 
-			    //console.log("entry saved");
-			});
-		});
-		res.redirect('/forms');
+	 			 insertedId = result.insertedIds[0];
+	 			 
+	 			 //If files exist in the parameters upload the file to the docs bucket
+	 			 if(typeof req._fileparser.upstreams[0] !== 'undefined'){
+				 	var uploadFile = req._fileparser.upstreams[0];
+	
+					 uploadFile.upload({
+					   adapter: require('skipper-gridfs'),
+					   uri: 'mongodb://localhost:27017/reaam.docs',
+					   maxBytes: 100000000, //100mb
+					   }, function (err, filesUploaded) {
+						   if (err) return res.negotiate(err);
+
+						   docNameEncrypt = filesUploaded[0].fd;
+						   //Updates the new record with uploaded file name
+				           myCollection.update({_id:insertedId}, {$set: {documents:docNameEncrypt}}, false, true);
+					 });
+				 }
+			 });
+		 });
+		res.redirect('/forms/myForms');
 	},
 	
 	//Delete the Form Field
