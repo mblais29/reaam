@@ -81,7 +81,7 @@ module.exports = {
 		 var MongoClient = require('mongodb').MongoClient;
 		 var myCollection;
 		 var insertedId;
-		 var docNameEncrypt;
+		 var docNameEncrypt = [];
 		 
 		 MongoClient.connect(sails.config.conf.url, function(err, db) {
 		     if(err)
@@ -93,7 +93,7 @@ module.exports = {
 			         throw err;
 
 	 			 insertedId = result.insertedIds[0];
-	 			 
+
 	 			 //If files exist in the parameters upload the file to the docs bucket
 	 			 if(typeof req._fileparser.upstreams[0] !== 'undefined'){
 				 	var uploadFile = req._fileparser.upstreams[0];
@@ -104,8 +104,15 @@ module.exports = {
 					   maxBytes: 100000000, //100mb
 					   }, function (err, filesUploaded) {
 						   if (err) return res.negotiate(err);
+						   //If there are more than 1 file create an array or else just load the one file
+						   if(filesUploaded.length > 1){
+						     for(var i = 0; i<filesUploaded.length; i++){
+							   		docNameEncrypt.push(filesUploaded[i].fd);
+							   }
+						   }else{
+						     docNameEncrypt = filesUploaded[0].fd;
+						   }
 
-						   docNameEncrypt = filesUploaded[0].fd;
 						   //Updates the new record with uploaded file name
 				           myCollection.update({_id:insertedId}, {$set: {documents:docNameEncrypt}}, false, true);
 					 });
