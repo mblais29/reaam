@@ -32,6 +32,28 @@
 			  </div>
 			  </div>
 			</div>
+			<div id="myform-viewrecords" class="panel panel-default">
+			  <div class="panel-heading" id="myform-viewrecords-title">Records</div>
+			  <div class="panel-body">
+				  <table id="table-myformrecords" class="table table-striped" data-sorting="true" data-filtering="true">
+					<thead>
+						<tr id="records-header">
+	
+						</tr>
+					</thead>
+					<tbody>
+					  
+					</tbody>
+				  </table>
+			      <div class="col-sm-12">
+			    	<div class="form-group"> 
+					    <div class="col-sm-offset-2 col-sm-10">
+					      <button type="button" id="myformViewRecordClose" class="btn btn-default pull-right">Close</button>
+					    </div>
+					</div>
+			      </div>
+			  </div>
+			</div>
 			<h3 id="table-title">My Forms</h3>
 			<table id="table-form" class="table table-striped" data-sorting="true" data-filtering="true">
 				<thead>
@@ -40,6 +62,7 @@
 						<th>Name</th>
 						<th>Form ID</th>
 						<th data-type="html" data-breakpoints="all" data-title="Open Form" data-filterable="false"></th>
+						<th data-type="html" data-breakpoints="all" data-title="View Records" data-filterable="false"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -48,6 +71,7 @@
 						<td><%= form.formname %></td>
 						<td><%= form.formid %></td>
 						<td><button id="openform<%= form.formid %>" class="btn btn-sm btn-success" onclick="insertSelectedFormData(<%= form.formid %>)" value="<%= form.formid %>">Open</button></td>
+						<td><button id="viewformrecords<%= form.formid %>" class="btn btn-sm btn-info" onclick="openFormRecords()">Records</button></td>
 					</tr>
 				  <% }) %>
 				</tbody>

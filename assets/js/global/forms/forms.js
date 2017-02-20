@@ -3,6 +3,8 @@ $(window).on('load',function(){
 	$( "#formfieldadd" ).draggable();
 	$( "#form-edit" ).draggable();
 	$( "#form-preview" ).draggable();
+	$( "#myform-selected" ).draggable();
+	$( "#myform-viewrecords" ).draggable();
 	
 	$('#formPreviewClose').on('click', function(){
 		$('#form-preview').slideUp();
@@ -16,7 +18,9 @@ $(window).on('load',function(){
 		$('#formSelected').empty();
 	});
 	
-	
+	$('#myformViewRecordClose').on('click', function(){
+		$('#myform-viewrecords').slideUp();
+	});
 	
 	$('#formEditClose').on('click', function(){
 		$('#form-edit').slideUp();
@@ -87,10 +91,6 @@ function closeFormAddPanel(){
 
 function forceLower(strInput){
 	strInput.value = strInput.value.toLowerCase();
-};
-
-function submitFormPreview(){
-	$('#formPreview').submit();
 };
 
 function submitMyForm(){
@@ -174,6 +174,10 @@ function insertSelectedFormData(formid){
          console.log(err);
       }
     });
+}
+
+function openFormRecords(formid){
+	$('#myform-viewrecords').show();
 }
 
 function generatePreviewForm(data){
