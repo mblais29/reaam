@@ -32,7 +32,7 @@
 			  </div>
 			  </div>
 			</div>
-			<div id="myform-viewrecords" class="panel panel-default">
+			<!--- <div id="myform-viewrecords" class="panel panel-default">
 			  <div class="panel-heading" id="myform-viewrecords-title">Records</div>
 			  <div class="panel-body">
 				  <table id="table-myformrecords" class="table table-striped" data-sorting="true" data-filtering="true">
@@ -53,7 +53,7 @@
 					</div>
 			      </div>
 			  </div>
-			</div>
+			</div> --->
 			<h3 id="table-title">My Forms</h3>
 			<table id="table-form" class="table table-striped" data-sorting="true" data-filtering="true">
 				<thead>
@@ -71,7 +71,7 @@
 						<td><%= form.formname %></td>
 						<td><%= form.formid %></td>
 						<td><button id="openform<%= form.formid %>" class="btn btn-sm btn-success" onclick="insertSelectedFormData(<%= form.formid %>)" value="<%= form.formid %>">Open</button></td>
-						<td><button id="viewformrecords<%= form.formid %>" class="btn btn-sm btn-info" onclick="openFormRecords()">Records</button></td>
+						<td><button id="viewformrecords<%= form.formid %>" class="btn btn-sm btn-info" onclick="openFormRecords(<% form.collectionname %>,<% form.formid %>)">Records</button></td>
 					</tr>
 				  <% }) %>
 				</tbody>

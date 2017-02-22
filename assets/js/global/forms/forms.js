@@ -176,8 +176,11 @@ function insertSelectedFormData(formid){
     });
 }
 
-function openFormRecords(formid){
+function openFormRecords(collection,formid){
 	$('#myform-viewrecords').show();
+	console.log(collection);
+	console.log(formid);
+	
 }
 
 function generatePreviewForm(data){

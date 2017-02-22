@@ -6,6 +6,7 @@
  */
 
 var Waterline = require('waterline');
+var mongo = require('mongodb');
 
 module.exports = {
 	
@@ -168,6 +169,47 @@ module.exports = {
 			
 		});
 	},
+	
+	'getFormRecords': function(req, res, next){
+		
+		var orm = new Waterline();
+				
+		var config = {
+			// Setup Adapters
+			// Creates named adapters that have been required
+			adapters: {
+				'default': 'mongo',
+				mongo: require('sails-mongo')
+			},
+							 // Build Connections Config
+			// Setup connections using the named adapter configs
+			connections: {
+				'default': {
+					adapter: 'mongo',
+					url: 'mongodb://localhost:27017/reaam'
+				}
+			}
+		};
+		
+		
+		var record = Waterline.Collection.extend({
+			identity: req.param('collection'),
+			connection: 'default'
+		});
+		
+		orm.loadCollection(record);
+		
+		orm.initialize(config, function(err, models) {
+			var mongoCollection = models.collections[req.param('collection')];
+			
+			mongoCollection.find()
+			.exec(function(err, result){
+				res.json(result);
+			});
+
+		});
+
+	}
 	
 };
 
