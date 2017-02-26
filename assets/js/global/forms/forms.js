@@ -176,10 +176,19 @@ function insertSelectedFormData(formid){
     });
 }
 
-function openFormRecords(collection,formid){
+function openFormRecords(collection){
 	$('#myform-viewrecords').show();
-	console.log(collection);
-	console.log(formid);
+	$.ajax('/forms/formRecords?collection=' + collection,{
+      success: function(data) {
+      	console.log(data);
+      },
+      done: function(data){
+      	
+      },
+      error: function(err) {
+         console.log(err);
+      }
+    });
 	
 }
 
