@@ -181,6 +181,7 @@ function openFormRecords(collection){
 	$.ajax('/forms/formRecords?collection=' + collection,{
       success: function(data) {
       	console.log(data);
+      	generateTable(data);
       },
       done: function(data){
       	
@@ -190,6 +191,25 @@ function openFormRecords(collection){
       }
     });
 	
+}
+
+function generateTable(data){
+	$('#myform-panel-records').append('<table id="table-formrecords" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"><thead><tr></tr></thead><tbody></tbody></table>');
+	//Create the headings
+	for(var a in data[0]){
+		console.log(a);
+		$('#table-formrecords thead tr').append('<th>' + a + '</th>');
+		}
+	//Add the records
+	for(var i = 0; i< data.length; i++){
+		$('#table-formrecords tbody').append('<tr id="data' + i + '"></tr>');
+		for(var a in data[i]){
+			console.log(data[i][a]);
+			$('#table-formrecords tbody tr#data' + i).append('<td>' + data[i][a] + '</td>');
+		}
+	}
+
+	$('#table-formrecords').footable();
 }
 
 function generatePreviewForm(data){
