@@ -22,14 +22,19 @@ div#form-add, div#form-edit, div#form-preview, div#myform-selected {
 div#myform-viewrecords {
   display:none;
   width: 95%;
-  height: auto;
+  max-height: 90vh;
   z-index: 10;
   position:absolute;
   top: 20%;
   right: 0;
   left: 0;
   margin: 0 auto;
+  overflow: auto;
   -ms-overflow-style: none;
+}
+
+button#myformViewRecordClose {
+  margin-bottom: 1%;  
 }
 
 div#formfieldadd {

@@ -20,6 +20,8 @@ $(window).on('load',function(){
 	
 	$('#myformViewRecordClose').on('click', function(){
 		$('#myform-viewrecords').slideUp();
+		//Removes all children elements within form
+		$('#myform-panel-records').empty();
 	});
 	
 	$('#formEditClose').on('click', function(){
@@ -195,21 +197,20 @@ function openFormRecords(collection){
 
 function generateTable(data){
 	$('#myform-panel-records').append('<table id="table-formrecords" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"><thead><tr></tr></thead><tbody></tbody></table>');
+	
 	//Create the headings
 	for(var a in data[0]){
-		console.log(a);
-		$('#table-formrecords thead tr').append('<th>' + a + '</th>');
+		$('#table-formrecords thead tr').append('<th data-type="html">' + a + '</th>');
 		}
 	//Add the records
 	for(var i = 0; i< data.length; i++){
-		$('#table-formrecords tbody').append('<tr id="data' + i + '"></tr>');
+		$('#table-formrecords tbody').append('<tr id="data' + i + '" data-id="' + i + '"></tr>');
 		for(var a in data[i]){
-			console.log(data[i][a]);
 			$('#table-formrecords tbody tr#data' + i).append('<td>' + data[i][a] + '</td>');
 		}
 	}
+	$('#table-formrecords').footable('footable_initialize');
 
-	$('#table-formrecords').footable();
 }
 
 function generatePreviewForm(data){
@@ -279,10 +280,11 @@ function generatePreviewForm(data){
 						    });
 					        break;
 					    case 'datetime':
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<div class="input-group date form_datetime col-md-5" data-date="" data-link-field="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" data-date-format="dd MM yyyy - HH:ii p" style="width:100%"><input class="form-control" size="16" type="text" value="" readonly><span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>');
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<input type="hidden" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '" value="" />');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<div class="input-group date form_datetime col-md-5" data-date="" data-link-field="' + inputName + formfieldObject.formfieldid + '" style="width:100%"><input class="form-control" size="16" type="text" value="" readonly><span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<input type="hidden" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + '" value="" />');
 					        $('.form_datetime').datetimepicker({
+					        	format: "yyyy-mm-dd hh:ii:00",
 						        weekStart: 1,
 						        todayBtn:  1,
 								autoclose: 1,
@@ -401,10 +403,11 @@ function generateForm(data){
 						    });
 					        break;
 					    case 'datetime':
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<div class="input-group date form_datetime col-md-5" data-date="" data-link-field="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" data-date-format="dd MM yyyy - HH:ii p" style="width:100%"><input class="form-control" size="16" type="text" value="" readonly><span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>');
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<input type="hidden" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '" value="" />');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<div class="input-group date form_datetime col-md-5" data-date="" data-link-field="' + inputName + formfieldObject.formfieldid + '" style="width:100%"><input class="form-control" size="16" type="text" value="" readonly><span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<input type="hidden" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + '" value="" />');
 					        $('.form_datetime').datetimepicker({
+					        	format: "yyyy-mm-dd hh:ii:00",
 						        weekStart: 1,
 						        todayBtn:  1,
 								autoclose: 1,

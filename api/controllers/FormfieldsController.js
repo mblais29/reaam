@@ -67,7 +67,7 @@ module.exports = {
 	'insert': function(req, res, next){
 
 		var record = req.allParams();
-		
+console.log(record);
 		/* Deletes the _csrf and collection records from the array */
 		 delete record._csrf; 
 		 delete record.collection;
