@@ -182,7 +182,6 @@ function openFormRecords(collection){
 	$('#myform-viewrecords').show();
 	$.ajax('/forms/formRecords?collection=' + collection,{
       success: function(data) {
-      	console.log(data);
       	generateTable(data);
       },
       done: function(data){
@@ -196,17 +195,28 @@ function openFormRecords(collection){
 }
 
 function generateTable(data){
+	console.log(data);
 	$('#myform-panel-records').append('<table id="table-formrecords" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"><thead><tr></tr></thead><tbody></tbody></table>');
 	
 	//Create the headings
 	for(var a in data[0]){
 		$('#table-formrecords thead tr').append('<th data-type="html">' + a + '</th>');
-		}
+	}
 	//Add the records
 	for(var i = 0; i< data.length; i++){
 		$('#table-formrecords tbody').append('<tr id="data' + i + '" data-id="' + i + '"></tr>');
 		for(var a in data[i]){
-			$('#table-formrecords tbody tr#data' + i).append('<td>' + data[i][a] + '</td>');
+			if(moment(data[i][a], 'YYYY-MM-DD', true).isValid() === true){
+				var date = moment(data[i][a]).format('ll');
+				$('#table-formrecords tbody tr#data' + i).append('<td>' + date + '</td>');
+			}else if(moment(data[i][a], 'YYYY-MM-DD H:mm:s', true).isValid() === true){
+				var datetime = moment(data[i][a]).format('llll');
+				console.log(data[i][a] + "= " + datetime);
+				$('#table-formrecords tbody tr#data' + i).append('<td>' + datetime + '</td>');
+			}else{
+				$('#table-formrecords tbody tr#data' + i).append('<td>' + data[i][a] + '</td>');
+			}
+			
 		}
 	}
 	$('#table-formrecords').footable('footable_initialize');

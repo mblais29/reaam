@@ -52,6 +52,7 @@ var jsFilesToInject = [
   'js/dependencies/leaflet/jquery-ui.min.js',
   'js/dependencies/bootstrap/bootstrap-datetimepicker.min.js',
   'js/dependencies/bootstrap/bootstrap-datetimepicker.uk.js',
+  'js/dependencies/moment.js',
   
   
 
