@@ -9,8 +9,6 @@ var Waterline = require('waterline');
 module.exports = {
 	
 	index: function(req, res, next){
-		//console.log(new Date());
-		//console.log(req.session.User);
 		Formfields.find(function foundForms(err,formfields){
 			if(err) return next(err);
 			res.view({
@@ -51,7 +49,7 @@ module.exports = {
 				formfieldname: req.param('formfieldName'),
 				formfieldtype: req.param('formfield-type-hidden')
 			};
-		//console.log(formFieldObj);
+
 		Formfields.update(req.param('formfieldid'), formFieldObj, function formfieldsUpdated(err){
 			if(err){
 				req.session.flash = {
@@ -67,7 +65,7 @@ module.exports = {
 	'insert': function(req, res, next){
 
 		var record = req.allParams();
-console.log(record);
+
 		/* Deletes the _csrf and collection records from the array */
 		 delete record._csrf; 
 		 delete record.collection;
@@ -100,8 +98,8 @@ console.log(record);
 	
 					 uploadFile.upload({
 					   adapter: require('skipper-gridfs'),
-					   uri: 'mongodb://localhost:27017/reaam.docs',
-					   maxBytes: 100000000, //100mb
+					   uri: sails.config.conf.docUrl,
+					   maxBytes: 1000000000, //1000mb
 					   }, function (err, filesUploaded) {
 						   if (err) return res.negotiate(err);
 						   //If there are more than 1 file create an array or else just load the one file

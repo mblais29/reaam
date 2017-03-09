@@ -20,6 +20,7 @@ function getformfieldsrecords(formfieldid){
       	$('#formID').val(data.formid);
       	$('#formfieldName').val(data.formfieldname);
       	$('#btn-formfield-type').text(data.formfieldtype);
+      	$('#formfield-type-hidden').val(data.formfieldtype);
       	$('#formfield-edit').show();
       },
       done: function(data){
