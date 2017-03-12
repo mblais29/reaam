@@ -178,49 +178,54 @@ function insertSelectedFormData(formid){
     });
 }
 
+
 function openFormRecords(collection){
 	$('#myform-viewrecords').show();
-	$.ajax('/forms/formRecords?collection=' + collection,{
-      success: function(data) {
-      	generateTable(data);
-      },
-      done: function(data){
-      	
-      },
-      error: function(err) {
-         console.log(err);
-      }
+	$.ajax({
+		url:'/forms/formRecords?collection=' + collection,
+		dataType : 'json',
+      	success : function(result) {
+      		//Create the table
+      		$('#myform-panel-records').append('<table id="table-formrecords" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"></table>');
+ 
+      		var table = $('#table-formrecords');
+      		
+      		//Create empty column array for table header
+      		var jsonColumns = [];
+
+            $.each(result, function(idx, obj) {
+                $.each(obj, function(key, value) {
+                	
+                	//If the column does not exist add it to the jsonColumns array
+                	if(!arrayCheck(jsonColumns, key)){
+                		jsonColumns.push({name: key, title: key});
+                	}
+                	
+                	//If the value is a date value convert it using moment plugin
+                	if(moment(value, 'YYYY-MM-DD', true).isValid() === true){
+						var date = moment(value).format('ll');
+						obj[key] = date;
+					}else if(moment(value, 'YYYY-MM-DD H:mm:s', true).isValid() === true){
+						var datetime = moment(value).format('llll');
+						obj[key] = datetime;
+					}
+                });
+            });
+			
+			//Initialize the table with records
+            $('#table-formrecords').footable({
+				"columns": jsonColumns,
+				"rows": result
+			});
+         },
+	      done: function(data){
+	      	
+	      },
+	      error: function(err) {
+	         console.log(err);
+	      }
     });
 	
-}
-
-function generateTable(data){
-	console.log(data);
-	$('#myform-panel-records').append('<table id="table-formrecords" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"><thead><tr></tr></thead><tbody></tbody></table>');
-	
-	//Create the headings
-	for(var a in data[0]){
-		$('#table-formrecords thead tr').append('<th data-type="html">' + a + '</th>');
-	}
-	//Add the records
-	for(var i = 0; i< data.length; i++){
-		$('#table-formrecords tbody').append('<tr id="data' + i + '" data-id="' + i + '"></tr>');
-		for(var a in data[i]){
-			if(moment(data[i][a], 'YYYY-MM-DD', true).isValid() === true){
-				var date = moment(data[i][a]).format('ll');
-				$('#table-formrecords tbody tr#data' + i).append('<td>' + date + '</td>');
-			}else if(moment(data[i][a], 'YYYY-MM-DD H:mm:s', true).isValid() === true){
-				var datetime = moment(data[i][a]).format('llll');
-				console.log(data[i][a] + "= " + datetime);
-				$('#table-formrecords tbody tr#data' + i).append('<td>' + datetime + '</td>');
-			}else{
-				$('#table-formrecords tbody tr#data' + i).append('<td>' + data[i][a] + '</td>');
-			}
-			
-		}
-	}
-	$('#table-formrecords').footable('footable_initialize');
-
 }
 
 function generatePreviewForm(data){

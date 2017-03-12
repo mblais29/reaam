@@ -65,7 +65,13 @@ module.exports = {
 	'insert': function(req, res, next){
 
 		var record = req.allParams();
-
+		
+		for(var prop in record) {
+			//console.log(record[prop]);
+	        if(record[prop] === '')
+	            delete record[prop];
+	    }
+	    console.log(record);
 		/* Deletes the _csrf and collection records from the array */
 		 delete record._csrf; 
 		 delete record.collection;
@@ -80,7 +86,7 @@ module.exports = {
 		 var myCollection;
 		 var insertedId;
 		 var docNameEncrypt = [];
-		 
+
 		 MongoClient.connect(sails.config.conf.url, function(err, db) {
 		     if(err)
 		         throw err;

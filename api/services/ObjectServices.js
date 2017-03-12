@@ -1,7 +1,9 @@
 module.exports = {
 	convertLowercase: function(obj) {
 		    var output = {};
+		    console.log(obj);
 		    for (i in obj) {
+		    	
 		        if (Object.prototype.toString.apply(obj[i]) === '[object Object]') {
 		           output[i.toLowerCase()] = ConvertKeysToLowerCase(obj[i]);
 		        }else if(Object.prototype.toString.apply(obj[i]) === '[object Array]'){
