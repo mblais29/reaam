@@ -213,10 +213,16 @@ function openFormRecords(collection){
             });
 			
 			//Initialize the table with records
-            $('#table-formrecords').footable({
-				"columns": jsonColumns,
-				"rows": result
-			});
+			if(jsonColumns.length){
+				$('#table-formrecords').footable({
+					"columns": jsonColumns,
+					"rows": result
+				});
+			}else{
+				$('#table-formrecords').css('text-align','center');
+				$('#table-formrecords').append('<h1><i>No Results</i></h1>');
+			}
+            
          },
 	      done: function(data){
 	      	
@@ -226,6 +232,15 @@ function openFormRecords(collection){
 	      }
     });
 	
+}
+
+function arrayCheck(array, val){
+	for(var i=0;i < array.length; i++) {
+    	if (array[i].title === val) {
+    		return true;
+    	}
+    }
+    return false;
 }
 
 function generatePreviewForm(data){
