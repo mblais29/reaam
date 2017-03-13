@@ -264,10 +264,10 @@ function generatePreviewForm(data){
 					    	/* If input string is file show the file upload else just create a text input */
 					    	if(formfieldObject.fileupload === true){
 					    		inputType = "file";
-					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid + '" name="' + inputName + '">');
 
-								$('#' + formfieldObject.formfieldname + formfieldObject.formfieldid).filestyle({
+								$('#' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid).filestyle({
 									size: 'sm',
 									buttonName : 'btn-info',
 									buttonText : 'Upload'
@@ -387,10 +387,10 @@ function generateForm(data){
 					    	/* If input string is file show the file upload else just create a text input */
 					    	if(formfieldObject.fileupload === true){
 					    		inputType = "file";
-					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple>');
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple>');
 
-								$('#' + formfieldObject.formfieldname + formfieldObject.formfieldid).filestyle({
+								$('#' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid).filestyle({
 									size: 'sm',
 									buttonName : 'btn-info',
 									buttonText : 'Upload'

@@ -199,7 +199,8 @@ module.exports = {
 	          db.close();
 	        });
 		});
-	}
+	},
+	
 	
 };
 
