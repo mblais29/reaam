@@ -387,8 +387,8 @@ function generateForm(data){
 					    	/* If input string is file show the file upload else just create a text input */
 					    	if(formfieldObject.fileupload === true){
 					    		inputType = "file";
-					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple>');
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple>');
 
 								$('#' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid).filestyle({
 									size: 'sm',
@@ -398,24 +398,24 @@ function generateForm(data){
 			    				
 					    	}else{
 					    		inputType = "text";
-					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + '" name="' + inputName + '">');
 					    	}
 					        break;
 					    case 'text':
 					        inputType = "text";
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + '">');
 							break;
 					    case 'integer':
 					        inputType = "number";
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + '">');
 					        break;
 					    case 'float':
 					        inputType = "number";
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + '">');
 					        break;
 					    case 'date':
 					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
@@ -470,16 +470,16 @@ function generateForm(data){
 					        break;
 					    case 'json':
 					        inputType = "text";
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + '">');
 					        break;
 					    case 'mediumtext':
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    			$('#formfieldid' + formfieldObject.formfieldid).append('<textarea class="form-control" rows="5" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '"></textarea>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<textarea class="form-control" rows="5" id="' + finputName + formfieldObject.formfieldid + '" name="' + inputName + '"></textarea>');
 					        break;
 					    case 'longtext':
-					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    			$('#formfieldid' + formfieldObject.formfieldid).append('<textarea class="form-control" rows="5" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '"></textarea>');
+					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    			$('#formfieldid' + formfieldObject.formfieldid).append('<textarea class="form-control" rows="5" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + '"></textarea>');
 					        break;
 					};
 				}

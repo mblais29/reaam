@@ -65,13 +65,13 @@ module.exports = {
 	'insert': function(req, res, next){
 
 		var record = req.allParams();
-		
+		console.log(record);
 		for(var prop in record) {
 			//console.log(record[prop]);
 	        if(record[prop] === '')
 	            delete record[prop];
 	    }
-	    console.log(record);
+
 		/* Deletes the _csrf and collection records from the array */
 		 delete record._csrf; 
 		 delete record.collection;
@@ -81,7 +81,7 @@ module.exports = {
  
 		 /* Replaces and spaces with "_" before saving to database */
 		 var finalRecord = ObjectServices.removeSpace(lowercaseRecord);
-
+console.log(finalRecord);
 		 var MongoClient = require('mongodb').MongoClient;
 		 var myCollection;
 		 var insertedId;
@@ -111,10 +111,11 @@ module.exports = {
 						   //If there are more than 1 file create an array or else just load the one file
 						   if(filesUploaded.length > 1){
 						     for(var i = 0; i<filesUploaded.length; i++){
-							   		docNameEncrypt.push(filesUploaded[i].fd);
+						     		
+							   		docNameEncrypt.push(filesUploaded[i].filename);
 							   }
 						   }else{
-						     docNameEncrypt = filesUploaded[0].fd;
+						     docNameEncrypt = filesUploaded[0].filename;
 						   }
 
 						   //Updates the new record with uploaded file name
