@@ -51,7 +51,7 @@ module.exports = {
 	profileImg: function (req, res) {
 	    var profileImgAdapter = require('skipper-gridfs')({
 	    	//reaam.user is the database.file[bucket]
-            uri: 'mongodb://localhost:27017/reaam.user'
+            uri: sails.config.conf.userUrl
         });
 
 		User.findOne(req.param('id'), function foundUser(err,user){

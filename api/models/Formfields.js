@@ -22,7 +22,7 @@ autoPK: false,
 	},
 	formfieldtype: {
 		type: 'string',
-    	enum: ['string', 'text', 'integer', 'float', 'date', 'datetime', 'boolean', 'json', 'mediumtext', 'longtext'],
+    	enum: ['string', 'text', 'integer', 'float', 'date', 'datetime', 'binary', 'boolean', 'json', 'mediumtext', 'longtext'],
     	defaultsTo: 'string'
 	},
 	fileupload: {

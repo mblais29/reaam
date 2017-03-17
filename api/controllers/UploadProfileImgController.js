@@ -18,7 +18,7 @@ module.exports = {
 
 		uploadFile.upload({
 		  adapter: require('skipper-gridfs'),
-		  uri: 'mongodb://localhost:27017/reaam.user',
+		  uri: sails.config.conf.userUrl,
 		  maxBytes: 100000000, //100mb
 		  }, function (err, filesUploaded) {
 		  if (err) return res.negotiate(err);

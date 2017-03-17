@@ -261,23 +261,9 @@ function generatePreviewForm(data){
 	    			var inputType = "";
 	    			switch (formfieldObject.formfieldtype) {
 					    case 'string':
-					    	/* If input string is file show the file upload else just create a text input */
-					    	if(formfieldObject.fileupload === true){
-					    		inputType = "file";
-					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid + '" name="' + inputName + '">');
-
-								$('#' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid).filestyle({
-									size: 'sm',
-									buttonName : 'btn-info',
-									buttonText : 'Upload'
-								});
-			    				
-					    	}else{
 					    		inputType = "text";
 					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
 			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + formfieldObject.formfieldname + formfieldObject.formfieldid + '" name="' + inputName + '">');
-					    	}
 					        break;
 					    case 'text':
 					        inputType = "text";
@@ -324,6 +310,18 @@ function generatePreviewForm(data){
 						        showMeridian: 1,
 								pickerPosition: "bottom-left"
 						    });
+					        break;
+					    case 'binary':
+					    	/* If input string is file show the file upload else just create a text input */
+					    		inputType = "file";
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple>');
+
+								$('#' + inputName + formfieldObject.formfieldid).filestyle({
+									size: 'sm',
+									buttonName : 'btn-info',
+									buttonText : 'Upload'
+								});
 					        break;
 					    case 'boolean':
 					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="formfield_boolean">' + formfieldObject.formfieldname + ':</label><div class="dropdown" id="formfield_boolean"><button id="boolean" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Yes or No  <span class="caret"></span></button>');
@@ -384,23 +382,9 @@ function generateForm(data){
 	    			var inputType = "";
 	    			switch (formfieldObject.formfieldtype) {
 					    case 'string':
-					    	/* If input string is file show the file upload else just create a text input */
-					    	if(formfieldObject.fileupload === true){
-					    		inputType = "file";
-					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple>');
-
-								$('#' + formfieldObject.formfieldname.replace(" ", "_") + formfieldObject.formfieldid).filestyle({
-									size: 'sm',
-									buttonName : 'btn-info',
-									buttonText : 'Upload'
-								});
-			    				
-					    	}else{
 					    		inputType = "text";
 					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + '">' + formfieldObject.formfieldname + ':</label>');
 			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + '" name="' + inputName + '">');
-					    	}
 					        break;
 					    case 'text':
 					        inputType = "text";
@@ -447,6 +431,18 @@ function generateForm(data){
 						        showMeridian: 1,
 								pickerPosition: "bottom-left"
 						    });
+					        break;
+					    case 'binary':
+					    	/* If input string is file show the file upload else just create a text input */
+					    		inputType = "file";
+					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple>');
+
+								$('#' + inputName + formfieldObject.formfieldid).filestyle({
+									size: 'sm',
+									buttonName : 'btn-info',
+									buttonText : 'Upload'
+								});
 					        break;
 					    case 'boolean':
 					        $('#formfieldid' + formfieldObject.formfieldid).append('<label for="formfield_boolean">' + formfieldObject.formfieldname + ':</label><div class="dropdown" id="formfield_boolean"><button id="boolean" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Yes or No  <span class="caret"></span></button>');

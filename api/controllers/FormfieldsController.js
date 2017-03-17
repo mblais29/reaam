@@ -65,7 +65,7 @@ module.exports = {
 	'insert': function(req, res, next){
 
 		var record = req.allParams();
-		console.log(record);
+
 		for(var prop in record) {
 			//console.log(record[prop]);
 	        if(record[prop] === '')
@@ -81,11 +81,11 @@ module.exports = {
  
 		 /* Replaces and spaces with "_" before saving to database */
 		 var finalRecord = ObjectServices.removeSpace(lowercaseRecord);
-console.log(finalRecord);
+
 		 var MongoClient = require('mongodb').MongoClient;
 		 var myCollection;
 		 var insertedId;
-		 var docNameEncrypt = [];
+		 var docName = [];
 
 		 MongoClient.connect(sails.config.conf.url, function(err, db) {
 		     if(err)
@@ -101,25 +101,25 @@ console.log(finalRecord);
 	 			 //If files exist in the parameters upload the file to the docs bucket
 	 			 if(typeof req._fileparser.upstreams[0] !== 'undefined'){
 				 	var uploadFile = req._fileparser.upstreams[0];
-	
 					 uploadFile.upload({
 					   adapter: require('skipper-gridfs'),
 					   uri: sails.config.conf.docUrl,
+					   saveAs: uploadFile._files[0].stream.filename,
 					   maxBytes: 1000000000, //1000mb
 					   }, function (err, filesUploaded) {
+
 						   if (err) return res.negotiate(err);
 						   //If there are more than 1 file create an array or else just load the one file
 						   if(filesUploaded.length > 1){
-						     for(var i = 0; i<filesUploaded.length; i++){
-						     		
-							   		docNameEncrypt.push(filesUploaded[i].filename);
+						     for(var i = 0; i < filesUploaded.length; i++){
+						     	docName.push(filesUploaded[i].filename);
 							   }
 						   }else{
-						     docNameEncrypt = filesUploaded[0].filename;
+						     docName = filesUploaded[0].filename;
 						   }
 
 						   //Updates the new record with uploaded file name
-				           myCollection.update({_id:insertedId}, {$set: {documents:docNameEncrypt}}, false, true);
+				           myCollection.update({_id:insertedId}, {$set: {documents:docName}}, false, true);
 					 });
 				 }
 			 });
