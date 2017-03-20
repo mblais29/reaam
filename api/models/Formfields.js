@@ -24,10 +24,6 @@ autoPK: false,
 		type: 'string',
     	enum: ['string', 'text', 'integer', 'float', 'date', 'datetime', 'binary', 'boolean', 'json', 'mediumtext', 'longtext'],
     	defaultsTo: 'string'
-	},
-	fileupload: {
-		type: 'boolean',
-		required: true
 	}
   },
   //Before create create an autoincremented formid using the sequence model

@@ -22,8 +22,7 @@ module.exports = {
 		var formObj = {
 			formid: req.param('form'),
 			formfieldname: req.param('formfieldname'),
-			formfieldtype: req.param('formfieldtypehidden'),
-			fileupload: req.param('file-upload-hidden')
+			formfieldtype: req.param('formfieldtypehidden')
 		};
 		Formfields.create(formObj, function formfieldCreated(err,formfield){
 			if(err){
@@ -101,6 +100,7 @@ module.exports = {
 	 			 //If files exist in the parameters upload the file to the docs bucket
 	 			 if(typeof req._fileparser.upstreams[0] !== 'undefined'){
 				 	var uploadFile = req._fileparser.upstreams[0];
+				 	//console.log(uploadFile);
 					 uploadFile.upload({
 					   adapter: require('skipper-gridfs'),
 					   uri: sails.config.conf.docUrl,

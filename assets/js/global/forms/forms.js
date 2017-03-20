@@ -39,17 +39,6 @@ $(window).on('load',function(){
       $("#btn-formfieldtype").text($(this).text());
       $("#btn-formfieldtype").val($(this).text());
       $("#formfieldtypehidden").val($(this).text());
-      /* If the user selects type string show option to create document upload */
-      if($("#formfieldtypehidden").val() === 'string'){
-      	$('#fileUploadCheckbox').show();
-      }else{
-      	$('#fileUploadCheckbox').hide();
-      }
-
-      $('#file-upload').on('click', function(){
-		/* When checkbox is clicked update hidden input value */ 
-      	$('#file-upload-hidden').val($(this).prop('checked'));
-      });
       
     });
     

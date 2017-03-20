@@ -82,7 +82,7 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // Note: user, pass and port are optional
+  // Note: user, pass and port are optional. Make sure user:REAAM, PWD: 123 is created
   url: 'mongodb://REAAM:123@localhost:27017/reaam',
   ttl: 7 * 24 * 60 * 60, // Sessions Expire in 7 days.
   collection: 'sessions',

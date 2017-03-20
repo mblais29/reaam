@@ -179,7 +179,7 @@ module.exports = {
 		  // Find some records
 		  collection.find({}).toArray(function(err, records) {
 		    assert.equal(err, null);
-			
+			console.log(records);
 			//Returns the records found for the specified collection
 
 			res.json(records);
