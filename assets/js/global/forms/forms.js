@@ -189,7 +189,7 @@ function openFormRecords(collection){
                 	if(!arrayCheck(jsonColumns, key)){
                 		jsonColumns.push({name: key, title: key});
                 	}
-                	
+
                 	//If the value is a date value convert it using moment plugin
                 	if(moment(value, 'YYYY-MM-DD', true).isValid() === true){
 						var date = moment(value).format('ll');
@@ -197,10 +197,13 @@ function openFormRecords(collection){
 					}else if(moment(value, 'YYYY-MM-DD H:mm:s', true).isValid() === true){
 						var datetime = moment(value).format('llll');
 						obj[key] = datetime;
+					}else if(isDoc(collection,value) === true){
+						obj[key] = '<span class="glyphicon glyphicon-file">'+ obj[key] + '</span>';
 					}
+					console.log(key + ':' + value);
                 });
             });
-			
+
 			//Initialize the table with records
 			if(jsonColumns.length){
 				$('#table-formrecords').footable({
@@ -220,7 +223,13 @@ function openFormRecords(collection){
 	         console.log(err);
 	      }
     });
-	
+
+}
+
+function isDoc(collection,doc){
+	$.get('/formfields/streamFile?collection=' + collection + '&docname=' + doc, function( data ) {
+  		console.log(data);
+	});
 }
 
 function arrayCheck(array, val){

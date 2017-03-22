@@ -57,8 +57,9 @@ module.exports = {
 		User.findOne(req.param('id'), function foundUser(err,user){
 			//console.log(user.profileimage);
 			var storedProfileImg = user.profileimage;
-			
+
 			profileImgAdapter.read(storedProfileImg, function(error , file) {
+				
 		        if(error) {
 		            res.json(error);
 		        } else {

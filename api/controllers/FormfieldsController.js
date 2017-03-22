@@ -127,6 +127,27 @@ module.exports = {
 		res.redirect('/forms/myForms');
 	},
 	
+	'streamFile': function (req, res) {
+		var docAdapter = require('skipper-gridfs')({
+	    	//reaam.docs is the database.file[bucket]
+            uri: sails.config.conf.docUrl
+        });
+		
+		var value = req.param('docname');
+		var collection = req.param('collection');
+
+	     docAdapter.read(value, function(error , file) {
+	     	console.log(file);
+	     
+	     	/*if(error) {
+	            res.json(error);
+	        } else {
+	            res.send(new Buffer(file));
+	        }*/
+	     });
+	     res.ok();
+        
+    },
 	//Delete the Form Field
 	destroy: function(req, res, next){
 		Formfields.findOne(req.param('formfieldid'), function foundFormfield(err,formfield){
