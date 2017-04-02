@@ -197,10 +197,7 @@ function openFormRecords(collection){
 					}else if(moment(value, 'YYYY-MM-DD H:mm:s', true).isValid() === true){
 						var datetime = moment(value).format('llll');
 						obj[key] = datetime;
-					}else if(isDoc(collection,value) === true){
-						obj[key] = '<span class="glyphicon glyphicon-file">'+ obj[key] + '</span>';
 					}
-					console.log(key + ':' + value);
                 });
             });
 
@@ -224,12 +221,6 @@ function openFormRecords(collection){
 	      }
     });
 
-}
-
-function isDoc(collection,doc){
-	$.get('/formfields/streamFile?collection=' + collection + '&docname=' + doc, function( data ) {
-  		console.log(data);
-	});
 }
 
 function arrayCheck(array, val){

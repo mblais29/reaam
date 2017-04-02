@@ -64,7 +64,7 @@ module.exports = {
 	'insert': function(req, res, next){
 
 		var record = req.allParams();
-
+		
 		for(var prop in record) {
 			//console.log(record[prop]);
 	        if(record[prop] === '')
@@ -101,7 +101,9 @@ module.exports = {
 	 			 if(typeof req._fileparser.upstreams[0] !== 'undefined'){
 				 	var uploadFile = req._fileparser.upstreams[0];
 				 	//console.log(uploadFile);
-					 uploadFile.upload({
+				 	//console.log(req._fileparser.upstreams[0]._files[0].stream.filename.split('.').pop());
+				 	
+			 		uploadFile.upload({
 					   adapter: require('skipper-gridfs'),
 					   uri: sails.config.conf.docUrl,
 					   saveAs: uploadFile._files[0].stream.filename,
@@ -121,6 +123,7 @@ module.exports = {
 						   //Updates the new record with uploaded file name
 				           myCollection.update({_id:insertedId}, {$set: {documents:docName}}, false, true);
 					 });
+					 
 				 }
 			 });
 		 });
@@ -128,24 +131,21 @@ module.exports = {
 	},
 	
 	'streamFile': function (req, res) {
-		var docAdapter = require('skipper-gridfs')({
-	    	//reaam.docs is the database.file[bucket]
-            uri: sails.config.conf.docUrl
-        });
 		
-		var value = req.param('docname');
-		var collection = req.param('collection');
+		var docAdapter = require('skipper-gridfs')({
+			//reaam.docs is the database.file[bucket]
+			uri: sails.config.conf.docUrl
+		});
 
-	     docAdapter.read(value, function(error , file) {
-	     	console.log(file);
-	     
-	     	/*if(error) {
-	            res.json(error);
-	        } else {
-	            res.send(new Buffer(file));
-	        }*/
-	     });
-	     res.ok();
+		var value = req.param('docname');
+				 docAdapter.read(value, function(error , file) {
+			 if(error) {
+				res.json(error);
+			} else {
+				res.set({'Content-Disposition': 'attachment; filename=' + value + ''});
+				res.send(new Buffer(file, 'binary'));
+			}
+		 });
         
     },
 	//Delete the Form Field
