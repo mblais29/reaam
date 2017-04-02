@@ -24,6 +24,7 @@ module.exports = {
 			formfieldname: req.param('formfieldname'),
 			formfieldtype: req.param('formfieldtypehidden')
 		};
+		
 		Formfields.create(formObj, function formfieldCreated(err,formfield){
 			if(err){
 				console.log(err);

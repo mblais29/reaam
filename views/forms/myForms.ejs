@@ -62,7 +62,7 @@
 						<td><%= form.formname %></td>
 						<td><%= form.formid %></td>
 						<td><button id="openform<%= form.formid %>" class="btn btn-sm btn-success" onclick="insertSelectedFormData(<%= form.formid %>)" value="<%= form.formid %>">Open</button></td>
-						<td><button id="viewformrecords<%= form.formid %>" class="btn btn-sm btn-info" onclick="openFormRecords('<%= form.collectionname %>')">Records</button></td>
+						<td><button id="viewformrecords<%= form.formid %>" class="btn btn-sm btn-info" onclick="openFormRecords('<%= form.collectionname %>','<%= form.formid %>')">Records</button></td>
 					</tr>
 				  <% }) %>
 				</tbody>

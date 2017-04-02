@@ -171,7 +171,7 @@ module.exports = {
 	},
 	
 	'formRecords': function(req, res, cb){
-		
+		var binaryTypes = [];
 		var findRecords = function(db, callback) {
 		  // Get the collection records
 		  var collection = db.collection(req.param('collection'));
@@ -179,13 +179,23 @@ module.exports = {
 		  // Find some records
 		  collection.find({}).toArray(function(err, records) {
 		    assert.equal(err, null);
-			console.log(records);
 			//Returns the records found for the specified collection
-
-			res.json(records);
-				
-		    callback(records);
-		    
+			Forms.find(req.param('formid')).populateAll().exec(function (err, formfield) {
+				for (i = 0; i < formfield[0].formfields.length; i++) { 
+					if(formfield[0].formfields[i].formfieldtype === 'binary'){
+						binaryTypes.push(formfield[0].formfields[i].formfieldname.toLowerCase());
+					}
+				}
+				for (i = 0; i < records.length; i++) { 
+					for(var a in records[i]){
+						if(ArrayCheckService.checkArray(binaryTypes, a)){
+							records[i][a] = '<a href="#">' + records[i][a] + '</a>';
+						}
+					}
+				}
+				res.json(records);
+				callback(records);
+			});
 		  });
 		};
 		var MongoClient = require('mongodb').MongoClient

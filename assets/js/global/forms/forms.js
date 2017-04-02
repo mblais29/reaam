@@ -168,10 +168,10 @@ function insertSelectedFormData(formid){
 }
 
 
-function openFormRecords(collection){
+function openFormRecords(collection,formid){
 	$('#myform-viewrecords').show();
 	$.ajax({
-		url:'/forms/formRecords?collection=' + collection,
+		url:'/forms/formRecords?collection=' + collection + '&formid=' + formid,
 		dataType : 'json',
       	success : function(result) {
       		//Create the table
@@ -181,7 +181,7 @@ function openFormRecords(collection){
       		
       		//Create empty column array for table header
       		var jsonColumns = [];
-
+console.log(result);
             $.each(result, function(idx, obj) {
                 $.each(obj, function(key, value) {
                 	
@@ -198,6 +198,7 @@ function openFormRecords(collection){
 						var datetime = moment(value).format('llll');
 						obj[key] = datetime;
 					}
+
                 });
             });
 
