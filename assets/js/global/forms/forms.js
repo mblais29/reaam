@@ -167,7 +167,6 @@ function insertSelectedFormData(formid){
     });
 }
 
-
 function openFormRecords(collection,formid){
 	$('#myform-viewrecords').show();
 	$.ajax({
@@ -181,7 +180,7 @@ function openFormRecords(collection,formid){
       		
       		//Create empty column array for table header
       		var jsonColumns = [];
-console.log(result);
+
             $.each(result, function(idx, obj) {
                 $.each(obj, function(key, value) {
                 	

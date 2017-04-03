@@ -181,15 +181,17 @@ module.exports = {
 		    assert.equal(err, null);
 			//Returns the records found for the specified collection
 			Forms.find(req.param('formid')).populateAll().exec(function (err, formfield) {
+			//Push all binary fields into an array
 				for (i = 0; i < formfield[0].formfields.length; i++) { 
 					if(formfield[0].formfields[i].formfieldtype === 'binary'){
 						binaryTypes.push(formfield[0].formfields[i].formfieldname.toLowerCase());
 					}
 				}
+			//Checks to see if the current field is binary, if true make the binary field records links so users can download the file 
 				for (i = 0; i < records.length; i++) { 
 					for(var a in records[i]){
 						if(ArrayCheckService.checkArray(binaryTypes, a)){
-							records[i][a] = '<a href="#">' + records[i][a] + '</a>';
+							records[i][a] = '<a href="/formfields/streamFile?docname=' + records[i][a] + '">' + records[i][a] + '</a>';
 						}
 					}
 				}
