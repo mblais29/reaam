@@ -191,7 +191,16 @@ module.exports = {
 				for (i = 0; i < records.length; i++) { 
 					for(var a in records[i]){
 						if(ArrayCheckService.checkArray(binaryTypes, a)){
-							records[i][a] = '<a href="/formfields/streamFile?docname=' + records[i][a] + '">' + records[i][a] + '</a>';
+							//Need to handle multiple documents
+							//If record is an array break it apart and create a button for each document download
+							// Need to fix the File Upload, when uploading multiple files they all get the same file name
+							if( Object.prototype.toString.call( records[i][a] ) === '[object Array]' ) {
+								for (ii = 0; ii < records[i][a].length; ii++) {
+									records[i][a][ii] = '<a href="/formfields/streamFile?docname=' + records[i][a][ii] + '"><button type="button" class="btn btn-info">' + records[i][a][ii] + '</button></a>';
+								}
+							}else{
+								records[i][a] = '<a href="/formfields/streamFile?docname=' + records[i][a] + '"><button type="button" class="btn btn-info">' + records[i][a] + '</button></a>';
+							}
 						}
 					}
 				}
