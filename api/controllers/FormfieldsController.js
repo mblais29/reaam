@@ -86,6 +86,7 @@ module.exports = {
 		 var myCollection;
 		 var insertedId;
 		 var docName = [];
+		 var docId = [];
 
 		 MongoClient.connect(sails.config.conf.url, function(err, db) {
 		     if(err)
@@ -101,31 +102,34 @@ module.exports = {
 	 			 //If files exist in the parameters upload the file to the docs bucket
 	 			 if(typeof req._fileparser.upstreams[0] !== 'undefined'){
 				 	var uploadFile = req._fileparser.upstreams[0];
+				 	
+				 	//console.log(uploadFile._files['length']);
 				 	//console.log(uploadFile);
 				 	//console.log(req._fileparser.upstreams[0]._files[0].stream.filename.split('.').pop());
-				 	
-			 		uploadFile.upload({
-					   adapter: require('skipper-gridfs'),
-					   uri: sails.config.conf.docUrl,
-					   saveAs: uploadFile._files[0].stream.filename,
-					   maxBytes: 1000000000, //1000mb
-					   }, function (err, filesUploaded) {
+					  
+				 		uploadFile.upload({
+						   adapter: require('skipper-gridfs'),
+						   uri: sails.config.conf.docUrl,
+						   saveAs: function(file, handler) {handler(null,file.filename);},
+						   maxBytes: 1000000000, //1000mb
+						   }, function (err, filesUploaded) {
 
-						   if (err) return res.negotiate(err);
-						   //If there are more than 1 file create an array or else just load the one file
-						   if(filesUploaded.length > 1){
-						     for(var i = 0; i < filesUploaded.length; i++){
-						     	docName.push(filesUploaded[i].filename);
+							   if (err) return res.negotiate(err);
+							   //If there are more than 1 file create an array or else just load the one file
+							   if(filesUploaded.length > 1){
+							     for(var i = 0; i < filesUploaded.length; i++){
+							     	docName.push(filesUploaded[i].filename);
+							     	docId.push(filesUploaded[i].extra['fileId']);
+								   }
+							   }else{
+							     docName = filesUploaded[0].filename;
+							     docId = filesUploaded[0].extra['fileId'];
 							   }
-						   }else{
-						     docName = filesUploaded[0].filename;
-						   }
-
-						   //Updates the new record with uploaded file name
-				           myCollection.update({_id:insertedId}, {$set: {documents:docName}}, false, true);
-					 });
-					 
-				 }
+	
+							   //Updates the new record with uploaded file name
+					           myCollection.update({_id:insertedId}, {$set: {documents:docName, docid:docId}}, false, true);
+						 });
+					 }
 			 });
 		 });
 		res.redirect('/forms/myForms');
@@ -149,6 +153,26 @@ module.exports = {
 		 });
 		 
         
+    },
+    
+    'getDocs': function (req, res) {
+    	var MongoClient = require('mongodb').MongoClient;
+    	var ObjectID = require('mongodb').ObjectID;
+		var myCollection;
+		
+		MongoClient.connect(sails.config.conf.url, function(err, db) {
+		     if(err)
+		         throw err;
+
+		     myCollection = db.collection(req.param('collection'));
+		     
+		     // Find the document records
+		     myCollection.find({_id:ObjectID(req.param('recordid'))}).toArray(function(err, records) {
+		     	res.json(records.docid);
+		     });
+		         
+		});
+    
     },
 	//Delete the Form Field
 	destroy: function(req, res, next){

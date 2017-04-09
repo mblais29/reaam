@@ -183,9 +183,8 @@ function openFormRecords(collection,formid){
 
             $.each(result, function(idx, obj) {
                 $.each(obj, function(key, value) {
-                	
-                	//If the column does not exist add it to the jsonColumns array
-                	if(!arrayCheck(jsonColumns, key)){
+                	//If the column does not exist add it to the jsonColumns array, will not push docid fields
+                	if(!arrayCheck(jsonColumns, key) && key != 'docid'){
                 		jsonColumns.push({name: key, title: key});
                 	}
 

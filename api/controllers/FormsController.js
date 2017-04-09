@@ -175,9 +175,11 @@ module.exports = {
 		var findRecords = function(db, callback) {
 		  // Get the collection records
 		  var collection = db.collection(req.param('collection'));
+		  var collectionName = collection.s.name;
 
 		  // Find some records
 		  collection.find({}).toArray(function(err, records) {
+
 		    assert.equal(err, null);
 			//Returns the records found for the specified collection
 			Forms.find(req.param('formid')).populateAll().exec(function (err, formfield) {
@@ -187,20 +189,21 @@ module.exports = {
 						binaryTypes.push(formfield[0].formfields[i].formfieldname.toLowerCase());
 					}
 				}
+
 			//Checks to see if the current field is binary, if true make the binary field records links so users can download the file 
 				for (i = 0; i < records.length; i++) { 
 					for(var a in records[i]){
 						if(ArrayCheckService.checkArray(binaryTypes, a)){
-							//Need to handle multiple documents
+							records[i][a] = '<a href="/formfields/getDocs?recordid=' + records[i]._id + '&collection=' + collectionName + '"><button type="button" class="btn btn-info">View</button></a>';
 							//If record is an array break it apart and create a button for each document download
-							// Need to fix the File Upload, when uploading multiple files they all get the same file name
-							if( Object.prototype.toString.call( records[i][a] ) === '[object Array]' ) {
+							/*if( Object.prototype.toString.call( records[i][a] ) === '[object Array]' ) {
+								//console.log(records[i][a]);
 								for (ii = 0; ii < records[i][a].length; ii++) {
 									records[i][a][ii] = '<a href="/formfields/streamFile?docname=' + records[i][a][ii] + '"><button type="button" class="btn btn-info">' + records[i][a][ii] + '</button></a>';
 								}
 							}else{
 								records[i][a] = '<a href="/formfields/streamFile?docname=' + records[i][a] + '"><button type="button" class="btn btn-info">' + records[i][a] + '</button></a>';
-							}
+							}*/
 						}
 					}
 				}
