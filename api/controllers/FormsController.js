@@ -193,8 +193,8 @@ module.exports = {
 			//Checks to see if the current field is binary, if true make the binary field records links so users can download the file 
 				for (i = 0; i < records.length; i++) { 
 					for(var a in records[i]){
-						if(ArrayCheckService.checkArray(binaryTypes, a)){
-							records[i][a] = '<a href="/formfields/getDocs?recordid=' + records[i]._id + '&collection=' + collectionName + '"><button type="button" class="btn btn-info">View</button></a>';
+						if(ArrayCheckService.checkArray(binaryTypes, a)){		
+							records[i][a] = '<button class="btn btn-info" onclick="openDocumentRecords(' + "'" + records[i]._id + "'" + ',' + "'" + collectionName + "'" + ')">View</button>';
 							//If record is an array break it apart and create a button for each document download
 							/*if( Object.prototype.toString.call( records[i][a] ) === '[object Array]' ) {
 								//console.log(records[i][a]);

@@ -168,7 +168,8 @@ module.exports = {
 		     
 		     // Find the document records
 		     myCollection.find({_id:ObjectID(req.param('recordid'))}).toArray(function(err, records) {
-		     	res.json(records.docid);
+				//Need to only return the docids not everything....
+		     	res.json(records);
 		     });
 		         
 		});
