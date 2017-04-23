@@ -142,17 +142,33 @@ module.exports = {
 			uri: sails.config.conf.docUrl
 		});
 
-		var value = req.param('docname');
-				 docAdapter.read(value, function(error , file) {
-			 if(error) {
-				res.json(error);
-			} else {
-				res.set({'Content-Disposition': 'attachment; filename=' + value + ''});
-				res.send(new Buffer(file, 'binary'));
-			}
-		 });
-		 
-        
+		var value = req.param('docid');
+		var fileName;
+		var MongoClient = require('mongodb').MongoClient;
+    	var ObjectID = require('mongodb').ObjectID;
+    	
+    	MongoClient.connect(sails.config.conf.url, function(err, db) {
+		     if(err)
+		         throw err;
+		     var myCollection = db.collection('docs.files');
+
+		     // Find the file name
+		     myCollection.findOne({"_id" : ObjectID("" + value + "")}, function(err, records) {
+				fileName = records['filename'];
+				//res.json(fileName);
+				console.log(fileName);
+				//Download the selected file
+				docAdapter.read(fileName, function(error , file) {
+					 if(error) {
+						res.json(error);
+					} else {
+						res.set({'Content-Disposition': 'attachment; filename=' + fileName + ''});
+						res.send(new Buffer(file, 'binary'));
+					}
+				 });
+		     });
+		         
+		});  
     },
     
     'getDocs': function (req, res) {
@@ -169,12 +185,24 @@ module.exports = {
 		     // Find the document records
 		     myCollection.find({_id:ObjectID(req.param('recordid'))}).toArray(function(err, records) {
 				//Need to only return the docids not everything....
+				
 		     	res.json(records);
 		     });
 		         
 		});
     
     },
+    
+    'checkField': function(req, res, cb){
+		var formId = parseInt(req.param("formid"));
+		Formfields.findOne({formid: formId, formfieldname: req.param("formfieldname")}).exec(function (err, formfield) {
+			if(err) return next(err);
+			if(formfield){
+				return res.ok(formfield["formfieldtype"]);
+			}
+		});
+	},
+	
 	//Delete the Form Field
 	destroy: function(req, res, next){
 		Formfields.findOne(req.param('formfieldid'), function foundFormfield(err,formfield){

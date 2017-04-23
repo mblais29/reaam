@@ -194,7 +194,7 @@ module.exports = {
 				for (i = 0; i < records.length; i++) { 
 					for(var a in records[i]){
 						if(ArrayCheckService.checkArray(binaryTypes, a)){		
-							records[i][a] = '<button class="btn btn-info" onclick="openDocumentRecords(' + "'" + records[i]._id + "'" + ',' + "'" + collectionName + "'" + ')">View</button>';
+							records[i][a] = '<button class="btn btn-info" onclick="openDocumentRecords(' + "'" + records[i]._id + "'" + ',' + "'" + collectionName + "'" +  ',' + req.param('formid') + ')">View</button>';
 							//If record is an array break it apart and create a button for each document download
 							/*if( Object.prototype.toString.call( records[i][a] ) === '[object Array]' ) {
 								//console.log(records[i][a]);

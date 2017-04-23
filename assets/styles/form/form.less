@@ -20,9 +20,23 @@ div#form-add, div#form-edit, div#form-preview, div#myform-selected {
   -ms-overflow-style: none;
 }
 
-div#myform-viewrecords, div#myform-viewdocs {
+div#myform-viewrecords {
   display:none;
   width: 95%;
+  max-height: 90vh;
+  z-index: 10;
+  position:absolute;
+  top: 20%;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  overflow: auto;
+  -ms-overflow-style: none;
+}
+
+div#myform-viewdocs {
+  display:none;
+  width: 50%;
   max-height: 90vh;
   z-index: 10;
   position:absolute;

@@ -230,32 +230,41 @@ function openFormRecords(collection,formid){
 
 }
 
-function openDocumentRecords(recordId,collection){
+function openDocumentRecords(recordId, collection, formid){
 	$('#myform-viewdocs').show();
-	//console.log(recordId);
-	//console.log(collection);
 	$.ajax({
 		url:'/formfields/getDocs?recordid=' + recordId + '&collection=' + collection,
 		dataType : 'json',
       	success : function(result) {
-      		console.log(result);
+      		
       		//Create the table
       		$('#myform-panel-docs').append('<table id="table-docs" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"></table>');
  
       		var table = $('#table-docs');
-      		
-      		//Create empty column array for table header
-      		var jsonColumns = [];
-      		
-      		/*$.each(result, function(idx, obj) {
-      			$.each(obj, function(key, value) {
-                	console.log(key + ": " + value);
-                	$(table).append('<a href="/formfields/streamFile?docid=' + records[i][a][ii] + '"><button type="button" class="btn btn-info">' + records[i][a][ii] + '</button></a>');
-             	});
-      		});*/
-      		
+
+      		getFormFieldType(result, formid);
       	}
 		
+	});
+}
+
+function getFormFieldType(result, formid){
+	$.each(result, function(idx, obj) {
+		$.each(obj, function(key, value) {
+
+			$.ajax({
+				url:'/formfields/checkField?formid=' + formid + '&formfieldname=' + key,
+				type: "GET",
+		      	success : function(data) {
+		      		if(data === "binary"){
+		      			for(var ii = 0; ii < obj[key].length; ii++){
+							//console.log(obj['docid'][ii] + ': ' + obj[key][ii]);
+							$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a></td></tr>');
+		        		}
+		        	};
+		      	}
+		 	});
+		});
 	});
 }
 
