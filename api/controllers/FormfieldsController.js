@@ -202,7 +202,50 @@ module.exports = {
 			}
 		});
 	},
-	
+	'deleteDoc': function (req, res) {
+		var docId = req.param('docid');
+		var record = req.param('record');
+		var docName = req.param('docname');
+		
+		var docAdapter = require('skipper-gridfs')({
+	    	//reaam.docs is the database.file[bucket]
+            uri: sails.config.conf.docUrl
+        });
+		
+		var MongoClient = require('mongodb').MongoClient;
+    	var ObjectID = require('mongodb').ObjectID;
+		var myCollection;
+		
+		MongoClient.connect(sails.config.conf.url, function(err, db) {
+		     if(err)
+		         throw err;
+
+		     myCollection = db.collection(req.param('collection'));
+		     
+		     // Delete document record from collection
+		     myCollection.update({_id:ObjectID(record)},{$pull: {docid:ObjectID(docId)}}, function(err, result) {
+				if (err) {
+	                console.log(err);
+	            }
+	            myCollection.update({_id:ObjectID(record)},{$pull: {documents:docName}}, function(err, result) {
+					if (err) {
+		                console.log(err);
+		            }
+		        });
+            	//console.log(result);
+            	//Remove the file from the database
+            	docAdapter.rm({ _id: docId }, function(err, file) {
+			        if (err) {
+		                console.log(err);
+		            };
+		            //console.log(docId);
+	            	//console.log('Deleted the file: ' + docName);
+			    });
+			    
+		     });
+		         
+		});
+	},
 	//Delete the Form Field
 	destroy: function(req, res, next){
 		Formfields.findOne(req.param('formfieldid'), function foundFormfield(err,formfield){

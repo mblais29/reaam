@@ -242,13 +242,14 @@ function openDocumentRecords(recordId, collection, formid){
  
       		var table = $('#table-docs');
 
-      		getFormFieldType(result, formid);
+      		getFormFieldType(result, formid, collection, recordId);
       	}
 		
 	});
 }
 
-function getFormFieldType(result, formid){
+function getFormFieldType(result, formid, collection, recordId){
+	//console.log(formid);
 	$.each(result, function(idx, obj) {
 		$.each(obj, function(key, value) {
 
@@ -259,7 +260,7 @@ function getFormFieldType(result, formid){
 		      		if(data === "binary"){
 		      			for(var ii = 0; ii < obj[key].length; ii++){
 							//console.log(obj['docid'][ii] + ': ' + obj[key][ii]);
-							$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a></td></tr>');
+							$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'][ii] + '&docname=' + obj[key][ii] + '&collection=' + collection + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
 		        		}
 		        	};
 		      	}
