@@ -234,12 +234,11 @@ module.exports = {
 		        });
             	//console.log(result);
             	//Remove the file from the database
-            	docAdapter.rm({ _id: docId }, function(err, file) {
-			        if (err) {
-		                console.log(err);
-		            };
-		            //console.log(docId);
-	            	//console.log('Deleted the file: ' + docName);
+            	var docCollection = db.collection('docs.files');     
+			    docCollection.remove({_id:ObjectID(docId)}, function(err){
+			      if (err) {
+	                console.log(err);
+	            	}          
 			    });
 			    
 		     });
