@@ -67,9 +67,10 @@ module.exports = {
 		var record = req.allParams();
 		
 		for(var prop in record) {
-			//console.log(record[prop]);
 	        if(record[prop] === '')
 	            delete record[prop];
+	        if(prop === 'hidden_binary')
+	        	delete record[prop];
 	    }
 
 		/* Deletes the _csrf and collection records from the array */
@@ -124,10 +125,15 @@ module.exports = {
 							   }else{
 							     docName = filesUploaded[0].filename;
 							     docId = filesUploaded[0].extra['fileId'];
-							   }
-	
+							   };
+							   var binaryField = req.param('hidden_binary');
+//NEED TO TEST MORE WHEN INSERTING RECORDS
+							   var docObj = {};
+							   docObj[binaryField] = docName;
+							   docObj["docid"] = docId;
+
 							   //Updates the new record with uploaded file name
-					           myCollection.update({_id:insertedId}, {$set: {documents:docName, docid:docId}}, false, true);
+					           myCollection.update({_id:insertedId}, {$set:docObj});
 						 });
 					 }
 			 });
@@ -202,6 +208,7 @@ module.exports = {
 			}
 		});
 	},
+	
 	'deleteDoc': function (req, res) {
 		var docId = req.param('docid');
 		var record = req.param('record');
@@ -245,6 +252,7 @@ module.exports = {
 		         
 		});
 	},
+	
 	//Delete the Form Field
 	destroy: function(req, res, next){
 		Formfields.findOne(req.param('formfieldid'), function foundFormfield(err,formfield){
