@@ -63,13 +63,13 @@ module.exports = {
 	},
 	
 	'insert': function(req, res, next){
-
+		var binaryField = req.param('binary');
 		var record = req.allParams();
-		
+
 		for(var prop in record) {
 	        if(record[prop] === '')
 	            delete record[prop];
-	        if(prop === 'hidden_binary')
+	        if(prop === 'binary')
 	        	delete record[prop];
 	    }
 
@@ -88,7 +88,7 @@ module.exports = {
 		 var insertedId;
 		 var docName = [];
 		 var docId = [];
-
+		 
 		 MongoClient.connect(sails.config.conf.url, function(err, db) {
 		     if(err)
 		         throw err;
@@ -114,7 +114,7 @@ module.exports = {
 						   saveAs: function(file, handler) {handler(null,file.filename);},
 						   maxBytes: 1000000000, //1000mb
 						   }, function (err, filesUploaded) {
-
+							   
 							   if (err) return res.negotiate(err);
 							   //If there are more than 1 file create an array or else just load the one file
 							   if(filesUploaded.length > 1){
@@ -126,8 +126,7 @@ module.exports = {
 							     docName = filesUploaded[0].filename;
 							     docId = filesUploaded[0].extra['fileId'];
 							   };
-							   var binaryField = req.param('hidden_binary');
-//NEED TO TEST MORE WHEN INSERTING RECORDS
+							   
 							   var docObj = {};
 							   docObj[binaryField] = docName;
 							   docObj["docid"] = docId;
@@ -251,6 +250,7 @@ module.exports = {
 		     });
 		         
 		});
+		res.redirect('/forms/myForms');
 	},
 	
 	//Delete the Form Field

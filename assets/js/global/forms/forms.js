@@ -181,7 +181,6 @@ function openFormRecords(collection,formid){
 		url:'/forms/formRecords?collection=' + collection + '&formid=' + formid,
 		dataType : 'json',
       	success : function(result) {
-      		console.log(result);
       		//Create the table
       		$('#myform-panel-records').append('<table id="table-formrecords" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"></table>');
  
@@ -249,41 +248,26 @@ function openDocumentRecords(recordId, collection, formid){
 }
 
 function getFormFieldType(result, formid, collection, recordId){
-	if(result[0]["documents"] instanceof Array){
-		$.each(result, function(idx, obj) {
-			$.each(obj, function(key, value) {
-				console.log("object document length: " + obj['documents'].length);
-				$.ajax({
-					url:'/formfields/checkField?formid=' + formid + '&formfieldname=' + key,
-					type: "GET",
-			      	success : function(data) {
-			      		if(data === "binary"){
+	$.each(result, function(idx, obj) {
+		$.each(obj, function(key, value) {
+			$.ajax({
+				url:'/formfields/checkField?formid=' + formid + '&formfieldname=' + key,
+				type: "GET",
+		      	success : function(data) {
+		      		if(data === "binary"){
+		      			console.log(obj[key]);
+		      			if(obj[key] instanceof Array){
 			      			for(var ii = 0; ii < obj[key].length; ii++){
-								//console.log(obj['docid'][ii] + ': ' + obj[key][ii]);
 								$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'][ii] + '&docname=' + obj[key][ii] + '&collection=' + collection + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
 		        			}
-			        	}
-			      	}
-			 	});
-			});
+		        		}else{
+		        			$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'] + '"><button type="button" class="btn btn-info">' + obj[key] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'] + '&docname=' + obj[key] + '&collection=' + collection + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
+		        		}
+		        	}
+		      	}
+		 	});
 		});
-	}else{
-		$.each(result, function(idx, obj) {
-			$.each(obj, function(key, value) {
-				console.log("object document length: " + obj['documents'].length);
-				$.ajax({
-					url:'/formfields/checkField?formid=' + formid + '&formfieldname=' + key,
-					type: "GET",
-			      	success : function(data) {
-			      		if(data === "binary"){
-							$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'] + '"><button type="button" class="btn btn-info">' + obj[key] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'] + '&docname=' + obj[key] + '&collection=' + collection + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
-			        	}
-			      	}
-			 	});
-			});
-		});
-	}
-	
+	});
 }
 
 function arrayCheck(array, val){
@@ -487,11 +471,11 @@ function generateForm(data){
 					    case 'binary':
 					    	/* If input string is file show the file upload else just create a text input */
 					    		inputType = "file";
-					    		var lowercase = formfieldObject.formfieldname.toString().toLowerCase();;
-
+					    		var lowercase = formfieldObject.formfieldname.toString().toLowerCase();
+								$('<input name="binary" type="hidden" value="' + lowercase + '" />').appendTo('#formfieldid' + formfieldObject.formfieldid);
 					    		$('#formfieldid' + formfieldObject.formfieldid).append('<label for="' + inputName + formfieldObject.formfieldid + '">' + formfieldObject.formfieldname + ':</label>');
-			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple>');
-								$('#formfieldid' + formfieldObject.formfieldid).append('<input type="hidden" class="form-control" id="hidden_binary" name="hidden_binary" value="' + lowercase + '">');
+			    				$('#formfieldid' + formfieldObject.formfieldid).append('<input type="' + inputType + '" class="form-control" id="' + inputName + formfieldObject.formfieldid + '" name="' + inputName + formfieldObject.formfieldid + '" multiple />');
+								
 								
 								$('#' + inputName + formfieldObject.formfieldid).filestyle({
 									size: 'sm',
