@@ -238,7 +238,6 @@ module.exports = {
 		                console.log(err);
 		            }
 		        });
-            	//console.log(result);
             	//Remove the file from the database
             	var docCollection = db.collection('docs.files');     
 			    docCollection.remove({_id:ObjectID(docId)}, function(err){
@@ -246,7 +245,6 @@ module.exports = {
 	                console.log(err);
 	            	}          
 			    });
-			    
 		     });
 		         
 		});
