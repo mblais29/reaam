@@ -112,7 +112,7 @@ module.exports = {
 						   adapter: require('skipper-gridfs'),
 						   uri: sails.config.conf.docUrl,
 						   saveAs: function(file, handler) {handler(null,file.filename);},
-						   maxBytes: 1000000000, //1000mb
+						   maxBytes: 10000000000, //10GB or 10000mb
 						   }, function (err, filesUploaded) {
 							   
 							   if (err) return res.negotiate(err);
@@ -212,6 +212,8 @@ module.exports = {
 		var docId = req.param('docid');
 		var record = req.param('record');
 		var docName = req.param('docname');
+		var field = req.param('formfield');
+		console.log(field);
 		
 		var docAdapter = require('skipper-gridfs')({
 	    	//reaam.docs is the database.file[bucket]
@@ -229,24 +231,49 @@ module.exports = {
 		     myCollection = db.collection(req.param('collection'));
 		     
 		     // Delete document record from collection
-		     myCollection.update({_id:ObjectID(record)},{$pull: {docid:ObjectID(docId)}}, function(err, result) {
-				if (err) {
-	                console.log(err);
-	            }
-	            myCollection.update({_id:ObjectID(record)},{$pull: {documents:docName}}, function(err, result) {
-					if (err) {
-		                console.log(err);
-		            }
-		        });
-            	//Remove the file from the database
-            	var docCollection = db.collection('docs.files');     
-			    docCollection.remove({_id:ObjectID(docId)}, function(err){
-			      if (err) {
-	                console.log(err);
-	            	}          
-			    });
-		     });
-		         
+		     myCollection.find({_id:ObjectID(record)}).toArray(function(err, records) {
+
+		     	if(records[0][field] instanceof Array){
+		     		myCollection.update({_id:ObjectID(record)},{$pull: {docid:ObjectID(docId)}}, function(err, result) {
+						if (err) {
+			                console.log(err);
+			            }
+			            myCollection.update({_id:ObjectID(record)},{$pull: {documents:docName}}, function(err, result) {
+							if (err) {
+				                console.log(err);
+				            }
+				        });
+		            	//Remove the file from the database
+		            	var docCollection = db.collection('docs.files');     
+					    docCollection.remove({_id:ObjectID(docId)}, function(err){
+					      if (err) {
+			                console.log(err);
+			            	}          
+					    });
+				     });
+		     	}else{
+		     		myCollection.update({_id:ObjectID(record)},{$unset: {docid:ObjectID(docId)}}, function(err, result) {
+						if (err) {
+			                console.log(err);
+			            }
+			            myCollection.update({_id:ObjectID(record)},{$unset: {documents:docName}}, function(err, result) {
+							if (err) {
+				                console.log(err);
+				            }
+				        });
+		            	//Remove the file from the database
+		            	var docCollection = db.collection('docs.files');     
+					    docCollection.remove({_id:ObjectID(docId)}, function(err){
+					      if (err) {
+			                console.log(err);
+			            	}          
+					    });
+				     });
+		     	}
+		     	
+		     	
+		     	
+		     });     
 		});
 		res.redirect('/forms/myForms');
 	},

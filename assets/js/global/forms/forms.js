@@ -257,10 +257,10 @@ function getFormFieldType(result, formid, collection, recordId){
 		      		if(data === "binary"){
 		      			if(obj[key] instanceof Array){
 			      			for(var ii = 0; ii < obj[key].length; ii++){
-								$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'][ii] + '&docname=' + obj[key][ii] + '&collection=' + collection + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
+								$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'][ii] + '&docname=' + obj[key][ii] + '&collection=' + collection + '&formfield=' + key + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
 		        			}
 		        		}else{
-		        			$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'] + '"><button type="button" class="btn btn-info">' + obj[key] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'] + '&docname=' + obj[key] + '&collection=' + collection + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
+		        			$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'] + '"><button type="button" class="btn btn-info">' + obj[key] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'] + '&docname=' + obj[key] + '&collection=' + collection + '&formfield=' + key + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
 		        		}
 		        	}
 		      	}
