@@ -232,8 +232,8 @@ module.exports = {
 		     
 		     // Delete document record from collection
 		     myCollection.find({_id:ObjectID(record)}).toArray(function(err, records) {
-
-		     	if(records[0][field] instanceof Array){
+		     	//If there are more than one file assigned to the record $pull or else $unset
+		     	if(records[0][field] instanceof Array && records[0][field].length > 1){
 		     		myCollection.update({_id:ObjectID(record)},{$pull: {docid:ObjectID(docId)}}, function(err, result) {
 						if (err) {
 			                console.log(err);
@@ -270,9 +270,6 @@ module.exports = {
 					    });
 				     });
 		     	}
-		     	
-		     	
-		     	
 		     });     
 		});
 		res.redirect('/forms/myForms');
