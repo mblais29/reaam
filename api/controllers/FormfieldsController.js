@@ -112,7 +112,7 @@ module.exports = {
 						   adapter: require('skipper-gridfs'),
 						   uri: sails.config.conf.docUrl,
 						   saveAs: function(file, handler) {handler(null,file.filename);},
-						   maxBytes: 10000000000, //10GB or 10000mb
+						   maxBytes: 1000000000, //1GB or 1000mb
 						   }, function (err, filesUploaded) {
 							   
 							   if (err) return res.negotiate(err);
@@ -161,7 +161,7 @@ module.exports = {
 		     myCollection.findOne({"_id" : ObjectID("" + value + "")}, function(err, records) {
 				fileName = records['filename'];
 				//res.json(fileName);
-				console.log(fileName);
+
 				//Download the selected file
 				docAdapter.read(fileName, function(error , file) {
 					 if(error) {
@@ -207,14 +207,73 @@ module.exports = {
 			}
 		});
 	},
+	'addDoc': function (req, res) {
+
+		var MongoClient = require('mongodb').MongoClient;
+    	var ObjectID = require('mongodb').ObjectID;
+
+		var insertedId = req.param('id');
+		var binaryField = req.param('binaryField');
+
+		var docName = [];
+		var docId = [];
+		 
+		MongoClient.connect(sails.config.conf.url, function(err, db) {
+		     if(err)
+		         throw err;
+		      myCollection = db.collection(req.param('collection'));
+		     //If files exist in the parameters upload the file to the docs bucket
+ 			 if(typeof req._fileparser.upstreams[0] !== 'undefined'){
+			 	var uploadFile = req._fileparser.upstreams[0];
+			 	
+			 	//console.log(uploadFile._files['length']);
+			 	//console.log(uploadFile);
+			 	//console.log(req._fileparser.upstreams[0]._files[0].stream.filename.split('.').pop());
+				  
+			 		uploadFile.upload({
+					   adapter: require('skipper-gridfs'),
+					   uri: sails.config.conf.docUrl,
+					   saveAs: function(file, handler) {handler(null,file.filename);},
+					   maxBytes: 1000000000, //1GB or 1000mb
+					   }, function (err, filesUploaded) {
+						   
+						   if (err) return res.negotiate(err);
+						   //If there are more than 1 file create an array or else just load the one file
+						   if(filesUploaded.length > 1){
+						     for(var i = 0; i < filesUploaded.length; i++){
+						     	docName.push(filesUploaded[i].filename);
+						     	docId.push(filesUploaded[i].extra['fileId']);
+							   }
+						   }else{
+						     docName = filesUploaded[0].filename;
+						     docId = filesUploaded[0].extra['fileId'];
+						   };
+						   
+						   var docObj = {};
+						   docObj[binaryField] = docName;
+						   docObj["docid"] = docId;
+console.log(docObj);
+						   //Updates the new record with uploaded file name
+				//NEED TO FIX ISSUE WITH NOT UPDATING CURRENT RECORD WITH ANOTHER VALUE
+						   myCollection.find({_id:ObjectID(insertedId)}).toArray(function(err, records) {
+						    
+						   });
+				           myCollection.update({_id:insertedId}, {$addToSet:docObj});
+					 });
+				 }
+		 });
+		 res.redirect('/forms/myForms');
+	},
 	
 	'deleteDoc': function (req, res) {
 		var docId = req.param('docid');
 		var record = req.param('record');
 		var docName = req.param('docname');
 		var field = req.param('formfield');
-		console.log(field);
 		
+		var n = {};
+        n[field] = docName;
+        	
 		var docAdapter = require('skipper-gridfs')({
 	    	//reaam.docs is the database.file[bucket]
             uri: sails.config.conf.docUrl
@@ -233,12 +292,14 @@ module.exports = {
 		     // Delete document record from collection
 		     myCollection.find({_id:ObjectID(record)}).toArray(function(err, records) {
 		     	//If there are more than one file assigned to the record $pull or else $unset
+		     	console.log(field);
 		     	if(records[0][field] instanceof Array && records[0][field].length > 1){
 		     		myCollection.update({_id:ObjectID(record)},{$pull: {docid:ObjectID(docId)}}, function(err, result) {
 						if (err) {
 			                console.log(err);
 			            }
-			            myCollection.update({_id:ObjectID(record)},{$pull: {documents:docName}}, function(err, result) {
+			            
+			            myCollection.update({_id:ObjectID(record)},{$pull: n}, function(err, result) {
 							if (err) {
 				                console.log(err);
 				            }
@@ -256,7 +317,7 @@ module.exports = {
 						if (err) {
 			                console.log(err);
 			            }
-			            myCollection.update({_id:ObjectID(record)},{$unset: {documents:docName}}, function(err, result) {
+			            myCollection.update({_id:ObjectID(record)},{$unset: n}, function(err, result) {
 							if (err) {
 				                console.log(err);
 				            }

@@ -6,6 +6,7 @@ $(window).on('load',function(){
 	$( "#myform-selected" ).draggable();
 	$( "#myform-viewrecords" ).draggable();
 	$( "#myform-viewdocs" ).draggable();
+	$( "#myform-addDoc" ).draggable();
 	
 	$('#formPreviewClose').on('click', function(){
 		$('#form-preview').slideUp();
@@ -29,6 +30,7 @@ $(window).on('load',function(){
 		$('#myform-viewdocs').slideUp();
 		//Removes all children elements within form
 		$('#myform-panel-docs').empty();
+		$('#add-doc').remove();
 	});
 	
 	
@@ -42,6 +44,12 @@ $(window).on('load',function(){
 		$("#btn-formfieldtype").text('Select Type');
 		$('#formfieldname').val("");
 	});
+	
+	$('#myformAddDocClose').on('click', function(){
+		$('#myform-addDoc').slideUp();
+		$('#myform-panel-addDocs').empty();
+	});
+	
 	
 	$("#addNewFormField").on('click', 'li a', function(){
       $("#btn-formfieldtype").text($(this).text());
@@ -255,19 +263,45 @@ function getFormFieldType(result, formid, collection, recordId){
 				type: "GET",
 		      	success : function(data) {
 		      		if(data === "binary"){
+		      			var binaryField = "";
 		      			if(obj[key] instanceof Array){
 			      			for(var ii = 0; ii < obj[key].length; ii++){
+			      				binaryField = key;
 								$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'][ii] + '&docname=' + obj[key][ii] + '&collection=' + collection + '&formfield=' + key + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
 		        			}
 		        		}else{
+		        			binaryField = key;
 		        			$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'] + '"><button type="button" class="btn btn-info">' + obj[key] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'] + '&docname=' + obj[key] + '&collection=' + collection + '&formfield=' + key + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
 		        		}
+		        		$('#myform-viewdocs-title').append('<div class="btn-group pull-right"><button type="button" id="add-doc" class="btn btn-primary btn-sm" onclick="createUploadButton(' + '\'' + collection + '\',' + '\'' + recordId + '\'' + ',\'' + binaryField + '\'' + ')">Add</button></div>');
 		        	}
 		      	}
 		 	});
 		});
 	});
 }
+
+function createUploadButton(collection, recordId, binaryField){
+	$('#myform-addDoc').show();
+	console.log(collection);
+	console.log(recordId);
+	$('form#addDocForm').append('<input type="hidden" name="collection" value="' + collection + '"><input type="hidden" name="id" value="' + recordId + '"><input type="hidden" name="binaryField" value="' + binaryField + '"><label for="addNewDoc">Upload Files:</label><input type="file" class="form-control" id="addNewDoc" name="addNewDoc" multiple />');
+	
+	$('#addNewDoc').filestyle({
+		size: 'sm',
+		buttonName : 'btn-info',
+		buttonText : 'Upload'
+	});
+	
+	$('#submitFiles').on('click', function(){
+		insertNewFiles(collection, recordId);
+	});
+	
+};
+
+function insertNewFiles(name, recordId){
+	$('#addDocForm').submit();
+};
 
 function arrayCheck(array, val){
 	for(var i=0;i < array.length; i++) {
