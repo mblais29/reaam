@@ -226,41 +226,94 @@ module.exports = {
  			 if(typeof req._fileparser.upstreams[0] !== 'undefined'){
 			 	var uploadFile = req._fileparser.upstreams[0];
 			 	
-			 	//console.log(uploadFile._files['length']);
-			 	//console.log(uploadFile);
-			 	//console.log(req._fileparser.upstreams[0]._files[0].stream.filename.split('.').pop());
-				  
-			 		uploadFile.upload({
-					   adapter: require('skipper-gridfs'),
-					   uri: sails.config.conf.docUrl,
-					   saveAs: function(file, handler) {handler(null,file.filename);},
-					   maxBytes: 1000000000, //1GB or 1000mb
-					   }, function (err, filesUploaded) {
-						   
-						   if (err) return res.negotiate(err);
-						   //If there are more than 1 file create an array or else just load the one file
-						   if(filesUploaded.length > 1){
-						     for(var i = 0; i < filesUploaded.length; i++){
-						     	docName.push(filesUploaded[i].filename);
-						     	docId.push(filesUploaded[i].extra['fileId']);
-							   }
-						   }else{
-						     docName = filesUploaded[0].filename;
-						     docId = filesUploaded[0].extra['fileId'];
-						   };
-						   
-						   var docObj = {};
-						   docObj[binaryField] = docName;
-						   docObj["docid"] = docId;
-console.log(docObj);
-						   //Updates the new record with uploaded file name
-				//NEED TO FIX ISSUE WITH NOT UPDATING CURRENT RECORD WITH ANOTHER VALUE
-						   myCollection.find({_id:ObjectID(insertedId)}).toArray(function(err, records) {
-						    
-						   });
-				           myCollection.update({_id:insertedId}, {$addToSet:docObj});
-					 });
-				 }
+		 		uploadFile.upload({
+				   adapter: require('skipper-gridfs'),
+				   uri: sails.config.conf.docUrl,
+				   saveAs: function(file, handler) {handler(null,file.filename);},
+				   maxBytes: 1000000000, //1GB or 1000mb
+				   }, function (err, filesUploaded) {
+					   
+					   if (err) return res.negotiate(err);
+					   //If there are more than 1 file create an array or else just load the one file
+					   if(filesUploaded.length > 1){
+					     for(var i = 0; i < filesUploaded.length; i++){
+					     	docName.push(filesUploaded[i].filename);
+					     	docId.push(filesUploaded[i].extra['fileId']);
+						   }
+					   }else{
+					     docName = filesUploaded[0].filename;
+					     docId = filesUploaded[0].extra['fileId'];
+					   };
+					   
+					   var docObj = {};
+					   docObj[binaryField] = docName;
+					   docObj["docid"] = docId;
+
+					   //Updates the new record with uploaded file name
+					   myCollection.find({_id:ObjectID(insertedId)}).forEach(
+					     function(e, i){ 
+				       		if(e[binaryField] instanceof Array){
+				       			var isArray = false;
+				       			for(var key in docObj){
+				       				if(docObj[key] instanceof Array){
+				       					isArray = true;
+				       					for(var i = 0; i < docObj[key].length; i++){
+					       					var newObj = {};
+					       					newObj[key] = docObj[key][i];
+					       					myCollection.update({_id:ObjectID(insertedId)}, {$push:newObj});
+					       				}
+				       				}
+				       			}
+				       			if(isArray === false){
+				       				myCollection.update({_id:ObjectID(insertedId)}, {$push:docObj});
+				       			}
+				       				
+				       		}else{
+				       		//If the current record only has one document rewrite ($set) the binary field records and docid
+				       			var newArrName = [];
+				       			var newArrId = [];
+				       			newArrName.push(e[binaryField]);
+				       			newArrId.push(e["docid"]);
+								var isArray = false;
+								
+				       			for(var key in docObj){
+				       			//Handles mongodb records array
+				       				if(docObj[key] instanceof Array){
+				       					isArray = true;
+				       					for(var i = 0; i < docObj[key].length; i++){
+						       				var newObj = {};
+						       				if(key === binaryField){
+						       					newArrName.push(docObj[key][i]);
+						       					newObj[key] = newArrName;
+						       				};
+						       				if(key === "docid"){
+						       					newArrId.push(docObj[key][i]);
+						       					newObj[key] = newArrId;
+						       				};
+						       				
+				       					}
+				       					myCollection.update({_id:ObjectID(insertedId)}, {$set:newObj});
+				       				};
+				       			};
+				       			//Handles mongodb records if it is not already an array (rewrites the field record)
+				       			if(isArray === false){
+			       					for(var key in docObj){
+				       					var newObj = {};
+				       					if(key === binaryField){
+					       					newArrName.push(docObj[key]);
+					       					newObj[key] = newArrName;
+				       					};
+				       					if(key === "docid"){
+					       					newArrId.push(docObj[key]);
+					       					newObj[key] = newArrId;
+					       				};
+					       				myCollection.update({_id:ObjectID(insertedId)}, {$set:newObj});
+			       					}
+				       			}
+				       		}
+					   });
+				 });
+			}
 		 });
 		 res.redirect('/forms/myForms');
 	},
