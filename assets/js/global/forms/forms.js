@@ -31,6 +31,8 @@ $(window).on('load',function(){
 		//Removes all children elements within form
 		$('#myform-panel-docs').empty();
 		$('#add-doc').remove();
+		$('#doc-delete').remove();
+		
 	});
 	
 	
@@ -49,7 +51,6 @@ $(window).on('load',function(){
 		$('#myform-addDoc').slideUp();
 		$('#myform-panel-addDocs').empty();
 	});
-	
 	
 	$("#addNewFormField").on('click', 'li a', function(){
       $("#btn-formfieldtype").text($(this).text());
@@ -267,13 +268,21 @@ function getFormFieldType(result, formid, collection, recordId){
 		      			if(obj[key] instanceof Array){
 			      			for(var ii = 0; ii < obj[key].length; ii++){
 			      				binaryField = key;
-								$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'][ii] + '&docname=' + obj[key][ii] + '&collection=' + collection + '&formfield=' + key + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
+			      				var values = {};
+			      				values["record"] = recordId;
+			      				values["docid"] = obj['docid'][ii];
+			      				values["docname"] = obj[key][ii];
+			      				values["collection"] = collection;
+			      				values["formfield"] = key;
+								var stringifiedValue = JSON.stringify(values);
+
+								$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><label class="checkbox-inline pull-right"><input type="checkbox" class="deleteDoc" value=' + stringifiedValue + '></label></td></tr>');
 		        			}
 		        		}else{
 		        			binaryField = key;
-		        			$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'] + '"><button type="button" class="btn btn-info">' + obj[key] + '</button></a><a href="/formfields/deleteDoc?record=' + recordId + '&docid=' + obj['docid'] + '&docname=' + obj[key] + '&collection=' + collection + '&formfield=' + key + '"><button type="button" id="doc-delete" class="btn btn-danger">Delete</button></a></td></tr>');
+		        			$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><label class="checkbox-inline pull-right"><input type="checkbox" class="deleteDoc" value=' + stringifiedValue + '></label></td></tr>');
 		        		}
-		        		$('#myform-viewdocs-title').append('<div class="btn-group pull-right"><button type="button" id="add-doc" class="btn btn-primary btn-sm" onclick="createUploadButton(' + '\'' + collection + '\',' + '\'' + recordId + '\'' + ',\'' + binaryField + '\'' + ')">Add</button></div>');
+		        		$('#myform-viewdocs-title').append('<div class="btn-group pull-right"><button type="button" id="add-doc" class="btn btn-primary btn-sm" onclick="createUploadButton(' + '\'' + collection + '\',' + '\'' + recordId + '\'' + ',\'' + binaryField + '\'' + ')">Add</button><button type="button" id="doc-delete" class="btn btn-danger btn-sm" onclick="deleteDocuments()">Delete</button></div>');
 		        	}
 		      	}
 		 	});
@@ -283,8 +292,6 @@ function getFormFieldType(result, formid, collection, recordId){
 
 function createUploadButton(collection, recordId, binaryField){
 	$('#myform-addDoc').show();
-	console.log(collection);
-	console.log(recordId);
 	$('form#addDocForm').append('<input type="hidden" name="collection" value="' + collection + '"><input type="hidden" name="id" value="' + recordId + '"><input type="hidden" name="binaryField" value="' + binaryField + '"><label for="addNewDoc">Upload Files:</label><input type="file" class="form-control" id="addNewDoc" name="addNewDoc" multiple />');
 	
 	$('#addNewDoc').filestyle({
@@ -302,6 +309,30 @@ function createUploadButton(collection, recordId, binaryField){
 function insertNewFiles(name, recordId){
 	$('#addDocForm').submit();
 };
+
+function deleteDocuments(){
+	var deleteDocuments = [];
+	$('.deleteDoc').each(function () {
+	    var checkedVal = (this.checked ? $(this).val() : "");
+	    if(checkedVal != ""){
+	    	console.log(JSON.parse(checkedVal));
+	    	var objVal = JSON.parse(checkedVal);
+	    	
+	    	$.ajax({
+				url:'/formfields/deleteDoc?record=' + objVal["record"] + '&docid=' + objVal["docid"] + '&docname=' + objVal["docname"] + '&collection=' + objVal["collection"] + '&formfield=' + objVal["formfield"],
+				type: "GET",
+		      	success : function(data) {
+		      		
+		      	}
+		      	
+		    }).done(function(){
+		    
+		    });
+	    	
+	    }
+	});
+	location.reload();
+}
 
 function arrayCheck(array, val){
 	for(var i=0;i < array.length; i++) {

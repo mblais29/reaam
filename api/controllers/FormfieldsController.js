@@ -386,7 +386,6 @@ module.exports = {
 		     	}
 		     });     
 		});
-		res.redirect('/forms/myForms');
 	},
 	
 	//Delete the Form Field
