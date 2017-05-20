@@ -1,7 +1,7 @@
 module.exports = {
 	convertLowercase: function(obj) {
 		    var output = {};
-		    console.log(obj);
+		    //console.log(obj);
 		    for (i in obj) {
 		    	
 		        if (Object.prototype.toString.apply(obj[i]) === '[object Object]') {
@@ -25,5 +25,12 @@ module.exports = {
 		}
 		return obj;
 	},
+	removeUnderscore: function(obj){
+		var output = {};
+		for (var k in obj) {
+			output[k.split("_").join(" ")] = obj[k];
+		}
+		return output;
+	}
 
 };

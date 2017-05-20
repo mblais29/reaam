@@ -245,12 +245,14 @@ function openDocumentRecords(recordId, collection, formid){
 		url:'/formfields/getDocs?recordid=' + recordId + '&collection=' + collection,
 		dataType : 'json',
       	success : function(result) {
-      		//Create the table
-      		$('#myform-panel-docs').append('<table id="table-docs" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"></table>');
- 
-      		var table = $('#table-docs');
-
-      		getFormFieldType(result, formid, collection, recordId);
+      		//Create the table if it does not already exist
+      		if($("#table-docs").length === 0){
+	      		$('#myform-panel-docs').append('<table id="table-docs" class="table table-striped" data-paging="true" data-sorting="true" data-filtering="true"></table>');
+	 			
+	      		var table = $('#table-docs');
+	
+	      		getFormFieldType(result, formid, collection, recordId);
+      		}
       	}
 		
 	});
@@ -280,9 +282,12 @@ function getFormFieldType(result, formid, collection, recordId){
 		        			}
 		        		}else{
 		        			binaryField = key;
-		        			$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key][ii] + '</button></a><label class="checkbox-inline pull-right"><input type="checkbox" class="deleteDoc" value=' + stringifiedValue + '></label></td></tr>');
+		        			$('#table-docs').append('<tr><td><a href="/formfields/streamFile?docid=' + obj['docid'][ii] + '"><button type="button" class="btn btn-info">' + obj[key] + '</button></a><label class="checkbox-inline pull-right"><input type="checkbox" class="deleteDoc" value=' + stringifiedValue + '></label></td></tr>');
 		        		}
-		        		$('#myform-viewdocs-title').append('<div class="btn-group pull-right"><button type="button" id="add-doc" class="btn btn-primary btn-sm" onclick="createUploadButton(' + '\'' + collection + '\',' + '\'' + recordId + '\'' + ',\'' + binaryField + '\'' + ')">Add</button><button type="button" id="doc-delete" class="btn btn-danger btn-sm" onclick="deleteDocuments()">Delete</button></div>');
+		        		if($('#doc-delete').length < 1 && $('#add-doc').length < 1){
+		        			$('#myform-viewdocs-title').append('<div class="btn-group pull-right"><button type="button" id="add-doc" class="btn btn-primary btn-sm" onclick="createUploadButton(' + '\'' + collection + '\',' + '\'' + recordId + '\'' + ',\'' + binaryField + '\'' + ')">Add</button><button type="button" id="doc-delete" class="btn btn-danger btn-sm" onclick="deleteDocuments()">Delete</button></div>');
+		        		}
+		        		
 		        	}
 		      	}
 		 	});

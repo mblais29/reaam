@@ -58,7 +58,27 @@ module.exports = {
 			res.redirect('/formfields');
 			return;
 			}
-			return res.redirect('/formfields');
+			Forms.findOne(req.param('formID')).exec(function (err, form) {
+				var collection = form.collectionname;
+				var MongoClient = require('mongodb').MongoClient;
+		 		var myCollection;
+		 		var newFieldName = {};
+		 		var previousFieldName = req.param('previous-field-name').toLowerCase();
+		 		var changedFieldName = req.param('formfieldName').toLowerCase();
+		 		newFieldName[previousFieldName] = changedFieldName;
+		 		
+				MongoClient.connect(sails.config.conf.url, function(err, db) {
+				    if(err)
+				    	throw err;
+				         
+				    myCollection = db.collection(collection);
+				    myCollection.update({}, {$rename:newFieldName}, {multi: true});
+					
+					return res.redirect('/formfields');
+				});
+				
+			});
+			
 		}); 
 	},
 	
@@ -71,6 +91,7 @@ module.exports = {
 	            delete record[prop];
 	        if(prop === 'binary')
 	        	delete record[prop];
+	        
 	    }
 
 		/* Deletes the _csrf and collection records from the array */
@@ -79,9 +100,9 @@ module.exports = {
 
 		 /* Converts the key to lowercase before saving to database */
 		 var lowercaseRecord = ObjectServices.convertLowercase(record);
- 
-		 /* Replaces and spaces with "_" before saving to database */
-		 var finalRecord = ObjectServices.removeSpace(lowercaseRecord);
+		 
+		 /* Removes any underscores in the field name when inserting new record */
+		 var finalRecord = ObjectServices.removeUnderscore(lowercaseRecord);
 
 		 var MongoClient = require('mongodb').MongoClient;
 		 var myCollection;
