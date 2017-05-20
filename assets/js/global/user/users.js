@@ -103,7 +103,8 @@ function addSecurityDropdown(){
 function removeUserSecGroup(data){
 	if(confirm('Are you sure you want to delete the ' + data.secname + '?')){
 		$.post('/user/deleteSecGroup?id=' + data.id + '&secgroup=' + data.secid + '&_csrf=' + data.csrf);
-		window.location.reload();  
+		//window.location.reload(true);
+		window.location.href = '/user/show/' + data.id;
 	}
 }
 
